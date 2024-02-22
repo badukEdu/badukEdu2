@@ -73,8 +73,8 @@
     <dl>
       <dt th:text="#{생년월일}"></dt>
       <dd>
-        <input type="date" name="bDay" th:max="9999-12-31" th:field="*{bDay}" onchange="MaxMinDate();">
-        <div class="error" th:each="err : ${#fields.errors('bDay')}" th:text="${err}"></div>
+        <input type="date" name="birth" th:max="9999-12-31" th:field="*{birth}" onchange="MaxMinDate();">
+        <div class="error" th:each="err : ${#fields.errors('birth')}" th:text="${err}"></div>
       </dd>
     </dl>
 
