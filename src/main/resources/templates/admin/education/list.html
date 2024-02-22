@@ -4,8 +4,8 @@
       layout:decorate="~{layouts/main}">
 <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
 <section layout:fragment="content">
-    <h2>학습 자료 조회</h2>
-    <form method="get" th:action="@{/admin/education/list}" autocomplete="off" th:object="${eduDataSearch}">
+    <h2>교육 자료 조회</h2>
+    <form method="get" th:action="@{/admin/education}" autocomplete="off" th:object="${eduDataSearch}">
         <table>
             <tr>
                 <th>검색</th>

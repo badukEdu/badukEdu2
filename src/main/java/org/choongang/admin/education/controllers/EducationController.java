@@ -71,7 +71,7 @@ public class EducationController {
     public String delete(@PathVariable("num") Long num, Model model) {
         eduContentDeleteService.delete(num);
 
-        return "redirect:/admin/edu/list";
+        return "redirect:/admin/education";
     }
 
     @PostMapping("/save")
@@ -98,7 +98,8 @@ public class EducationController {
             pageTitle = "교육 자료 조회::" + pageTitle;
         } else if (mode.equals("add") || mode.equals("edit")) {
             pageTitle = "교육 자료 " + (mode == "edit" ? "수정":"등록") + " ::" + pageTitle;
-            addScript.add("admin/education/form");
+            addScript.add("education/form");
+            addScript.add("fileManager");
         }
 
         model.addAttribute("pageTitle", pageTitle);
