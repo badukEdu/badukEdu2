@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 import org.choongang.commons.entities.Base;
 import org.choongang.member.entities.Member;
-import org.choongang.teacher.stGrooup.entities.StudyGroup;
+import org.choongang.teacher.group.entities.StudyGroup;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDate;
