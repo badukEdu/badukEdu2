@@ -4,7 +4,7 @@
       layout:decorate="~{layouts/main}">
 
 <section layout:fragment="content">
-    <h2>게임콘텐츠 검색 및 구독 신청</h2>
+    <h2>게임콘텐츠 검색 및 구독신청</h2>
     <form method="get" th:action="@{/subscription/subscribe}" autocomplete="off" th:object="${gameContentSearch}">
         <table>
             <tr>
@@ -48,7 +48,7 @@
         </table>
         <button type="submit">구독하기</button>
 
-        <th:block th:replace="~{commons/_pagination::pagination}"></th:block>
+        <th:block th:replace="~{common/_pagination::pagination}"></th:block>
     </form>
 </section>
 </html>
