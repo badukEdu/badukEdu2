@@ -1,16 +1,13 @@
 package org.choongang.teacher.controllers;
 
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.choongang.member.MemberUtil;
-import org.choongang.teacher.homework.controllers.RequestHomework;
-import org.choongang.teacher.homework.entities.Homework;
-import org.choongang.teacher.homework.service.HomeworkInfoService;
-import org.choongang.teacher.homework.service.HomeworkSaveService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +15,21 @@ import java.util.List;
 @Controller
 @RequestMapping("/teacher")
 @RequiredArgsConstructor
-public class TeacherController {
+public class
+TeacherController {
+
+    //group DI SSS //스터디 그룹 의존성
+    private final SGSaveService sgSaveService;
+    private final SGInfoService sgInfoService;
+    private final SGDeleteService sgDeleteService;
+    private final HttpSession session;
+    private final GameContentInfoService gameContentInfoService;
+    private final JoinSTGInfoService joinSTGInfoService;
+    private final JoinSTGSaveService joinSTGSaveService;
+
+
+    //group DI SSS
+
 
 
 
@@ -31,57 +42,170 @@ public class TeacherController {
 
 
     // 그룹 목록
+    /**
+     * 스터디 그룹 목록
+     * @param model
+     * @param search
+     * @return
+     */
     @GetMapping("/group")
-    public String groupList(Model model) {
+    public String groupList(Model model , @ModelAttribute StGroupSearch search) {
         commonProcess("list", model);
+
+
+        ListData<StudyGroup> data = sgInfoService.getList(search);
+        model.addAttribute("list" , data.getItems());
+        model.addAttribute("pagination", data.getPagination());
 
         return "teacher/group/list";
     }
 
     // 그룹 등록
+    /**
+     * 스터디그룹 등록 1. 게임 컨텐츠 설정
+     * @param model
+     * @param form
+     * @return
+     */
     @GetMapping("/group/add")
-    public String addGroup1(Model model) {
+    public String addGroup1(Model model , @ModelAttribute RequestStGroup form , @ModelAttribute GameContentSearch search) {
         commonProcess("add", model);
+
+        model.addAttribute("mode" , "add1");
+
+        ListData<GameContent> data = gameContentInfoService.getList(search);
+        model.addAttribute("items" , data.getItems());
+        model.addAttribute("pagination" , data.getPagination());
 
         return "teacher/group/add";
     }
 
+    /**
+     * 스터디 그룹 등록 2. 스터디 그룹 상세 설정
+     * @param model
+     * @param form
+     * @param num
+     * @return
+     */
     @GetMapping("/group/add2")
-    public String addGroup2(Model model) {
+    public String addGroup2(Model model , @ModelAttribute RequestStGroup form
+            , @RequestParam(name = "num" , required = false) Long num,@ModelAttribute GameContentSearch search) {
         commonProcess("add", model);
+
+        //스터디그룹 등록 1. 게임 컨텐츠 설정에서 게임 선택하지 않을경우
+        if(num == null){
+            model.addAttribute("mode" , "add1");
+            model.addAttribute("items" ,  gameContentInfoService.getList(search).getItems());
+            model.addAttribute("pagination" , gameContentInfoService.getList(search).getPagination());
+            model.addAttribute("emsg" , "게임 컨텐츠를 선택하세요");
+            return "front/teacher/studyGroup/add";
+        }
+
+        //게임 선택 정상적으로 한 경우
+        model.addAttribute("mode" , "add2");
+
+        //폼을 두 번 이동 해야 해서 session에 저장
+        session.setAttribute("game" , gameContentInfoService.getById(num));
 
         return "teacher/group/add";
     }
 
+
+    /**
+     * 스터디 그룹 수정
+     * @param num
+     * @param model
+     * @return
+     */
     @GetMapping("/group/edit/{num}")
     public String editGroup(@PathVariable("num") Long num, Model model) {
         commonProcess("edit", model);
 
+        model.addAttribute("mode" , "edit");
+        RequestStGroup stg = sgInfoService.getForm(num);
+
+        model.addAttribute("requestStGroup" , stg);
+        session.setAttribute("game" , gameContentInfoService.getById(stg.getGameContentNum()));
+
         return "teacher/group/edit";
     }
 
+
+    /**
+     * 스터디 그룹 생성/수정
+     * @param form
+     * @param errors
+     * @param model
+     * @return
+     */
     @PostMapping("/group/save")
-    public String saveGroup(Model model) {
+    public String saveGroup(@Valid RequestStGroup form , Errors errors , Model model) {
+
+        //스터디그룹 입력항목 누락 시
+        if (errors.hasErrors()) {
+            errors.getAllErrors().stream().forEach(System.out::println);
+            model.addAttribute("mode" , "add2");
+            return "front/teacher/studyGroup/add";
+        }
+
+        sgSaveService.save(form);
+
+        //저장 후session 비워주기
+        session.removeAttribute("game");
 
         return "redirect:/teacher/group"; // 추가, 수정 완료 후 그룹 목록으로 이동
     }
 
+    /**
+     * 선택삭제 (여러개 동시)
+     * @param chks
+     * @param model
+     * @return
+     */
+    @DeleteMapping
+    public String deletes(@RequestParam(name = "chk" ) List<Long> chks ,Model model){
+        for(Long n : chks){
+            sgDeleteService.delete(n);
+        }
+        return "redirect:/teacher/group";
+    }
+
+
+
+    /**
+     * ( 교육자가 가입 승인하는 )
+     * 가입 신청 목록
+     * @param model
+     * @param search
+     * @return
+     */
     @GetMapping("/group/accept")
-    public String acceptGroup(Model model) {
+    public String acceptGroup(Model model , @ModelAttribute JoinStGroupSearch search) {
         commonProcess("accept", model);
+        //가입 승인 대기 / 완료 목록
+        ListData<JoinStudyGroup> data = joinSTGInfoService.getList(search);
+        model.addAttribute("list" , data.getItems());
+        model.addAttribute("pagination" , data.getPagination());
 
         return "teacher/group/accept";
     }
 
+    /**
+     * 스터디그룹 가입 승인 처리
+     * @param model
+     * @return
+     */
+
     @PostMapping("/group/accept")
-    public String acceptGroupPs(Model model) {
+    public String acceptGroupPs(Model model ,  @RequestParam(name = "chk" ) List<Long> chks) {
         commonProcess("accept", model);
+        //가입 승인 처리
+        joinSTGSaveService.accept(chks);
 
         return "redirect:/teacher/group/accept";
     }
 
-
-    ////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////
 
     @GetMapping("/homework")
     public String homeworkList(Model model) {

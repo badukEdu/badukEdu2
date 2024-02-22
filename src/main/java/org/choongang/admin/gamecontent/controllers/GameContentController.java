@@ -1,13 +1,17 @@
 package org.choongang.admin.gamecontent.controllers;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.choongang.admin.gamecontent.entities.GameContent;
+import org.choongang.admin.gamecontent.service.GameContentDeleteService;
+import org.choongang.admin.gamecontent.service.GameContentInfoService;
+import org.choongang.admin.gamecontent.service.GameContentSaveService;
+import org.choongang.commons.ListData;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.validation.Errors;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,29 +21,76 @@ import java.util.List;
 @RequiredArgsConstructor
 public class GameContentController {
 
+    private final GameContentInfoService gameContentInfoService;
+    private final GameContentSaveService gameContentSaveService;
+    private final GameContentDeleteService gameContentDeleteService;
+
     @GetMapping
-    public String list(Model model) {
+    public String list(@ModelAttribute GameContentSearch search, Model model) {
         commonProcess("list", model);
+
+        ListData<GameContent> data = gameContentInfoService.getList(search);
+        model.addAttribute("items", data.getItems());
+        model.addAttribute("pagination", data.getPagination());
 
         return "admin/gamecontent/list";
     }
 
+    /**
+     * 게임 컨텐츠 등록
+     *
+     * @param form
+     * @param model
+     * @return
+     */
     @GetMapping("/add")
-    public String add(Model model) {
+    public String add(@ModelAttribute RequestGameContentData form, Model model) {
         commonProcess("add", model);
 
         return "admin/gamecontent/add";
     }
 
+    /**
+     * 게임 컨텐츠 수정
+     * 
+     * @param num
+     * @param model
+     * @return
+     */
     @GetMapping("/edit/{num}")
     public String edit(@PathVariable("num") Long num, Model model) {
         commonProcess("edit", model);
 
+        RequestGameContentData form = gameContentInfoService.getForm(num);
+        model.addAttribute("requestGameContentData", form);
+
         return "admin/gamecontent/edit";
     }
 
+    /**
+     * 게임 컨텐츠 삭제
+     *
+     * @param num
+     * @param model
+     * @return
+     */
+    @GetMapping("/delete/{num}")
+    public String delete(@PathVariable("num") Long num, Model model) {
+        gameContentDeleteService.delete(num);
+
+        return "redirect:/admin/gamecontent";
+    }
+
     @PostMapping("/save")
-    public String save(Model model) {
+    public String save(@Valid RequestGameContentData form, Errors errors, Model model) {
+        String mode = form.getMode();
+        commonProcess(mode, model);
+
+        if(errors.hasErrors()) {
+            return "admin/gamecontent/" + mode;
+        }
+
+        gameContentSaveService.save(form);
 
         return "redirect:/admin/gamecontent";
     }

@@ -5,7 +5,7 @@
 <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
 <section layout:fragment="content">
     <h2>게임 콘텐츠 조회</h2>
-    <form method="get" th:action="@{/admin/gamecontent/list}" autocomplete="off" th:object="${gameContentSearch}">
+    <form method="get" th:action="@{/admin/gamecontent}" autocomplete="off" th:object="${gameContentSearch}">
         <table>
             <tr>
                 <th>검색</th>
