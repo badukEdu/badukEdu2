@@ -42,8 +42,6 @@ TeacherController {
     private final JoinSTGInfoService joinSTGInfoService;
     private final JoinSTGSaveService joinSTGSaveService;
 
-    private final MemberInfoService memberInfoService;
-
 
     //group DI SSS
 
@@ -59,7 +57,6 @@ TeacherController {
     public String groupList(Model model , @ModelAttribute StGroupSearch search) {
         commonProcess("list", model);
 
-        session.setAttribute("member" , memberInfoService.getMember(1L));
 
         ListData<StudyGroup> data = sgInfoService.getList(search);
         model.addAttribute("list" , data.getItems());
