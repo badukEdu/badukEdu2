@@ -41,4 +41,11 @@ public class MemberInfoService implements UserDetailsService {
                 .enable(member.isEnable())
                 .build();
     }
+
+    /* 로그인 구현되면 지워야함 */
+    public Member getMember(Long id){
+
+        return memberRepository.getById(id);
+    }
+
 }
