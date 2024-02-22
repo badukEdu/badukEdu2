@@ -41,4 +41,6 @@ public class MemberInfoService implements UserDetailsService {
                 .enable(member.isEnable())
                 .build();
     }
+
+
 }
