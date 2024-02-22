@@ -1,13 +1,32 @@
 package org.choongang.teacher.controllers;
 
+import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.choongang.admin.gamecontent.controllers.GameContentSearch;
+import org.choongang.admin.gamecontent.entities.GameContent;
+import org.choongang.admin.gamecontent.service.GameContentInfoService;
+import org.choongang.commons.ListData;
+import org.choongang.education.group.controllers.JoinStGroupSearch;
+import org.choongang.education.group.entities.JoinStudyGroup;
+import org.choongang.education.group.services.joinStG.JoinSTGInfoService;
+import org.choongang.education.group.services.joinStG.JoinSTGSaveService;
+import org.choongang.member.MemberUtil;
+import org.choongang.teacher.group.controllers.RequestStGroup;
+import org.choongang.teacher.group.controllers.StGroupSearch;
+import org.choongang.teacher.group.entities.StudyGroup;
+import org.choongang.teacher.group.services.stGroup.SGDeleteService;
+import org.choongang.teacher.group.services.stGroup.SGInfoService;
+import org.choongang.teacher.group.services.stGroup.SGSaveService;
+import org.choongang.teacher.homework.controllers.RequestHomework;
+import org.choongang.teacher.homework.entities.Homework;
+import org.choongang.teacher.homework.service.HomeworkInfoService;
+import org.choongang.teacher.homework.service.HomeworkSaveService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.validation.Errors;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -239,9 +258,6 @@ TeacherController {
         commonProcess("homework_edit", model);
 
         RequestHomework form = homeworkInfoService.getForm(num);
-
-        form.setMode("edit");
-        form.setNum(num);
 
         model.addAttribute("requestForm", form);
 

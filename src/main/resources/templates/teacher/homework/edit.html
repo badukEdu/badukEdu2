@@ -6,7 +6,8 @@
 <section layout:fragment="content">
     <h2>숙제 수정</h2>
     <form method="post" th:action="@{/teacher/homework/save}" autocomplete="off" th:object="${requestForm}">
-
+        <input type="hidden" th:field="*{num}">
+        <input type="hidden" th:field="*{mode}" value="edit">
         <th:block th:replace="~{teacher/homework/_form2::save}"></th:block>
 
         <button type="reset" class="sbtn">다시하기</button>
