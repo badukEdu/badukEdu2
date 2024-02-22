@@ -6,6 +6,7 @@ import org.choongang.member.repositories.MemberRepository;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
+import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
 @Component
@@ -28,14 +29,40 @@ public class JoinValidator implements Validator, PasswordValidator {
          */
 
         RequestJoin form = (RequestJoin)target;
+        String mode = form.getMode();
+        if (mode.equals("step1")) {
+            validateStep1(form, errors);
+        } else if (mode.equals("step2")) {
+            validateStep2(form, errors);
+        }
+
+
+    }
+
+    private void validateStep1(RequestJoin form, Errors errors) {
         String email = form.getEmail();
-        String userId = form.getUserId();
-        String password = form.getPassword();
-        String confirmPassword = form.getConfirmPassword();
+        String name = form.getName();
+
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "NotBlank");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "NotBlank");
 
         // 1. 이메일, 아이디 중복 여부 체크
         if (StringUtils.hasText(email) && memberRepository.existsByEmail(email)) {
             errors.rejectValue("email", "Duplicated");
+        }
+    }
+
+    private void validateStep2(RequestJoin form, Errors errors) {
+        String userId = form.getUserId();
+        String password = form.getPassword();
+        String confirmPassword = form.getConfirmPassword();
+
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "userId", "NotBlank");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "NotBlank");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "confirmPassword", "NotBlank");
+
+        if (!form.isAgree()) {
+            errors.rejectValue("agree", "AssertTrue");
         }
 
         if (StringUtils.hasText(userId) && memberRepository.existsByUserId(userId)) {
@@ -50,8 +77,9 @@ public class JoinValidator implements Validator, PasswordValidator {
 
         // 3. 비밀번호, 비밀번호 확인 일치 여부 체크
         if (StringUtils.hasText(password) && StringUtils.hasText(confirmPassword)
-            && !password.equals(confirmPassword)) {
+                && !password.equals(confirmPassword)) {
             errors.rejectValue("confirmPassword", "Mismatch.password");
         }
+
     }
 }

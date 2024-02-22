@@ -1,8 +1,14 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
     <nav th:fragment="menu">
-        <a th:href="@{/basic}" th:classappend="${menuCode} == 'config' ? 'on'">
-            <i class="xi-cog"></i> 기본설정
-        </a>
+       <a th:href="@{/guide/intro}" th:text="#{이용안내}" th:classappend="${menuCode == 'guide'} ? 'on'"></a>
+
+        <a th:href="@{/subscription}" th:text="#{구독서비스}" th:classappend="${menuCode == 'subscription'} ? 'on'"></a>
+
+        <a th:href="@{/education/join}" th:text="#{학습서비스}" th:classappend="${menuCode == 'education'} ? 'on'"></a>
+
+        <a th:href="@{/teacher/group}" th:text="#{교육자마당}" th:classappend="${menuCode == 'teacher'} ? 'on'"></a>
+
+        <a th:href="@{/admin/gamecontent}" th:text="#{운영마당}" th:classappend="${menuCode == 'admin'} ? 'on'"></a>
     </nav>
 </html>

@@ -14,6 +14,7 @@ public class MemberUtil {
     public boolean isAdmin() {
 
         return isLogin() && getMember().getAuthority() == Authority.ADMIN;
+        //return true;
     }
 
     public boolean isTeacher() {
@@ -27,7 +28,8 @@ public class MemberUtil {
 
     public boolean isUser() {
 
-        return isLogin() && getMember().getAuthority() == Authority.USER;
+        //return isLogin() && getMember().getAuthority() == Authority.USER;
+        return true;
     }
 
 

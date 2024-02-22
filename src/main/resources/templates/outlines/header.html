@@ -5,6 +5,9 @@
         <section class="logo_area">
             <a th:href="@{/admin}">로고</a>
         </section>
+
+        <nav th:replace="~{outlines/_menu::menu}"></nav>
+
         <section class="btn_area">
             <th:block sec:authorize="isAuthenticated()">
                 <a th:href="@{/member/info}">회원정보 수정</a>

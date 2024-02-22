@@ -9,10 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.support.SessionStatus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,27 +18,52 @@ import java.util.List;
 @Controller
 @RequestMapping("/member")
 @RequiredArgsConstructor
+@SessionAttributes({"requestJoin"})
 public class MemberController implements ExceptionProcessor {
 
     private final JoinService joinService;
+    private final JoinValidator joinValidator;
 
-    @GetMapping("/join")
-    public String join(@ModelAttribute RequestJoin form, Model model) {
+    @GetMapping
+    public String join() {
+        return "redirect:/member/join";
+    }
+
+    @GetMapping("/join/step1")
+    public String joinStep1(@ModelAttribute RequestJoin form, Model model) {
         commonProcess("join", model);
 
-        return "member/join";
+        return "member/join_step1";
+    }
+
+    @PostMapping("/join/step2")
+    public String joinStep2(@Valid RequestJoin form, Errors errors, Model model) {
+        commonProcess("join", model);
+
+        form.setMode("step1");
+
+        joinValidator.validate(form, errors);
+
+        if (errors.hasErrors()) {
+            return "member/join_step1";
+        }
+
+        return "member/join_step2";
     }
 
     @PostMapping("/join")
-    public String joinPs(@Valid RequestJoin form, Errors errors,Model model) {
+    public String joinPs(@Valid RequestJoin form, Errors errors,Model model, SessionStatus status) {
         commonProcess("join", model);
+        form.setMode("step2");
+
 
         joinService.process(form, errors);
 
         if (errors.hasErrors()) {
-            return "member/join";
+            return "member/join_step2";
         }
 
+        status.setComplete(); // 세션 비우기
 
         return "redirect:/member/login";
     }

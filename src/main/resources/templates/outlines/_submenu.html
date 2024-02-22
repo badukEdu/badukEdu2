@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
     <aside th:fragment="menu">
-
         <th:block th:if="${subMenus != null && !subMenus.isEmpty()}">
             <a th:each="menu : ${subMenus}" th:object="${menu}"
                th:href="@{{url}(url=*{url})}" th:text="*{name}"
