@@ -42,10 +42,5 @@ public class MemberInfoService implements UserDetailsService {
                 .build();
     }
 
-    /* 로그인 구현되면 지워야함 */
-    public Member getMember(Long id){
-
-        return memberRepository.getById(id);
-    }
 
 }
