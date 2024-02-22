@@ -59,7 +59,7 @@ TeacherController {
     public String groupList(Model model , @ModelAttribute StGroupSearch search) {
         commonProcess("list", model);
 
-        session.setAttribute("member" , memberInfoService.getMember(1L));
+        session.setAttribute("member" , memberInfoService.getMember(52L));
 
         ListData<StudyGroup> data = sgInfoService.getList(search);
         model.addAttribute("list" , data.getItems());
@@ -67,6 +67,23 @@ TeacherController {
 
         return "teacher/group/list";
     }
+
+    /**
+     * 스터디그룹 상세 (list -> detail)
+     * @param num
+     * @param model
+     * @param search
+     * @return
+     */
+    @GetMapping("/group/detail/{num}")
+    public String detail(@PathVariable("num") Long num, Model model, @ModelAttribute StGroupSearch search){
+
+        model.addAttribute("list" , sgInfoService.getList(search).getItems());
+        model.addAttribute("item" , sgInfoService.getForm(num));
+        model.addAttribute("members" , sgInfoService.getJoinMember(num));
+        return "teacher/group/detail";
+    }
+
 
     // 그룹 등록
     /**
@@ -79,7 +96,7 @@ TeacherController {
     public String addGroup1(Model model , @ModelAttribute RequestStGroup form , @ModelAttribute GameContentSearch search) {
         commonProcess("add", model);
 
-        model.addAttribute("mode" , "add1");
+        model.addAttribute("mode_" , "add1");
 
         ListData<GameContent> data = gameContentInfoService.getList(search);
         model.addAttribute("items" , data.getItems());
@@ -95,14 +112,14 @@ TeacherController {
      * @param num
      * @return
      */
-    @GetMapping("/group/add2")
+    @PostMapping("/group/add2")
     public String addGroup2(Model model , @ModelAttribute RequestStGroup form
             , @RequestParam(name = "num" , required = false) Long num,@ModelAttribute GameContentSearch search) {
         commonProcess("add", model);
 
         //스터디그룹 등록 1. 게임 컨텐츠 설정에서 게임 선택하지 않을경우
         if(num == null){
-            model.addAttribute("mode" , "add1");
+            model.addAttribute("mode_" , "add1");
             model.addAttribute("items" ,  gameContentInfoService.getList(search).getItems());
             model.addAttribute("pagination" , gameContentInfoService.getList(search).getPagination());
             model.addAttribute("emsg" , "게임 컨텐츠를 선택하세요");
@@ -110,7 +127,7 @@ TeacherController {
         }
 
         //게임 선택 정상적으로 한 경우
-        model.addAttribute("mode" , "add2");
+        model.addAttribute("mode_" , "add2");
 
         //폼을 두 번 이동 해야 해서 session에 저장
         session.setAttribute("game" , gameContentInfoService.getById(num));
@@ -129,7 +146,7 @@ TeacherController {
     public String editGroup(@PathVariable("num") Long num, Model model) {
         commonProcess("edit", model);
 
-        model.addAttribute("mode" , "edit");
+        model.addAttribute("mode_" , "edit");
         RequestStGroup stg = sgInfoService.getForm(num);
 
         model.addAttribute("requestStGroup" , stg);
@@ -152,7 +169,7 @@ TeacherController {
         //스터디그룹 입력항목 누락 시
         if (errors.hasErrors()) {
             errors.getAllErrors().stream().forEach(System.out::println);
-            model.addAttribute("mode" , "add2");
+            model.addAttribute("mode_" , "add2");
             return "front/teacher/studyGroup/add";
         }
 
@@ -175,6 +192,18 @@ TeacherController {
         for(Long n : chks){
             sgDeleteService.delete(n);
         }
+        return "redirect:/teacher/group";
+    }
+
+    /**
+     * 단일 삭제
+     * @param num
+     * @param model
+     * @return
+     */
+    @GetMapping("/group/delete/{num}")
+    public String delete(@PathVariable("num") Long num , Model model){
+        sgDeleteService.delete(num);
         return "redirect:/teacher/group";
     }
 

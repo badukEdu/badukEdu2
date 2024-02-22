@@ -8,8 +8,8 @@
 
 
 
-    <form method="get" th:action="@{/teacher/JoinStudyGroup/accept}" th:object="${joinStGroupSearch}" >
-        <table >
+    <form method="get" th:action="@{/teacher/group/accept}" th:object="${joinStGroupSearch}" >
+        <table class="table_cols">
             <tr>
                 <th>키워드(user 완성되면 -> 교육자명으로 검색 가능하도록)</th>
                 <td>
@@ -28,7 +28,7 @@
     </form>
     <hr>
 
-    <table border="1">
+    <table border="1" class="table_cols">
         <tr>
             <th>승인여부</th>
             <th>스터디그룹명</th>
@@ -37,7 +37,7 @@
             <th>승인요청일자</th>
 
         </tr>
-        <form method="post" th:action="@{/teacher/studyGroup/accept}" autocomplete="off">
+        <form method="post" th:action="@{/teacher/group/accept}" autocomplete="off">
             &lt;!&ndash;<input type="hidden" name="userNum" th:value="${session.member.num}">&ndash;&gt;
 
             <tr th:each="item : ${list}" th:object="${item}">

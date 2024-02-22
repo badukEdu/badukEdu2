@@ -15,6 +15,7 @@ import org.choongang.commons.Utils;
 import org.choongang.education.group.entities.JoinStudyGroup;
 import org.choongang.education.group.services.joinStG.JoinSTGInfoService;
 import org.choongang.member.Authority;
+import org.choongang.member.MemberUtil;
 import org.choongang.member.entities.Member;
 import org.choongang.teacher.group.controllers.RequestStGroup;
 import org.choongang.teacher.group.controllers.StGroupSearch;
@@ -23,6 +24,7 @@ import org.choongang.teacher.group.entities.StudyGroup;
 import org.choongang.teacher.group.repositories.StGroupRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
@@ -30,6 +32,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class SGInfoService {
 
     private final StGroupRepository stGroupRepository;
@@ -38,7 +41,7 @@ public class SGInfoService {
     private final HttpServletRequest request;
     private final HttpSession session;
     private final GameContentInfoService gameContentInfoService ;
-
+    private final MemberUtil memberUtil;
 
 
     public ListData<StudyGroup> getList(StGroupSearch search){
@@ -78,6 +81,16 @@ public class SGInfoService {
             }
 
         }
+
+        String type = search.getType();
+        if (StringUtils.hasText(type) && type.equals("joinstg") && memberUtil.isLogin()) {
+            Member member = memberUtil.getMember();
+            List<JoinStudyGroup> groups = member.getJoinStudyGroups();
+            if (groups != null) {
+                groups.forEach(group ->  andBuilder.andNot(studyGroup.joinStudyGroups.contains(group)));
+            }
+        }
+
         PathBuilder<StudyGroup> pathBuilder = new PathBuilder<>(StudyGroup.class, "stGroup");
 
         List<StudyGroup> items = new JPAQueryFactory(em)

@@ -4,14 +4,14 @@
 <th:div th:fragment="form" th:if="${requestStGroup != null}" th:object="${requestStGroup}">
 
     <h2>스터디그룹 상세 등록</h2>
-<!--
+
 
     <h1>UI-W-011</h1>
-    <div th:if="${mode == 'edit'}">
+    <div th:if="${mode_ == 'edit'}">
         <input type="hidden" name="num" th:value="*{num}">
     </div>
 
-    <div th:if="${mode == 'add2'}">
+    <div th:if="${mode_ == 'add2'}">
         <input type="hidden" name="memberNum" th:value="${session.member.Num}">
         <input type="hidden" name="teacherName" th:value="${session.member.Name}">
     </div>
@@ -51,11 +51,11 @@
         <tr>
             <td>교육자명</td>
             <td>
-                &lt;!&ndash;<p th:text="${session.member.name}"></p>&ndash;&gt;
-                <div th:if="${mode.equals('add2')}">
+                <p th:text="${session.member.name}"></p>
+                <div th:if="${mode_.equals('add2')}">
                     <p th:text="${session.member.name}"></p>
                 </div>
-                <dib th:if="${mode.equals('edit')}">
+                <dib th:if="${mode_.equals('edit')}">
                     <p th:text="*{teacherName}"></p>
                 </dib>
 
@@ -105,7 +105,7 @@
             </td>
         </tr>
     </table>
--->
+
 
 
 </th:div>

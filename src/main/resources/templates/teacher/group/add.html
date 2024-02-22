@@ -4,10 +4,10 @@
       layout:decorate="~{layouts/main}">
 
 <section layout:fragment="content">
-    <h1>스터디 그룹 생성</h1>
+    <h1>스터디 그룹 생성 UI-W-010</h1>
 
-    <div th:if="${mode.equals('add1')}">
-        <h1>UI-W-010</h1>
+    <div th:if="${mode_.equals('add1')}">
+
         <form method="get" th:action="@{/teacher/group/add}" autocomplete="off" th:object="${gameContentSearch}">
             <table>
                 <tr>
@@ -17,14 +17,14 @@
                         <input type="hidden" name="skey" value="gameTitle" th:field="*{sopt}">
                         <input type="text" name="skey" th:field="*{skey}">
                     </th>
-                    <td>
+                    <!--<td>
                         <select name="sopt">
                             <option value="ALL" th:field="*{sopt}">통합검색</option>
                             <option value="gameTitle" th:field="*{sopt}">게임콘텐츠명</option>
                             <option value="packageContents" th:field="*{sopt}">패키지내용</option>
                         </select>
                         <input type="text" name="skey" th:field="*{skey}">
-                    </td>
+                    </td>-->
                     <td>
                         <button type="submit">검색하기</button>
                     </td>
@@ -33,15 +33,15 @@
         </form>
 
 
-        <form method="post" th:action="@{/teacher/studyGroup/add2}">
+        <form method="post" th:action="@{/teacher/group/add2}">
             <input type="hidden" name="mode" value="add" >
 
             <div th:replace="~{teacher/group/_form::form}"></div>
             <button type="submit">학습 그룹 상세 입력</button>
         </form>
     </div>
-    <div th:if="${mode.equals('add2')}">
-        <form method="post" th:action="@{/teacher/studyGroup/save}">
+    <div th:if="${mode_.equals('add2')}">
+        <form method="post" th:action="@{/teacher/group/save}">
             <input type="hidden" name="mode" value="add" >
 
             <div th:replace="~{teacher/group/_form2::form}"></div>

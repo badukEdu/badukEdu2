@@ -9,17 +9,17 @@
 
 
         <hr>
-        <form method="get" th:action="@{/education/JoinStudyGroup}" th:object="${stGroupSearch}" >
+        <form method="get" th:action="@{/education/join}" th:object="${stGroupSearch}" >
             <table >
                 <tr>
                     <th>키워드</th>
                     <td>
                         <select name="sopt">
-                        <!--    <option value="ALL" th:field="*{sopt}">통합검색</option>-->
-                        <!--    <option value="groupName" th:field="*{sopt}">스터디그룹명</option>-->
+                           <option value="ALL" th:field="*{sopt}">통합검색</option>
+                          <option value="groupName" th:field="*{sopt}">스터디그룹명</option>
 
                         </select>
-                    <!--    <input type="text" name="skey" th:field="*{skey}">-->
+                       <input type="text" name="skey" th:field="*{skey}">
                     </td>
                     <td>
                         <button type="submit">검색하기</button>
@@ -39,7 +39,7 @@
                 <th>잔여 T/O</th>
 
             </tr>
-            <form method="post" th:action="@{/education/JoinStudyGroup/join}" autocomplete="off">
+            <form method="post" th:action="@{/education/apply}" autocomplete="off">
 
                 <tr th:each="item : ${list}" th:object="${item}">
                     <td><input type="checkbox" name="chk" th:value="*{num}"></td>

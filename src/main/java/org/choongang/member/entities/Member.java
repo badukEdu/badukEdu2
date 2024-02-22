@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.ToString;
 import org.choongang.commons.entities.Base;
+import org.choongang.education.group.entities.JoinStudyGroup;
 import org.choongang.member.Authority;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -87,4 +88,8 @@ public class Member extends Base {
   @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
   private List<JoinStudyGroup> joinStudyGroups;
   */
+
+    @ToString.Exclude
+    @OneToMany(mappedBy = "member", fetch = FetchType.EAGER)
+    private List<JoinStudyGroup> joinStudyGroups;
 }

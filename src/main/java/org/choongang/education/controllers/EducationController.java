@@ -52,8 +52,8 @@ public class EducationController {
         ListData<StudyGroup> data = sgInfoService.getList(search);
 
         //validstg -> 이미 가입 한 스터디그룹은 목록에서 제외 / andBuilder로 처리한 것이 아니라 pagination 사용 불가
-        model.addAttribute("list" , validstg(data.getItems()));
-        //model.addAttribute("pagination", data.getPagination());
+        model.addAttribute("list" , data.getItems());
+        model.addAttribute("pagination", data.getPagination());
 
         return "education/join";
     }
@@ -71,7 +71,7 @@ public class EducationController {
         commonProcess("join", model);
         //가입 신청 내역 저장(칼럼 : accept -> (미승인)false == 0)
         joinSTGSaveService.save(chks);
-        return "redirect:/education";
+        return "redirect:/education/join";
     }
 
     // 신청 내용 취소

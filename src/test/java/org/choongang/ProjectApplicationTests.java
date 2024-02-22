@@ -29,8 +29,8 @@ class ProjectApplicationTests {
             member.setEnable(true);
             member.setSMSAgree(true);
             member.setLevels(100L);
-            member.setUserId("user01");
-            member.setEmail("cbmja@naver.com");
+            member.setUserId("user02");
+            member.setEmail("cbmfja@naver.com");
             member.setPassword("_aA123456");
             member.setAuthority(Authority.USER);
             member.setBirth("1999-01-01");
