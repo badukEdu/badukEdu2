@@ -2,8 +2,70 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/main}">
-
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
 <section layout:fragment="content">
+    <h2>학습 자료 조회</h2>
+    <form method="get" th:action="@{/admin/education/list}" autocomplete="off" th:object="${eduDataSearch}">
+        <table>
+            <tr>
+                <th>검색</th>
+                <td>
+                    <select name="sopt">
+                        <option value="ALL" th:field="*{sopt}">통합검색</option>
+                        <option value="name" th:field="*{sopt}">학습자료명</option>
+                        <option value="content" th:field="*{sopt}">자료내용</option>
+                    </select>
+                    <input type="text" name="skey" th:field="*{skey}">
+                </td>
+            </tr>
+            <td>
+                <button type="submit">검색하기</button>
+            </td>
+        </table>
+    </form>
 
+
+
+    <form method="post" autocomplete="off">
+        <table class="table_rows" border="1">
+            <thead>
+            <tr>
+                <th>학습자료명</th>
+                <th>썸네일</th>
+                <th>자료구분</th>
+                <th>자료유형</th>
+                <th>자료file주소</th>
+                <th>서비스구분</th>
+                <th>자료내용</th>
+                <th>수정</th>
+                <th>삭제</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="item : ${items}"  th:object="${item}">
+                <td th:text="*{name}"></td>
+                <td>
+                    <th:block th:if="*{thumbnail != null}" th:utext="*{@utils.printThumb(thumbnail.seq, 100, 100, 'image')}"></th:block>
+                </td>
+                <td th:text="*{dataType}"></td>
+                <td th:text="*{contentType}"></td>
+                <td th:text="*{fileAddress}"></td>
+                <td th:text="*{serviceType}"></td>
+                <td th:text="*{content}"></td>
+                <td>
+                    <a th:href="@{/admin/education/edit/{num}(num=*{num})}">
+                        <i class="xi-pen-o"></i>
+                    </a>
+                </td>
+                <td>
+                    <a th:href="@{/admin/education/delete/{num}(num=*{num})}" onclick="return confirm('정말 삭제하시겠습니까?');">
+                        <i class="xi-trash"></i>
+                    </a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <th:block th:replace="~{common/_pagination::pagination}"></th:block>
+    </form>
 </section>
 </html>

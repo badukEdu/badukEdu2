@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/main}">
+<section layout:fragment="content">
+<h2>숙제 전송</h2>
+    <form method="post" th:action="@{/teacher/homework/post}" autocomplete="off">
+
+
+        <th:block th:replace="~{teacher/homework/_form::homeworkList}"></th:block>
+
+    <!--        <th:block th:replace="~{front/teacher/studyGroup/_detail::detail}"></th:block>-->
+        교육자가 등록한 학습그룹
+        <table>
+            <thead>
+                <tr>
+                    <td colspan="4">
+                    <label for="options">학습그룹</label>
+                        <select id="options" name="options" onChange="updateTable()">
+                            <option>선택</option>
+                            <option th:each="item : ${list}" th:value="${item.num}" th:text="${item.name}" th:attr="data-index=${item.num}"></option>
+                        </select>
+                    </td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><input type="checkbox" id="checkall"></td>
+                    <td>학습자명</td>
+                    <td>전화번호</td>
+                    <td>현재 레벨</td>
+                </tr>
+                <tr id="group_member" th:each="item : ${list}" th:object="${item}">
+                    <td colspan="4">학습그룹을 선택해주세요.</td>
+                </tr>
+            </tbody>
+        </table>
+        <button type="reset">다시하기</button>
+        <button type="submit">전송</button>
+    </form>
+</section>
+<script>
+    window.addEventListener("DOMContentLoaded", function() {
+        /* 전체 선택 기능 S */
+        const checkall = document.getElementById("checkall");
+        checkall.addEventListener("change", function() {
+            const chks = document.getElementsByName("chk");
+             const checkedNums = [];
+            for (const chk of chks) {
+                chk.checked = checkall.checked;
+                const num = chk.value;
+                console.log(num);
+                checkedNums.push(num);
+            }
+        });
+        /* 전체 선택 기능 E */
+
+    });
+
+    function updateTable() {
+            const selectedOption = document.getElementById("options").value;
+
+            let selectedIndex = document.getElementById("options").getAttribute("data-index");
+            console.log("Selected Option Value: " + selectedOption);
+            console.log("Selected Option Index: " + selectedIndex);
+
+            // 선택 옵션이 없으면
+            if (selectedOption == "") {
+                return;
+            }
+
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    // 서버로부터 응답을 받으면 테이블 업데이트
+
+                    document.getElementById("group_member").innerHTML = this.responseText;
+                }
+            };
+
+            // 선택한 값에 따라 새로운 내용을 생성합니다.
+            // 서버로 요청 보내기
+            xhr.open("GET", "/teacher/homework/get_table_data?option=" + selectedOption, true);
+            xhr.send();
+    }
+</script>
+</html>

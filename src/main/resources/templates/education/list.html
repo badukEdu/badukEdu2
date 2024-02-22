@@ -4,6 +4,59 @@
       layout:decorate="~{layouts/main}">
 
 <section layout:fragment="content">
+    <h1>스터디그룹 가입신청 / UI-W-006 </h1>
+    <hr>
+    <form method="get" th:action="@{/education/JoinStudyGroup}" th:object="${stGroupSearch}" >
+        <table >
+            <tr>
+                <th>키워드</th>
+                <td>
+                    <select name="sopt">
+                        <option value="ALL" th:field="*{sopt}">통합검색</option>
+                        <option value="groupName" th:field="*{sopt}">스터디그룹명</option>
 
+                    </select>
+                    <input type="text" name="skey" th:field="*{skey}">
+                </td>
+                <td>
+                    <button type="submit">검색하기</button>
+                </td>
+            </tr>
+        </table>
+    </form>
+    <hr>
+
+    <table border="1">
+        <tr>
+            <th>선택</th>
+            <th>게임 컨텐츠 이미지</th>
+            <th>스터디그룹명</th>
+            <th>교육자명</th>
+            <th>기간</th>
+            <th>잔여 T/O</th>
+
+        </tr>
+        <form method="post" th:action="@{/education/JoinStudyGroup/join}" autocomplete="off">
+
+            <tr th:each="item : ${list}" th:object="${item}">
+                <td><input type="checkbox" name="chk" th:value="*{num}"></td>
+                <td >
+                    <th:block th:if="*{gameContent.thumbnail != null}" th:utext="*{@utils.printThumb(gameContent.thumbnail.seq, 100, 100, 'image')}"></th:block>
+                </td>
+                <td th:text="*{name}"></td>
+                <td th:text="*{teacherName}"></td>
+                <td th:text="*{startDate+' ~ '+endDate}"></td>
+                <td >구독 부분 완료되면 -> 총 인원 - 현재인원 </td>
+            </tr>
+            <tr>
+                <td colspan="6">
+                    <button type="submit">가입하기</button>
+                </td>
+
+            </tr>
+
+        </form>
+    </table>
+    <th:block th:replace="~{common/_pagination::pagination}"></th:block>
 </section>
 </html>

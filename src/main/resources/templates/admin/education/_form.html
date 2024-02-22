@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:fragment="form" th:object="${requestEduData}">
+    <div class="error global" th:each="err : ${#fields.globalErrors()}"
+         th:text="${err}"></div>
+    <input type="hidden" name="gid" th:field="*{gid}">
+    <table class="table_cols">
+        <tr>
+            <th th:text="#{학습자료명}"></th>
+            <td>
+                <input type="text" name="name" th:field="*{name}">
+                <div class="error" th:each="err: ${#fields.errors('name')}"
+                     th:text="${err}"></div>
+            </td>
+        </tr>
+
+        <tr>
+            <th th:text="#{자료구분}"></th>
+            <td>
+                <select name="dataType" th:field="*{dataType}">
+                    <option value="튜토리얼">튜토리얼</option>
+                    <option value="교육영상">교육영상</option>
+                </select>
+                <div class="error" th:each="err: ${#fields.errors('dataType')}"
+                     th:text="${err}"></div>
+            </td>
+        </tr>
+
+        <tr>
+            <th th:text="#{자료유형}"></th>
+            <td>
+                <input type="text" name="contentType" th:field="*{contentType}">
+                <div class="error" th:each="err: ${#fields.errors('contentType')}"
+                     th:text="${err}"></div>
+            </td>
+        </tr>
+
+        <tr>
+            <th th:text="#{자료file주소}"></th>
+            <td>
+                <input type="text" name="fileAddress" th:field="*{fileAddress}">
+                <div class="error" th:each="err: ${#fields.errors('fileAddress')}"
+                     th:text="${err}"></div>
+            </td>
+        </tr>
+
+        <tr>
+            <th th:text="#{서비스구분}"></th>
+            <td>
+                <select name="serviceType" th:field="*{serviceType}">
+                    <option value="full(유료)">full(유료)</option>
+                    <option value="short(무료)">short(무료)</option>
+                </select>
+                <div class="error" th:each="err: ${#fields.errors('serviceType')}"
+                     th:text="${err}"></div>
+            </td>
+        </tr>
+
+        <tr>
+            <th th:text="#{자료내용}"></th>
+            <td>
+                <input type="text" name="content" th:field="*{content}">
+                <div class="error" th:each="err: ${#fields.errors('content')}"
+                     th:text="${err}"></div>
+            </td>
+        </tr>
+
+        <tr>
+            <th th:text="#{썸네일}"></th>
+            <td>
+                <div id="thumbnail_img">
+                    <th:block th:if="*{thumbnail != null}">
+                        <img th:src="*{thumbnail.fileUrl}">
+                        <a th:href="@{/file/delete/{seq}(seq=*{thumbnail.seq})}"
+                           target="ifrmProcess" onclick="return confirm('정말 삭제하시겠습니까?');">[삭제]</a>
+                    </th:block>
+                </div>
+                <button type="button" class="sbtn upload_files"
+                        data-image-only="true" data-single-file="true">업로드</button>
+            </td>
+        </tr>
+    </table>
+</th:block>
+</html>

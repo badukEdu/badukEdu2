@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:fragment="form" th:object="${requestGameContentData}">
+    <div class="error global" th:each="err : ${#fields.globalErrors()}"
+         th:text="${err}"></div>
+    <input type="hidden" name="gid" th:field="*{gid}">
+    <table class="table_cols">
+        <tr>
+            <th width = "180">게임콘텐츠명</th>
+            <td>
+                <input type="text" name="gameTitle" th:field="*{gameTitle}">
+                <div class="error" th:each="err: ${#fields.errors('gameTitle')}"
+                     th:text="${err}"></div>
+            </td>
+        </tr>
+
+        <tr>
+            <th>총게임레벨</th>
+            <td>
+                <input type="number" name="totalGameLevels" th:field="*{totalGameLevels}">
+                <div class="error" th:each="err: ${#fields.errors('totalGameLevels')}"
+                     th:text="${err}"></div>
+            </td>
+        </tr>
+
+        <tr>
+            <th>구독개월</th>
+            <td>
+                <input type="number" name="subscriptionMonths" th:field="*{subscriptionMonths}">
+                <div class="error" th:each="err: ${#fields.errors('subscriptionMonths')}"
+                     th:text="${err}"></div>
+            </td>
+        </tr>
+
+        <tr>
+            <th>구독가능기간</th>
+            <td>
+                <input type="date" name="startDate" th:field="*{startDate}">
+                <span class="error" th:each="err: ${#fields.errors('startDate')}"
+                      th:text="${err}"></span>
+
+                <input type="date" name="endDate" th:field="*{endDate}">
+                <span class="error" th:each="err: ${#fields.errors('endDate')}"
+                      th:text="${err}"></span>
+
+            </td>
+        </tr>
+
+        <tr>
+            <th>구독가능인원</th>
+            <td>
+                <input type="number" name="maxSubscriber" th:field="*{maxSubscriber}">
+                <div class="error" th:each="err: ${#fields.errors('maxSubscriber')}"
+                     th:text="${err}"></div>
+            </td>
+        </tr>
+
+        <tr>
+            <th>정가</th>
+            <td>
+                <input type="number" name="originalPrice" th:field="*{originalPrice}">
+                <div class="error" th:each="err: ${#fields.errors('originalPrice')}"
+                     th:text="${err}"></div>
+            </td>
+        </tr>
+
+        <tr>
+            <th>할인율</th>
+            <td>
+                <input type="number" name="discountRate" th:field="*{discountRate}">
+                <div class="error" th:each="err: ${#fields.errors('discountRate')}"
+                     th:text="${err}"></div>
+            </td>
+        </tr>
+
+        <tr>
+            <th>판매가</th>
+            <td>
+                <input type="number" name="salePrice" th:field="*{salePrice}">
+                <div class="error" th:each="err: ${#fields.errors('salePrice')}"
+                     th:text="${err}"></div>
+            </td>
+        </tr>
+
+        <tr>
+            <th>패키지내용</th>
+            <td>
+                <input type="text" name="packageContents" th:field="*{packageContents}">
+                <div class="error" th:each="err: ${#fields.errors('packageContents')}"
+                     th:text="${err}"></div>
+            </td>
+        </tr>
+
+        <tr>
+            <th>썸네일</th>
+            <td>
+                <div id="thumbnail_img">
+                    <th:block th:if="*{thumbnail != null}">
+                        <img th:src="*{thumbnail.fileUrl}">
+                        <a th:href="@{/file/delete/{seq}(seq=*{thumbnail.seq})}"
+                           target="ifrmProcess" onclick="return confirm('정말 삭제하시겠습니까?');">[삭제]</a>
+                    </th:block>
+                </div>
+                <button type="button" class="sbtn upload_files"
+                        data-image-only="true" data-single-file="true">업로드</button>
+            </td>
+        </tr>
+    </table>
+</th:block>
+</html>

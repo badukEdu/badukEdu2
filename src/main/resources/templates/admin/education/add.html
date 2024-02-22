@@ -4,6 +4,16 @@
       layout:decorate="~{layouts/main}">
 
 <section layout:fragment="content">
+    <h2>학습 자료 등록</h2>
+    <form method="post" th:action="@{/admin/education/add}" autocomplete="off" th:object="${requestEduData}" enctype="multipart/form-data">
 
+        <input type="hidden" name="mode" value="add">
+        <th:block th:replace="~{admin/education/_form::form}"></th:block>
+
+        <div class="submit_btns">
+            <button type="reset" class="btn">다시입력</button>
+            <button type="submit" class="btn">등록하기</button>
+        </div>
+    </form>
 </section>
 </html>

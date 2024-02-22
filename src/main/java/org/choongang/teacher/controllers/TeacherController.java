@@ -27,7 +27,14 @@ public class TeacherController {
 
     // 그룹 등록
     @GetMapping("/group/add")
-    public String addGroup(Model model) {
+    public String addGroup1(Model model) {
+        commonProcess("add", model);
+
+        return "teacher/group/add";
+    }
+
+    @GetMapping("/group/add2")
+    public String addGroup2(Model model) {
         commonProcess("add", model);
 
         return "teacher/group/add";

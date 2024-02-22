@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<th:div th:fragment="form" th:if="${requestStGroup != null}" th:object="${requestStGroup}">
+    <h1>UI-W-011</h1>
+    <div th:if="${mode == 'edit'}">
+        <input type="hidden" name="num" th:value="*{num}">
+    </div>
+
+    <div th:if="${mode == 'add2'}">
+        <input type="hidden" name="memberNum" th:value="${session.member.Num}">
+        <input type="hidden" name="teacherName" th:value="${session.member.Name}">
+    </div>
+
+
+    <div th:if="${session.game != null}" th:object="${session.game}">
+        <input type="hidden" name="gameContentNum" th:value="${session.game.num}">
+        <input type="hidden" name="gameTitle" th:value="${session.game.gameTitle}">
+        <fieldset>
+            <legend>게임</legend>
+            <table >
+                <tr>
+                    <td>게임 컨텐츠 :</td>
+                    <td th:text="*{gameTitle}">
+
+                    </td>
+                </tr>
+                <tr>
+                    <td>최대 인원 :</td>
+                    <td th:text="*{maxSubscriber}"></td>
+                </tr>
+                <tr>
+                    <td>기간 : </td>
+                    <td th:text="*{startDate + ' ~'  +endDate}"></td>
+                </tr>
+                <tr>
+                    <td>달성 레벨 : </td>
+                    <td th:text="*{totalGameLevels}"></td>
+                </tr>
+            </table>
+
+        </fieldset>
+    </div>
+    <hr>
+    <table>
+        <h1>상세</h1>
+        <tr>
+            <td>교육자명</td>
+            <td>
+                <!--<p th:text="${session.member.name}"></p>-->
+                <div th:if="${mode.equals('add2')}">
+                    <p th:text="${session.member.name}"></p>
+                </div>
+                <dib th:if="${mode.equals('edit')}">
+                    <p th:text="*{teacherName}"></p>
+                </dib>
+
+            </td>
+        </tr>
+        <tr>
+            <td>학습그룹명</td>
+            <td>
+                <input type="text" name="name" th:field="*{name}">
+                <div class="error" th:each="err : ${#fields.errors('name')}" th:text="${err}"></div>
+            </td>
+        </tr>
+        <tr>
+            <td>그룹제한인원</td>
+            <td>
+                <input type="number" name="maxSubscriber" th:field="*{maxSubscriber}">
+                <div class="error" th:each="err : ${#fields.errors('maxSubscriber')}" th:text="${err}"></div>
+            </td>
+        </tr>
+        <tr>
+            <td>학습개월</td>
+            <td>
+                <input type="number" name="month" th:field="*{month}" >
+                <div class="error" th:each="err : ${#fields.errors('month')}" th:text="${err}"></div>
+            </td>
+        </tr>
+        <tr>
+            <td>학습기간</td>
+            <td>
+                <input type="date" name="startDate" th:field="*{startDate}">
+                <div class="error" th:each="err : ${#fields.errors('startDate')}" th:text="${err}"></div>
+                <input type="date" name="endDate" th:field="*{endDate}">
+                <div class="error" th:each="err : ${#fields.errors('endDate')}" th:text="${err}"></div>
+            </td>
+        </tr>
+        <tr>
+            <td>달성 레벨</td>
+            <td>
+                <input type="number" name="maxLevel" th:field="*{maxLevel}">
+                <div class="error" th:each="err : ${#fields.errors('maxLevel')}" th:text="${err}"></div>
+            </td>
+        </tr>
+        <tr>
+            <td>비고</td>
+            <td>
+                <input type="text" name="text" th:field="*{text}">
+            </td>
+        </tr>
+    </table>
+
+</th:div>
+</html>
