@@ -2,8 +2,74 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/main}">
-
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
 <section layout:fragment="content">
+    <h2>게임 콘텐츠 조회</h2>
+    <form method="get" th:action="@{/admin/gamecontent/list}" autocomplete="off" th:object="${gameContentSearch}">
+        <table>
+            <tr>
+                <th>검색</th>
+                <td>
+                    <select name="sopt">
+                        <option value="ALL" th:field="*{sopt}">통합검색</option>
+                        <option value="gameTitle" th:field="*{sopt}">게임콘텐츠명</option>
+                        <option value="packageContents" th:field="*{sopt}">패키지내용</option>
+                    </select>
+                    <input type="text" name="skey" th:field="*{skey}">
+                </td>
+            </tr>
+            <td>
+                <button type="submit">검색하기</button>
+            </td>
+        </table>
+    </form>
 
+    <form method="post" autocomplete="off">
+        <table class="table_rows" border="1">
+            <thead>
+            <tr>
+                <th>게임콘텐츠명</th>
+                <th>썸네일</th>
+                <th>총게임레벨</th>
+                <th>구독 개월</th>
+                <th>구독가능기간</th>
+                <th>구독가능인원</th>
+                <th>정가</th>
+                <th>할인율</th>
+                <th>판매가</th>
+                <th>패키지내용</th>
+                <th>수정</th>
+                <th>삭제</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="item : ${items}" th:object="${item}">
+                <td th:text="*{gameTitle}"></td>
+                <td>
+                    <th:block th:if="*{thumbnail != null}" th:utext="*{@utils.printThumb(thumbnail.seq, 100, 100, 'image')}"></th:block>
+                </td>
+                <td th:text="*{totalGameLevels}"></td>
+                <td th:text="*{subscriptionMonths}"></td>
+                <td th:text="*{startDate + '~' + endDate}"></td>
+                <td th:text="*{maxSubscriber}"></td>
+                <td th:text="*{originalPrice}"></td>
+                <td th:text="*{discountRate}"></td>
+                <td th:text="*{salePrice}"></td>
+                <td th:text="*{packageContents}"></td>
+                <td>
+                    <a th:href="@{/admin/gamecontent/edit/{num}(num=*{num})}">
+                        <i class="xi-pen-o"></i>
+                    </a>
+                </td>
+                <td>
+                    <a th:href="@{/admin/gamecontent/delete/{num}(num=*{num})}" onclick="return confirm('정말 삭제하시겠습니까?');">
+                        <i class="xi-trash"></i>
+                    </a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <th:block th:replace="~{commons/_pagination::pagination}"></th:block>
+    </form>
 </section>
 </html>

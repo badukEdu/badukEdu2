@@ -15,6 +15,8 @@ import java.util.List;
 @RequestMapping("/subscription")
 @RequiredArgsConstructor
 public class SubscriptionController {
+
+    /* 구매한 게임콘텐츠 목록 */
     @GetMapping
     public String list(Model model) {
         commonProcess("list", model);
@@ -22,6 +24,7 @@ public class SubscriptionController {
         return "subscription/list";
     }
 
+    /* 게임컨텐츠 구매 할 수 있는 리스트*/
     @GetMapping("/subscribe")
     public String subscribe(Model model) {
         commonProcess("apply", model);

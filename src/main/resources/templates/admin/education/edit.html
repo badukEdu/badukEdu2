@@ -4,6 +4,15 @@
       layout:decorate="~{layouts/main}">
 
 <section layout:fragment="content">
+    <form method="post" th:action="@{/admin/education/save}" autocomplete="off" th:object="${requestEduData}">
+        <input type="hidden" name="mode" value="edit">
+        <input type="hidden" name="num" th:field="*{num}">
+        <th:block th:replace="~{admin/education/_form::form}"></th:block>
 
+        <div class="submit_btns">
+            <button type="reset" class="btn">다시입력</button>
+            <button type="submit" class="btn" onclick="return confirm('정말 수정하시겠습니까?')">수정하기</button>
+        </div>
+    </form>
 </section>
 </html>
