@@ -293,6 +293,18 @@ TeacherController {
         return "redirect:/teacher/homework";
     }
 
+    /** 숙제 삭제 처리 (예정)
+     *
+     * @param num
+     * @param model
+     * @return
+     */
+    @DeleteMapping()
+    public String deleteHomework(@PathVariable Long num, Model model) {
+
+        return "";
+    }
+
     /** 숙제 배포 (작업중)
      *
      * @param model
@@ -306,18 +318,22 @@ TeacherController {
         학습그룹 조회, 숙제 조회
         체크박스로 체크하여 숙제를 해당 인원들에게 전송.
          */
-//        Member member = memberUtil.getMember();
-//        if (member == null) {
-//            return "redirect:/member/login";
-//        }
-        //        List<Homework> items = homeworkInfoService.getList(member.getNum()); // 교육자가 작성한 숙제
+
+/*        Member member = memberUtil.getMember();
+        if (member == null) {
+            return "redirect:/member/login";
+        }
+        List<Homework> items = homeworkInfoService.getList(member.getNum()); // 교육자가 작성한 숙제
+ */
         List<Homework> items = homeworkInfoService.getList(); // 임시 전체조회
 
 
-//        ListData<StudyGroup> data = sgInfoService.getList(search);
-//
-//        model.addAttribute("list" , data.getItems());
-//        model.addAttribute("pagination", data.getPagination());
+        /* 가입한 멤버가 있다면 나오는 리스트
+        ListData<StudyGroup> data = sgInfoService.getList(search);
+
+        model.addAttribute("list" , data.getItems());
+        model.addAttribute("pagination", data.getPagination());
+         */
 
         model.addAttribute("items", items);
 
