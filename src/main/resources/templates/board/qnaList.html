@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/main}">
+
+<section layout:fragment="content">
+    <h2>QnA 조회</h2>
+    <form th:action="@{/board/list/qna}" method="post" autocomplete="off">
+        <table border="1">
+            <tr>
+                <th>선택</th>
+                <th>게시글 번호</th>
+                <th>문의 유형</th>
+                <th>제목</th>
+                <th>내용</th>
+                <th>답변 알림 신청 여부</th>
+<!--                <th>첨부파일명</th>-->
+<!--                <th>첨부파일경로</th>-->
+            </tr>
+
+            <tr th:each="qnaList : ${qnaList}" th:object="${qnaList}">
+                <td><input type="checkbox" name="selectQna" th:value="${qnaList}" /></td>
+                <td th:text="*{num}"></td>
+                <td th:text="*{type}"></td>
+                <td><a th:href="@{'/guid/qna/qnaDetail/' + ${qnaList.num}}" th:text="*{title}"></a></td>
+                <td th:text="*{content}"></td>
+                <td th:text="*{answerAlert}"></td>
+<!--                <td th:text="*{fileName}"></td>-->
+<!--                <td th:text="*{fileAddress}"></td>-->
+            </tr>
+        </table>
+    </form>
+</section>
+</html>

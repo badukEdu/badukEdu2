@@ -16,7 +16,7 @@ public class Menu {
                 new MenuDetail("intro", "사이트 소개", "/guide/intro"),
                 new MenuDetail("use", "이용 가이드", "/guide/use"),
                 new MenuDetail("product", "상품 소개", "/guide/product"),
-                new MenuDetail("faq", "FaQ", "/board/list/faq") ,
+                new MenuDetail("notice&faq", "Notice & FaQ", "/board/list/noticeFaq") ,
                 new MenuDetail("qna", "Q&A", "/board/list/qna")
         ));
 
