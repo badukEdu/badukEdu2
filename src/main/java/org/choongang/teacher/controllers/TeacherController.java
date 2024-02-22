@@ -226,6 +226,11 @@ TeacherController {
 
     ////////////////////////////////////////////////////////////////////////////////////////////
 
+    /** 숙제 리스트
+     *
+     * @param model
+     * @return
+     */
     @GetMapping("/homework")
     public String homeworkList(Model model) {
         commonProcess("homework_list", model);
@@ -244,7 +249,12 @@ TeacherController {
         return "teacher/homework/list";
     }
 
-    // 숙제 생성
+    /** 숙제 생성
+     *
+     * @param form
+     * @param model
+     * @return
+     */
     @GetMapping("/homework/add")
     public String addHomework(@ModelAttribute RequestHomework form, Model model) {
         commonProcess("homework_add", model);
@@ -252,7 +262,12 @@ TeacherController {
         return "teacher/homework/add";
     }
 
-    // 숙제 수정
+    /** 숙제 수정
+     *
+     * @param num
+     * @param model
+     * @return
+     */
     @GetMapping("/homework/edit/{num}")
     public String editHomework(@PathVariable("num") Long num, Model model) {
         commonProcess("homework_edit", model);
@@ -264,24 +279,57 @@ TeacherController {
         return "teacher/homework/edit";
     }
 
-    // 숙제 생성 또는 수정 처리
+    /** 숙제 작성/수정 처리
+     *
+     * @param form
+     * @param model
+     * @return
+     */
     @PostMapping("/homework/save")
     public String saveHomework(@Valid RequestHomework form, Model model) {
-        System.out.println("/////mode: " + form.getMode());
+
         homeworkSaveService.save(form);
 
         return "redirect:/teacher/homework";
     }
 
-    // 숙제 배포
+    /** 숙제 배포 (작업중)
+     *
+     * @param model
+     * @return
+     */
     @GetMapping("/homework/distribute")
-    public String distributeHomework(Model model) {
+    public String distributeHomework(@ModelAttribute StGroupSearch search, Model model) {
         commonProcess("distribute", model);
+
+        /*
+        학습그룹 조회, 숙제 조회
+        체크박스로 체크하여 숙제를 해당 인원들에게 전송.
+         */
+//        Member member = memberUtil.getMember();
+//        if (member == null) {
+//            return "redirect:/member/login";
+//        }
+        //        List<Homework> items = homeworkInfoService.getList(member.getNum()); // 교육자가 작성한 숙제
+        List<Homework> items = homeworkInfoService.getList(); // 임시 전체조회
+
+
+//        ListData<StudyGroup> data = sgInfoService.getList(search);
+//
+//        model.addAttribute("list" , data.getItems());
+//        model.addAttribute("pagination", data.getPagination());
+
+        model.addAttribute("items", items);
 
         return "teacher/homework/distribute";
     }
 
 
+    /** 숙제 배포 처리 (예정)
+     *
+     * @param model
+     * @return
+     */
     @PostMapping("/homework/distribute")
     public String distributeHomeworkPs(Model model) {
         commonProcess("distribute", model);
