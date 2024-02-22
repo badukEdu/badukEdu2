@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:fragment="save">
+    <table>
+<!--        <input type="hidden" th:field="*{memberNum}">-->
+        <tr>
+            <th>제목</th>
+            <td>
+<!--                <input type="text" th:field="*{name}">-->
+            </td>
+        </tr>
+        <tr>
+            <th>내용</th>
+            <td>
+<!--                <input type="text" name="content" th:field="*{content}">-->
+            </td>
+        </tr>
+        <th>학습레벨</th>
+        <td>
+<!--            <input type="text" th:field="*{studyLevel}">-->
+        </td>
+        </tr>
+        <tr>
+            <th>제출마감일</th>
+            <td>
+<!--                <input type="date" th:field="*{deadLine}">-->
+            </td>
+        </tr>
+    </table>
+</th:block>
+</html>
