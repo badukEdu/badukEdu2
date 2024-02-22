@@ -22,7 +22,7 @@
         <input type="hidden" name="gameTitle" th:value="${session.game.gameTitle}">
         <fieldset>
             <legend>게임</legend>
-            <table >
+            <table class="table_cols">
                 <tr>
                     <td>게임 컨텐츠 :</td>
                     <td th:text="*{gameTitle}">
@@ -46,7 +46,7 @@
         </fieldset>
     </div>
     <hr>
-    <table>
+    <table class="table_cols">
         <h1>상세</h1>
         <tr>
             <td>교육자명</td>
