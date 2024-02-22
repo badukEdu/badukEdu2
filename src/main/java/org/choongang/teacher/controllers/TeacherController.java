@@ -299,12 +299,12 @@ TeacherController {
      * @param model
      * @return
      */
-    @DeleteMapping()
+/*    @DeleteMapping
     public String deleteHomework(@PathVariable Long num, Model model) {
 
         return "";
     }
-
+*/
     /** 숙제 배포 (작업중)
      *
      * @param model
