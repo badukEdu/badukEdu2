@@ -2,6 +2,10 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <th:div th:fragment="form" th:if="${requestStGroup != null}" th:object="${requestStGroup}">
+
+    <h2>스터디그룹 상세 등록</h2>
+<!--
+
     <h1>UI-W-011</h1>
     <div th:if="${mode == 'edit'}">
         <input type="hidden" name="num" th:value="*{num}">
@@ -47,7 +51,7 @@
         <tr>
             <td>교육자명</td>
             <td>
-                <!--<p th:text="${session.member.name}"></p>-->
+                &lt;!&ndash;<p th:text="${session.member.name}"></p>&ndash;&gt;
                 <div th:if="${mode.equals('add2')}">
                     <p th:text="${session.member.name}"></p>
                 </div>
@@ -101,6 +105,8 @@
             </td>
         </tr>
     </table>
+-->
+
 
 </th:div>
 </html>

@@ -18,11 +18,14 @@ import java.util.List;
 @Controller
 @RequestMapping("/member")
 @RequiredArgsConstructor
-@SessionAttributes({"requestJoin"})
+@SessionAttributes({"EmailAuthVerified", "requestJoin"})
 public class MemberController implements ExceptionProcessor {
 
     private final JoinService joinService;
     private final JoinValidator joinValidator;
+//    private final FindPwService findPwService;
+//    private final FindIdService findIdService;
+//    private final FindIdValidator findIdValidator;
 
     @GetMapping
     public String join() {
@@ -36,20 +39,20 @@ public class MemberController implements ExceptionProcessor {
         return "member/join_step1";
     }
 
-    @PostMapping("/join/step2")
-    public String joinStep2(@Valid RequestJoin form, Errors errors, Model model) {
-        commonProcess("join", model);
-
-        form.setMode("step1");
-
-        joinValidator.validate(form, errors);
-
-        if (errors.hasErrors()) {
-            return "member/join_step1";
-        }
-
-        return "member/join_step2";
-    }
+//    @PostMapping("/join/step2")
+//    public String joinStep2(@Valid RequestJoin form, Errors errors, Model model) {
+//        commonProcess("join", model);
+//
+//        form.setMode("step1");
+//
+//        joinValidator.validate(form, errors);
+//
+//        if (errors.hasErrors()) {
+//            return "member/join_step1";
+//        }
+//
+//        return "member/join_step2";
+//    }
 
     @PostMapping("/join")
     public String joinPs(@Valid RequestJoin form, Errors errors,Model model, SessionStatus status) {
