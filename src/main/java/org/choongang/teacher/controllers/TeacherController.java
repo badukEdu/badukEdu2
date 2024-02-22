@@ -1,13 +1,16 @@
 package org.choongang.teacher.controllers;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.choongang.member.MemberUtil;
+import org.choongang.teacher.homework.controllers.RequestHomework;
+import org.choongang.teacher.homework.entities.Homework;
+import org.choongang.teacher.homework.service.HomeworkInfoService;
+import org.choongang.teacher.homework.service.HomeworkSaveService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +19,16 @@ import java.util.List;
 @RequestMapping("/teacher")
 @RequiredArgsConstructor
 public class TeacherController {
+
+
+
+    ////////////////////////////////// homework
+    private final HomeworkInfoService homeworkInfoService;
+    private final HomeworkSaveService homeworkSaveService;
+    ////////////////////////////
+
+    private final MemberUtil memberUtil;
+
 
     // 그룹 목록
     @GetMapping("/group")
@@ -67,42 +80,67 @@ public class TeacherController {
         return "redirect:/teacher/group/accept";
     }
 
+
+    ////////////////////////////////////////////////////////
+
     @GetMapping("/homework")
     public String homeworkList(Model model) {
         commonProcess("homework_list", model);
+
+        // 내가(한 교육자가) 담당하는 그룹만 조회할 수 있도록
+//        Member member = memberUtil.getMember();
+//        if (member == null) {
+//            return "redirect:/member/login";
+//        }
+
+//        List<Homework> items = homeworkInfoService.getList(member.getNum());
+
+        List<Homework> items = homeworkInfoService.getList();
+        model.addAttribute("items", items);
 
         return "teacher/homework/list";
     }
 
     // 숙제 생성
     @GetMapping("/homework/add")
-    public String addHomework(Model model) {
+    public String addHomework(@ModelAttribute RequestHomework form, Model model) {
         commonProcess("homework_add", model);
 
         return "teacher/homework/add";
     }
 
-    // 숙제 배포
+    // 숙제 수정
     @GetMapping("/homework/edit/{num}")
     public String editHomework(@PathVariable("num") Long num, Model model) {
         commonProcess("homework_edit", model);
+
+        RequestHomework form = homeworkInfoService.getForm(num);
+
+        form.setMode("edit");
+        form.setNum(num);
+
+        model.addAttribute("requestForm", form);
 
         return "teacher/homework/edit";
     }
 
     // 숙제 생성 또는 수정 처리
     @PostMapping("/homework/save")
-    public String saveHomework(Model model) {
+    public String saveHomework(@Valid RequestHomework form, Model model) {
+        System.out.println("/////mode: " + form.getMode());
+        homeworkSaveService.save(form);
 
         return "redirect:/teacher/homework";
     }
 
+    // 숙제 배포
     @GetMapping("/homework/distribute")
     public String distributeHomework(Model model) {
         commonProcess("distribute", model);
 
         return "teacher/homework/distribute";
     }
+
 
     @PostMapping("/homework/distribute")
     public String distributeHomeworkPs(Model model) {
