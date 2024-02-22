@@ -1,0 +1,8 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <nav th:fragment="menu">
+        <a th:href="@{/basic}" th:classappend="${menuCode} == 'config' ? 'on'">
+            <i class="xi-cog"></i> 기본설정
+        </a>
+    </nav>
+</html>

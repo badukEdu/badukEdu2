@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <meta name="_csrf" th:content="${_csrf.token}">
+    <meta name="_csrf_header" th:content="${_csrf.headerName}">
+    <meta th:if="${siteConfig.siteDescription != null}" name="description" th:content="${siteConfig.siteDescription}">
+    <meta th:if="${siteConfig.siteKeywords != null}" name="keywords" th:content="${siteConfig.siteKeywords}">
+    <title>
+        <th:block th:if="${pageTitle != null}" th:text="${pageTitle + ' - '}"></th:block>
+        <th:block th:if="${siteConfig.siteTitle != null}" th:text="${siteConfig.siteTitle}"></th:block>
+    </title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
+    <link rel="stylesheet" type="text/css" th:href="@{/style/style.css?v={v}(v=${siteConfig.cssJsVersion})}">
+    <link rel="stylesheet" type="text/css"
+          th:each="cssFile : ${addCss}"
+          th:href="@{/style/{file}.css?v={v}(file=${cssFile}, v=${siteConfig.cssJsVersion})}">
+
+    <th:block layout:fragment="addCss"></th:block>
+
+
+    <script th:src="@{/js/layer.js?v={v}(v=${siteConfig.cssJsVersion})}"></script>
+    <script th:src="@{/js/common.js?v={v}(v=${siteConfig.cssJsVersion})}"></script>
+    <script th:each="jsFile : ${addScript}"
+            th:src="@{/js/{file}.js?v={v}(file=${jsFile}, v=${siteConfig.cssJsVersion})}"></script>
+    <th:block layout:fragment="addScript"></th:block>
+</head>
+<body>
+    <header th:replace="~{outlines/header::common}"></header>
+
+    <main>
+        <aside th:replace="~{outlines/_submenu::menu}"></aside>
+        <section>
+            <nav th:replace="~{outlines/_menu::menu}"></nav>
+            <section layout:fragment="content"></section>
+        </section>
+    </main>
+    <iframe name="ifrmProcess" class="dn"></iframe>
+</body>
+</html>
