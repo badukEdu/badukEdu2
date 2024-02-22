@@ -7,6 +7,7 @@
     <h1>스터디그룹 가입 승인 / UI-W-014 </h1>
 
 
+
     <form method="get" th:action="@{/teacher/JoinStudyGroup/accept}" th:object="${joinStGroupSearch}" >
         <table >
             <tr>
@@ -37,7 +38,7 @@
 
         </tr>
         <form method="post" th:action="@{/teacher/studyGroup/accept}" autocomplete="off">
-            <!--<input type="hidden" name="userNum" th:value="${session.member.num}">-->
+            &lt;!&ndash;<input type="hidden" name="userNum" th:value="${session.member.num}">&ndash;&gt;
 
             <tr th:each="item : ${list}" th:object="${item}">
                 <td>
@@ -65,8 +66,7 @@
         </form>
     </table>
 
+    <th:block th:replace="~{common/_pagination::pagination}"></th:block>
 
-
-    <th:block th:replace="~{commons/_pagination::pagination}"></th:block>
 </section>
 </html>

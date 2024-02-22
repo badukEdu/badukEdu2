@@ -62,6 +62,7 @@ public class MemberInfoService implements UserDetailsService {
                 .build();
     }
 
+
     /**
      * 회원 목록 (나중에 리스트 뽑을때 쓰는 용도)
      *

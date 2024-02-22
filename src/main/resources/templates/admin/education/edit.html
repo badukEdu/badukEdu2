@@ -4,6 +4,7 @@
       layout:decorate="~{layouts/main}">
 
 <section layout:fragment="content">
+    <h2>교육 자료 수정</h2>
     <form method="post" th:action="@{/admin/education/save}" autocomplete="off" th:object="${requestEduData}">
         <input type="hidden" name="mode" value="edit">
         <input type="hidden" name="num" th:field="*{num}">
