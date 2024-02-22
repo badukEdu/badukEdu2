@@ -3,10 +3,10 @@ package org.choongang.education.group.services.joinStG;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
-import org.choongang.education.stgroup.entities.JoinStudyGroup;
-import org.choongang.education.stgroup.repositories.JoinStGroupRepository;
+import org.choongang.education.group.entities.JoinStudyGroup;
+import org.choongang.education.group.repositories.JoinStGroupRepository;
 import org.choongang.member.entities.Member;
-import org.choongang.teacher.stGrooup.services.stGroup.SGInfoService;
+import org.choongang.teacher.group.services.stGroup.SGInfoService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

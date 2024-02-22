@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<th:div th:fragment="form" th:if="${requestStGroup != null}" th:object="${requestStGroup}">
+
+
+    <div th:if="${mode == 'edit'}">
+        <input type="hidden" name="num" th:value="*{num}">
+    </div>
+    <table border="1">
+        <tr>
+            <th>선택</th>
+            <th>컨텐츠명</th>
+            <th>썸네일</th>
+            <th>구독 기간</th>
+            <th>개월</th>
+            <th>(게임)학습가능인원</th>
+            <th>(스터디그룹)그룹 배정 인원 ???</th>
+            <th>잔여분M/M ???</th>
+        </tr>
+        <tr th:each="game : ${items}" th:object="${game}">
+            <td>
+                <input type="radio" name="num" th:value="*{num}">
+            </td>
+            <th th:text="*{gameTitle}"></th>
+            <td>
+                <th:block th:if="*{thumbnail != null}" th:utext="*{@utils.printThumb(thumbnail.seq, 100, 100, 'image')}"></th:block>
+
+            </td>
+            <th th:text="*{startDate+ '~' +endDate}"></th>
+            <th th:text="*{subscriptionMonths}"></th>
+            <th th:text="*{maxSubscriber}"></th>
+            <th >???</th>
+            <th >???</th>
+        </tr>
+    </table>
+    <div th:text="${emsg}"></div>
+    <hr>
+    <th:block th:replace="~{common/_pagination::pagination}"></th:block>
+</th:div>
+</html>

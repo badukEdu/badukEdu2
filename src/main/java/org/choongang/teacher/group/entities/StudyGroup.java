@@ -55,9 +55,11 @@ public class StudyGroup {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "gameContentNum")
     private GameContent gameContent; //게임 번호
+/*
 
     @OneToMany(mappedBy = "studyGroup", fetch = FetchType.LAZY)
     private List<Homework> homeworks;
+*/
 
     @OneToMany(mappedBy = "studyGroup", fetch = FetchType.LAZY)
     private List<JoinStudyGroup> joinStudyGroups;

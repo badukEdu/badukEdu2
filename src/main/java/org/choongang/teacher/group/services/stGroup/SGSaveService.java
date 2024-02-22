@@ -4,9 +4,9 @@ import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.choongang.admin.gamecontent.service.GameContentInfoService;
 import org.choongang.member.entities.Member;
-import org.choongang.teacher.stGrooup.controllers.RequestStGroup;
-import org.choongang.teacher.stGrooup.entities.StudyGroup;
-import org.choongang.teacher.stGrooup.repositories.StGroupRepository;
+import org.choongang.teacher.group.controllers.RequestStGroup;
+import org.choongang.teacher.group.entities.StudyGroup;
+import org.choongang.teacher.group.repositories.StGroupRepository;
 import org.springframework.stereotype.Service;
 
 

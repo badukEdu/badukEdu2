@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+
+
+<th:div th:fragment="detail" >
+
+    <fieldset>
+        <legend>상세 / UI-W-013</legend>
+        <table>
+            <tr>
+                <td>게임 컨텐츠 :</td>
+                <td th:text="${item.gameTitle}"></td>
+            </tr>
+            <tr>
+                <td>최대 인원 :</td>
+                <td th:text="${item.maxSubscriber}"></td>
+            </tr>
+            <tr>
+                <td>기간 : </td>
+                <td th:text="${item.startDate + ' ~'  +item.endDate}"></td>
+            </tr>
+            <tr>
+                <td>달성 레벨 : </td>
+                <td th:text="${item.maxLevel}"></td>
+            </tr>
+            <tr>
+                <td>현재 참여 인원 :</td>
+                <td>ooo</td>
+            </tr>
+        </table>
+
+    </fieldset>
+
+</th:div>
+</html>

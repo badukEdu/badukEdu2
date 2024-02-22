@@ -4,6 +4,69 @@
       layout:decorate="~{layouts/main}">
 
 <section layout:fragment="content">
+    <h1>스터디그룹 가입 승인 / UI-W-014 </h1>
 
+
+    <form method="get" th:action="@{/teacher/JoinStudyGroup/accept}" th:object="${joinStGroupSearch}" >
+        <table >
+            <tr>
+                <th>키워드(user 완성되면 -> 교육자명으로 검색 가능하도록)</th>
+                <td>
+                    <select name="sopt">
+                        <option value="ALL" th:field="*{sopt}">통합검색</option>
+                        <option value="groupName" th:field="*{sopt}">스터디그룹명</option>
+                        <option value="memberName" th:field="*{sopt}">회원명</option>
+                    </select>
+                    <input type="text" name="skey" th:field="*{skey}">
+                </td>
+                <td>
+                    <button type="submit">검색하기</button>
+                </td>
+            </tr>
+        </table>
+    </form>
+    <hr>
+
+    <table border="1">
+        <tr>
+            <th>승인여부</th>
+            <th>스터디그룹명</th>
+            <th>학생이름</th>
+            <th>연락처</th>
+            <th>승인요청일자</th>
+
+        </tr>
+        <form method="post" th:action="@{/teacher/studyGroup/accept}" autocomplete="off">
+            <!--<input type="hidden" name="userNum" th:value="${session.member.num}">-->
+
+            <tr th:each="item : ${list}" th:object="${item}">
+                <td>
+                    <div th:if="*{accept}">
+                        <input type="checkbox" name="n" checked  onClick="return false">
+                        승인완료
+                    </div>
+                    <div th:if="*{!accept}">
+                        <input type="checkbox" name="chk" th:value="*{num}"> 미승인
+                    </div>
+                </td>
+                <td th:text="*{studyGroup.name}" ></td>
+                <td th:text="*{member.name}"></td>
+                <td th:text="*{member.tel}"></td>
+                <td th:text="*{SDate}"></td>
+            </tr>
+
+            <tr >
+                <td colspan="6">
+                    <button type="submit">가입 승인</button>
+                </td>
+
+            </tr>
+
+        </form>
+    </table>
+
+
+
+    <th:block th:replace="~{commons/_pagination::pagination}"></th:block>
 </section>
 </html>

@@ -3,7 +3,7 @@ package org.choongang.education.group.entities;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.choongang.member.entities.Member;
-import org.choongang.teacher.stGrooup.entities.StudyGroup;
+import org.choongang.teacher.group.entities.StudyGroup;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;

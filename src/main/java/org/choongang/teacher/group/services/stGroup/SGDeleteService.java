@@ -1,7 +1,7 @@
 package org.choongang.teacher.group.services.stGroup;
 
 import lombok.RequiredArgsConstructor;
-import org.choongang.teacher.stGrooup.repositories.StGroupRepository;
+import org.choongang.teacher.group.repositories.StGroupRepository;
 import org.springframework.stereotype.Service;
 
 @Service
