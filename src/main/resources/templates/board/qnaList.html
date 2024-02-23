@@ -5,7 +5,7 @@
 
 <section layout:fragment="content">
     <h2>QnA 조회</h2>
-    <form th:action="@{/board/list/qna}" method="post" autocomplete="off">
+    <form th:action="@{/guide/qnaList}" method="post" autocomplete="off">
         <table border="1">
             <tr>
                 <th>선택</th>
@@ -22,7 +22,7 @@
                 <td><input type="checkbox" name="selectQna" th:value="${qnaList}" /></td>
                 <td th:text="*{num}"></td>
                 <td th:text="*{type}"></td>
-                <td><a th:href="@{'/guid/qna/qnaDetail/' + ${qnaList.num}}" th:text="*{title}"></a></td>
+                <td><a th:href="@{'/guide/qnaDetail/' + ${qnaList.num}}" th:text="*{title}"></a></td>
                 <td th:text="*{content}"></td>
                 <td th:text="*{answerAlert}"></td>
 <!--                <td th:text="*{fileName}"></td>-->
@@ -30,7 +30,7 @@
             </tr>
         </table>
     </form>
-    <form th:action="@{/board/qna/list}" method="post" autocomplete="off">
+    <form th:action="@{/guide/add}" method="get" autocomplete="off">
         <button type="submit">등록하기</button>
     </form>
 </section>
