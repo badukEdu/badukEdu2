@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/main}">
+
+<section layout:fragment="content">
+<h2>문의 수정</h2>
+<form th:action="@{/guid/qna/qnaEdit}" method="post" th:object="${requestQnaAdd}" autocomplete="off" enctype="multipart/form-data">
+    <table>
+        <tr>
+            <td>문의 유형</td>
+            <td>
+                <select id="type" th:field="*{type}" name="type">
+                    <option value="회원 정보" th:selected="${requestQnaAdd.type == '회원 정보'}">회원 정보</option>
+                    <option value="상품 구매" th:selected="${requestQnaAdd.type == '상품 구매'}">상품 구매</option>
+                    <option value="사이트 이용" th:selected="${requestQnaAdd.type == '사이트 이용'}">사이트 이용</option>
+                    <option value="기타" th:selected="${requestQnaAdd.type == '기타'}">기타</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>제목</td>
+            <td><input type="text" id="title" name="title" th:value="${requestQnaAdd.title}" placeholder="제목을 입력하세요"></td>
+        </tr>
+        <tr>
+            <td>답변 알림</td>
+            <td>
+                <input type="radio" id="receive" th:checked="${requestQnaAdd.answerAlert != null && requestQnaAdd.answerAlert}" value="true" name="Receive">
+                <label for="receive">받기</label>
+                <input type="radio" id="doNotReceive" th:checked="${requestQnaAdd.answerAlert != null && !requestQnaAdd.answerAlert}" value="false" name="doNotReceive">
+                <label for="doNotReceive">받지 않기</label>
+            </td>
+        </tr>
+        <tr>
+            <td>내용</td>
+            <td><textarea id="content" name="content" placeholder="내용을 입력하세요." cols="30" rows="20" th:text="${requestQnaAdd.content}"></textarea></td>
+        </tr>
+
+        <!-- 기존 파일 정보 표시 -->
+        <tr>
+            <td>첨부파일</td>
+            <td th:text="${requestQnaAdd.fileName}"></td>
+        </tr>
+
+        <!-- 파일 수정 필드 (선택) -->
+        <tr>
+            <td>첨부파일 변경</td>
+            <td><input type="file" id="uploadFile" name="uploadFile" accept=".doc,.docx,.jpg,.png,.pdf"></td>
+        </tr>
+
+        <tr>
+            <td colspan="2"><input type="submit" value="수정"></td>
+        </tr>
+    </table>
+    <!-- 게시글 번호는 hidden 필드로 전달 -->
+    <input type="hidden" name="num" th:value="${requestQnaAdd.num}">
+</form>
+</section>>
+</html>
