@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/main}">
+
+<section layout:fragment="content">
+<style>
+
+    #uploadFile {
+        display: none;
+    }
+
+    #fileInfo {
+        display: inline-block;
+    }
+
+    .dropArea {
+        border: 2px dashed #ccc;
+        padding: 20px;
+        text-align: center;
+        cursor: pointer;
+    }
+
+    .dropArea.dragover {
+        background-color: #f0f0f0;
+    }
+
+    .calendar {
+        display: none;
+    }
+
+    .noticeRow {
+        display: table-row;
+    }
+
+    .faqRow {
+        display:none;
+    }
+</style>
+
+
+<!--
+ 운영 관리자가 이용하는 화면
+ 사이트 운영에 관한 안내문 공지 및 자주 문의하는 내용 등록 화면
+
+ 문의 조회 및 답변 등록화면 추가 구성 필요
+-->
+
+<h2>문의 등록</h2>
+<form th:action="@{/board/qna/add}" method="post" th:object="${RequestQnaAdd}" autocomplete="off" enctype="multipart/form-data">
+    <table>
+        <tr>
+            <td>문의 유형</td>
+            <td>
+                <select id="type" th:field="*{type}" name="type">
+                    <option value="" hidden>문의 유형을 선택하세요</option>
+                    <option value="회원 정보">회원 정보</option>
+                    <option value="상품 구매">상품 구매</option>
+                    <option value="사이트 이용">사이트 이용</option>
+                    <option value="기타">기타</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>제목</td>
+            <td><input type="text" id="title" name="title" th:field="*{title}" placeholder="제목을 입력하세요"></td>
+        </tr>
+        <tr>
+            <td>답변 알림</td>
+            <td>
+                <input type="radio" id="receive" th:field="*{answerAlert}" value="true" name="Receive">
+                <label for="receive">받기</label>
+                <input type="radio" id="doNotReceive" th:field="*{answerAlert}" value="false" name="doNotReceive">
+                <label for="doNotReceive">받지 않기</label>
+            </td>
+        </tr>
+        <tr>
+            <td>내용</td>
+            <td><textarea id="content" name="content" th:field="*{content}" placeholder="내용을 입력하세요." cols="30" rows="20"></textarea></td>
+        </tr>
+
+        <tr>
+            <th>첨부파일(파일 1개당 최대 첨부용량 5MB)</th>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <div id="dropArea" class="dropArea">
+                    <p>마우스로 파일을 끌어 놓으세요.</p>
+                    <input type="file" id="uploadFile" accept=".doc,.docx, .jpg, .png, .pdf" multiple>
+                </div>
+                <div id="fileInfo">선택된 파일 없음</div>
+                <button id="clearButton">비우기</button>
+            </td>
+        </tr>
+
+        <tr>
+            <td colspan="2"><input type="submit" value="문의 등록"></td>
+        </tr>
+    </table>
+</form>
+
+<script>
+    /* 새로 만든 파일 첨부 버튼 S */
+document.addEventListener('DOMContentLoaded', function() {
+document.getElementById('uploadButton').addEventListener('click', function() {
+    document.getElementById('uploadFile').click();
+});
+});
+/* 새로 만든 파일 첨부 버튼 E */
+
+
+/* 파일 드롭 영역 이벤트 처리 S */
+document.addEventListener('DOMContentLoaded', function() {
+// 파일 드롭 영역 선택
+const dropArea = document.getElementById('dropArea');
+
+// 파일 선택 input 요소
+const fileInput = document.getElementById('uploadFile');
+
+// 파일 정보를 표시하는 요소
+const fileInfo = document.getElementById('fileInfo');
+
+// 파일 드롭 이벤트 처리
+dropArea.addEventListener('dragover', function(e) {
+    e.preventDefault();
+    dropArea.classList.add('dragover');
+});
+
+dropArea.addEventListener('dragleave', function() {
+    dropArea.classList.remove('dragover');
+});
+
+dropArea.addEventListener('drop', function(e) {
+    e.preventDefault();
+    dropArea.classList.remove('dragover');
+
+    // 드롭된 파일 정보 가져오기
+    const files = e.dataTransfer.files;
+
+    // 파일 정보 표시
+    if (files.length > 0) {
+        const fileName = files[0].name;
+        fileInfo.textContent = '선택된 파일: ' + fileName;
+
+//            const formData = new FormData();
+//            for (const file of files) {
+//                formData.append("file", file);
+//            }
+
+    } else {
+        fileInfo.textContent = '선택된 파일 없음';
+    }
+});
+});
+/* 파일 드롭 영역 이벤트 처리 E */
+
+
+/* 파일 첨부 및 검증 S */
+document.addEventListener('DOMContentLoaded', function() {
+// 파일 선택 input 요소
+const fileInput = document.getElementById('uploadFile');
+
+/*
+파일 선택 버튼 필요 시 주석 풀고 사용
+const uploadButton = document.getElementById('uploadButton');
+*/
+
+// 파일 정보를 표시하는 요소
+const fileInfo = document.getElementById('fileInfo');
+
+// 파일이 선택되면 파일 정보를 표시하는 함수
+fileInput.addEventListener('change', function() {
+    // 파일이 선택되었는지 확인
+    if (fileInput.files.length > 0) {
+        // 선택된 파일의 정보 가져오기
+        const selectedFile = fileInput.files[0];
+        const fileName = selectedFile.name;
+        const fileSize = selectedFile.size; // 파일 크기 (바이트 단위)
+
+        // 파일 크기를 MB 단위로 변환
+        const fileSizeInMB = fileSize / (1024 * 1024);
+
+        // 파일 이름 표시
+        fileInfo.textContent = '첨부된 파일: ' + fileName;
+
+        // 파일 크기가 30MB를 초과하는지 확인
+        if (fileSizeInMB > 30) {
+            // 경고 메시지 표시
+            alert('첨부할 수 있는 파일의 크기를 초과하였습니다.');
+            // 파일 선택 취소
+            fileInput.value = "";
+            // 파일 정보 초기화
+            fileInfo.textContent = '선택된 파일 없음';
+        }
+    } else {
+        // 파일이 선택되지 않은 경우 버튼 초기값으로 설정
+        fileInfo.textContent = '선택된 파일 없음';
+    }
+});
+
+// 비우기 버튼 클릭 시 첨부된 파일 지우기
+   const clearButton = document.getElementById('clearButton');
+   clearButton.addEventListener('click', function(event) {
+       event.preventDefault(); // 버튼 클릭 시 기본 동작인 submit 방지
+       fileInput.value = ""; // 파일 선택란 비우기
+       fileInfo.textContent = '선택된 파일 없음'; // 파일 정보 초기화
+    });
+});
+/* 파일 첨부 및 검증 E */
+
+
+/* 라디오 버튼 2번 클릭 시 선택 취소 S */
+document.addEventListener("DOMContentLoaded", function() {
+    const radioButtons = document.querySelectorAll('input[type="radio"]');
+
+    radioButtons.forEach(function(radioButton) {
+        radioButton.addEventListener("click", function() {
+            if (this.previousValue === "checked") {
+                this.checked = false;
+                this.previousValue = false;
+            } else {
+                this.previousValue = this.checked ? "checked" : "unchecked";
+            }
+        });
+    });
+});
+/* 라디오 버튼 2번 클릭 시 선택 취소 E */
+
+
+/* 분류에 따라 보여지는 form 변경 S */
+document.addEventListener('DOMContentLoaded', function() {
+// 분류 선택 요소
+const categorySelect = document.getElementById('type');
+// 공통 필드
+const allFields = document.querySelectorAll('.all');
+// 공지사항 관련 필드
+const noticeFields = document.querySelectorAll('.noticeRow');
+// FAQ 관련 필드
+const faqFields = document.querySelectorAll('.faqRow');
+
+// 초기 상태 설정
+toggleFields(categorySelect.value);
+
+// 분류 선택 시 이벤트 리스너 추가
+categorySelect.addEventListener('change', function() {
+    toggleFields(categorySelect.value);
+});
+
+// 필드를 보이거나 숨기는 함수 정의
+function toggleFields(category) {
+    if (category === 'notice') {
+        noticeFields.forEach(function(field) {
+            field.style.display = 'table-row'; // 공지사항 필드 표시
+        });
+        faqFields.forEach(function(field) {
+            field.style.display = 'none'; // FAQ 필드 숨김
+        });
+    } else if (category === 'faq') {
+        noticeFields.forEach(function(field) {
+            field.style.display = 'none'; // 공지사항 필드 숨김
+        });
+        faqFields.forEach(function(field) {
+            field.style.display = 'table-row'; // FAQ 필드 표시
+        });
+    }
+}
+});
+/* 분류에 따라 보여지는 form 변경 E */
+
+
+/* 게시 예정일 선택 시 달력 표출 S */
+document.addEventListener('DOMContentLoaded', function() {
+// 게시 예정일 라디오 버튼
+const expectedPostingDate = document.getElementById('expectedPostingDate');
+// 등록 즉시 게시 라디오 버튼
+const immediately = document.getElementById('immediately');
+// 달력
+const calendar = document.getElementById('calendar');
+// 등록하기 버튼
+const addButton = document.getElementById('addNoticeFaq');
+
+ // 내일 날짜 가져오기
+const TOMORROW = new Date();
+TOMORROW.setDate(TOMORROW.getDate() + 1);
+const TOMORROW_FORMATTED = TOMORROW.toISOString().split('T')[0];
+
+// 게시 예정일 선택 시 이벤트 리스너 추가
+    expectedPostingDate.addEventListener('change', function() {
+        if (this.checked) {
+            calendar.style.display = "inline-block";
+            // 내일부터 선택 가능하도록 min 속성 설정
+            calendar.setAttribute("min", TOMORROW_FORMATTED);
+        } else {
+            calendar.style.display = "none";
+            // min 속성 제거
+            calendar.removeAttribute("min");
+        }
+    });
+
+    // 등록 즉시 게시 선택 시 달력 숨기기
+    immediately.addEventListener('change', function() {
+        if (this.checked) {
+            calendar.style.display = "none";
+            expectedPostingDate.checked = false; // 게시 예정일 체크 해제
+        }
+    });
+});
+/* 게시 예정일 선택 시 달력 표출 E */
+</script>
+</section>
+</html>
