@@ -9,9 +9,10 @@
     <form method="post" th:action="@{/teacher/homework/save}" autocomplete="off" th:object="${requestHomework}">
 
         <th:block th:replace="~{teacher/homework/_form2::save}"></th:block>
-
+        <div class="submit_btns">
         <button type="reset" class="sbtn">다시하기</button>
         <button type="submit" class="sbtn on">등록하기</button>
+        </div>
     </form>
 
 </section>
