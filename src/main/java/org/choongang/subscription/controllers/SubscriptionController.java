@@ -2,6 +2,9 @@ package org.choongang.subscription.controllers;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.choongang.admin.education.controllers.EduDataSearch;
+import org.choongang.admin.education.entities.EduData;
+import org.choongang.admin.education.service.EduDataInfoService;
 import org.choongang.admin.gamecontent.controllers.GameContentSearch;
 import org.choongang.admin.gamecontent.entities.GameContent;
 import org.choongang.admin.gamecontent.service.GameContentInfoService;
@@ -24,6 +27,7 @@ import java.util.Map;
 @SessionAttributes({"items", "totalPayment"})
 public class SubscriptionController {
 
+    private final EduDataInfoService eduDataInfoService;
     private final GameContentInfoService gameContentInfoService;
     private final OrderValidator orderValidator;
 
@@ -81,6 +85,18 @@ public class SubscriptionController {
         status.setComplete();
 
         return "redirect:/subscription";
+    }
+
+    /* 관리자가 등록한 교육 자료 리스트 */
+    @GetMapping("/eduList")
+    public String eduList(@ModelAttribute EduDataSearch search, Model model) {
+        commonProcess("list", model);
+
+        ListData<EduData> data = eduDataInfoService.getList(search);
+        model.addAttribute("items", data.getItems());
+        model.addAttribute("pagination", data.getPagination());
+
+        return "subscription/eduList";
     }
 
     private void commonProcess(String mode, Model model) {
