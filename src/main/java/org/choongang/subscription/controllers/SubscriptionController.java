@@ -1,24 +1,31 @@
 package org.choongang.subscription.controllers;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.choongang.admin.gamecontent.controllers.GameContentSearch;
 import org.choongang.admin.gamecontent.entities.GameContent;
 import org.choongang.admin.gamecontent.service.GameContentInfoService;
+import org.choongang.admin.gamecontent.service.GameContentSaveService;
 import org.choongang.commons.ListData;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.support.SessionStatus;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/subscription")
 @RequiredArgsConstructor
+@SessionAttributes({"items", "totalPayment"})
 public class SubscriptionController {
 
     private final GameContentInfoService gameContentInfoService;
+    private final OrderValidator orderValidator;
 
     /* 구매한 게임콘텐츠 목록 */
     @GetMapping
@@ -49,21 +56,31 @@ public class SubscriptionController {
 
     /* 게임컨텐츠 결제 */
     @PostMapping("/apply")
-    public String subscribePs(@ModelAttribute GameContentSearch search, Model model,
-                              @RequestParam(name = "chk") List<Long> chks) {
+    public String apply(@ModelAttribute RequestOrder form, Model model,
+                        @RequestParam(name = "chk") List<Long> nums) {
         commonProcess("apply", model);
 
-        List<GameContent> items = new ArrayList<>();
-        Long totalMoney =0L;
-        for(Long num : chks){
-            items.add(gameContentInfoService.getById(num));
-            totalMoney += gameContentInfoService.getById(num).getSalePrice();
+        Map<String, Object> data = gameContentInfoService.getOrderSummary(nums);
+        model.addAllAttributes(data);
+
+
+        return "subscription/apply";
+    }
+
+    @PostMapping("/applyPs")
+    public String applyPs(@Valid RequestOrder form, Errors errors, Model model, SessionStatus status) {
+
+        orderValidator.validate(form, errors);
+
+        if (errors.hasErrors()) {
+            return "subscription/apply";
         }
 
-        model.addAttribute("totalMoney", totalMoney);
-        model.addAttribute("items", items);
+        // 주문 접수 처리
 
-        return "subscription/list";
+        status.setComplete();
+
+        return "redirect:/subscription";
     }
 
     private void commonProcess(String mode, Model model) {
