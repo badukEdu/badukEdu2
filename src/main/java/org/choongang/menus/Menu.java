@@ -28,6 +28,8 @@ public class Menu {
                 new MenuDetail("eduList", "교육자료", "/subscription/eduList")
         ));
 
+
+
         // 학습서비스 / 권한 - STUDENT , ADMIN
         menus.put("education", Arrays.asList(
                 new MenuDetail("join", "학습그룹 가입 신청", "/education/join"),
