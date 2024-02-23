@@ -24,7 +24,7 @@ public class QnaController {
     @GetMapping("/qnaList")
     public String list(@ModelAttribute Qna form, Model model) {
 
-        commonProcess("qnaList", model);
+        commonProcess("qna", model);
 
         List<Qna> qnaList = qnaService.getList();
         model.addAttribute("qnaList", qnaList);
