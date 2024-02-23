@@ -84,6 +84,7 @@
           <option name="authority" id="authority_USER" th:field="*{authority}" th:value="USER">일반회원</option>
           <option name="authority" id="authority_TEACHER" th:field="*{authority}" th:value="TEACHER">교육자</option>
           <option name="authority" id="authority_STUDENT" th:field="*{authority}" th:value="STUDENT">학습자</option>
+          <option name="authority" id="authority_ADMIN" th:field="*{authority}" th:value="ADMIN">관리자</option>
         </select>
         <div class="error" th:each="err : ${#fields.errors('authority')}" th:text="${err}"></div>
     </dl>
