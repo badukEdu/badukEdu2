@@ -40,6 +40,7 @@ public class SGSaveService {
             //s.setGameContent(vetaGameInfo.getById(form.getGameContentNum()));
             s.setGameContent(gameContentInfoService.getById(form.getGameContentNum()));
         }else{
+            System.out.println(form.getNum()+"tttttttttttttttttttttttttttt");
             s = sgInfoService.getById(form.getNum());
 
             s.setName(form.getName());
