@@ -20,6 +20,7 @@ import org.choongang.teacher.group.services.stGroup.SGInfoService;
 import org.choongang.teacher.group.services.stGroup.SGSaveService;
 import org.choongang.teacher.homework.controllers.RequestHomework;
 import org.choongang.teacher.homework.entities.Homework;
+import org.choongang.teacher.homework.service.HomeworkDeleteService;
 import org.choongang.teacher.homework.service.HomeworkInfoService;
 import org.choongang.teacher.homework.service.HomeworkSaveService;
 import org.springframework.stereotype.Controller;
@@ -55,6 +56,7 @@ TeacherController {
     ////////////////////////////////// homework
     private final HomeworkInfoService homeworkInfoService;
     private final HomeworkSaveService homeworkSaveService;
+    private final HomeworkDeleteService homeworkDeleteService;
     ////////////////////////////
 
     private final MemberUtil memberUtil;
@@ -299,12 +301,14 @@ TeacherController {
      * @param model
      * @return
      */
-/*    @DeleteMapping
-    public String deleteHomework(@PathVariable Long num, Model model) {
+    @GetMapping("/homework/delete/{num}")
+    public String deleteHomework(@PathVariable("num") Long num, Model model) {
 
-        return "";
+        homeworkDeleteService.delete(num);
+
+        return "redirect:/teacher/homework";
     }
-*/
+
     /** 숙제 배포 (작업중)
      *
      * @param model
