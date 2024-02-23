@@ -57,7 +57,7 @@ public class SGInfoService {
         BooleanBuilder andBuilder = new BooleanBuilder();
 
         //교육자는 본인 스터디그룹만 볼 수 있음
-        if(((Member)session.getAttribute("member")).getAuthority() == Authority.TEACHER){
+        if(memberUtil.isTeacher()){
             andBuilder.and(studyGroup.member.eq((Member) session.getAttribute("member")));
         }
 
