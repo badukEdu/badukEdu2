@@ -5,7 +5,7 @@
 
 <section layout:fragment="content">
     <h2>공지사항 및 FAQ 조회</h2>
-    <form th:action="@{/board/list/noticeFaq}" method="post" autocomplete="off">
+    <form th:action="@{/admin/board/list/noticeFaq}" method="post" autocomplete="off">
         <table>
             <tr>
                 <th>검색</th>
@@ -46,8 +46,8 @@
 <!--                <th>첨부파일명</th>-->
 <!--                <th>첨부파일경로</th>-->
 <!--                <th>게시 타입</th>-->
-<!--                <th>질의</th>-->
-<!--                <th>답변</th>-->
+                <th>질의</th>
+                <th>답변</th>
             </tr>
 
             <tr th:each="noticeList : ${noticeList}" th:object="${noticeList}">
@@ -70,12 +70,11 @@
 <!--                <td th:text="*{fileName}"></td>-->
 <!--                <td th:text="*{fileAddress}"></td>-->
 <!--                <td th:text="*{postingType}"></td>-->
-<!--                <td th:text="*{question}"></td>-->
-<!--                <td th:text="*{answer}"></td>-->
+                <td th:text="*{question}"></td>
+                <td th:text="*{answer}"></td>
             </tr>
         </table>
         <div>
-
         </div>
     </form>
 </section>

@@ -7,6 +7,9 @@ import org.choongang.admin.board.repositories.BoardRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.util.List;
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class BoardService {
@@ -14,6 +17,7 @@ public class BoardService {
     private final BoardRepository boardRepository;
 
     /* 게시글(Notice, FaQ) 등록 및 수정 서비스 S */
+
     public void save(RequestBoardPosts form) {
 
         Long num = form.getNum();
@@ -42,4 +46,47 @@ public class BoardService {
     }
 
     /* 게시글(Notice, FaQ) 등록 및 수정 서비스 E */
+
+
+
+    /* 등록된 게시글 조회(정렬 기준 X, 등록 순) S */
+
+    public List<Notice_> getList() {
+        List<Notice_> noticeList = boardRepository.findAll();
+
+        return noticeList;
+    }
+
+    /* 등록된 게시글 조회(정렬 기준 X, 등록 순) E */
+
+
+
+    /* 노출 여부를 기준으로 게시물 조회 S */
+
+    public List<Notice_> getListOrderByOnTop() {
+        return boardRepository.findByOrderByOnTopDesc();
+    }
+
+    /* 등록된 게시글 조회(정렬 기준 X, 등록 순) S */
+
+    /* 게시글 번호로 상세 페이지 조회 S */
+    public Optional<Notice_> findByNum(Long num) {
+        return boardRepository.findById(num);
+    }
+
+    /* 게시글 번호로 상세 페이지 조회 E */
+
+
+
+    /* 게시글 삭제 S */
+
+    public void deleteById(Long num) {
+
+        boardRepository.deleteById(num);
+    }
+
+    /* 게시글 삭제 E */
+
+
+
 }

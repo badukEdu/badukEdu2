@@ -1,18 +1,23 @@
 package org.choongang.admin.board.controllers;
 
 import lombok.RequiredArgsConstructor;
+import org.choongang.admin.board.entities.Notice_;
+import org.choongang.admin.board.service.BoardService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Optional;
 
 @Controller("adminBoardController")
 @RequestMapping("/admin/board")
 @RequiredArgsConstructor
 public class BoardController {
 
+    private final BoardService boardService;
 
+    /* 공지사항 및 FAQ 게시글 등록 및 수정 S */
 
     @GetMapping("posts")
     public String board_posts(Model model) {
@@ -24,7 +29,109 @@ public class BoardController {
     @PostMapping("posts")
     public String board_postsPs(RequestBoardPosts form, Model model) {
 
-        return "admin/board/posts";
+        boardService.save(form);
+
+        return "redirect:/admin/board/list/noticeFaq";
     }
 
+    /* 공지사항 및 FAQ 게시글 등록 및 수정 E */
+
+
+
+    /* 공지사항 및 FAQ 게시글 목록 조회 S */
+
+    @GetMapping("/list/noticeFaq")
+    public String adminnoticeFaqList(@ModelAttribute Notice_ form, Model model) {
+
+        List<Notice_> noticeList = boardService.getListOrderByOnTop();
+        model.addAttribute("noticeList", noticeList);
+
+        return "board/noticeFaqList";
+    }
+
+    /* 공지사항 및 FAQ 게시글 목록 조회 E */
+
+
+    /* 공지 사항 및 FAQ 게시글 상세 조회 S */
+
+
+    @GetMapping("/detail/{num}")
+    public String detail(@PathVariable Long num, Model model){
+
+        // 경로 변수 num이 null이거나 음수인 경우에는 admin/board/list/noticeQna로 리다이렉션
+        if (num <= 0) {
+            return "redirect:/admin/board/list/noticeQna";
+        }
+
+        // 게시글 번호를 사용하여 해당 게시글 정보를 가져온다.
+        Optional<Notice_> noticeDetail = boardService.findByNum(num);
+
+        // 게시글이 존재하는 경우에는 모델에 추가하고 admin/board/noitceDetail 페이지를 반환
+        if (noticeDetail.isPresent()) {
+            model.addAttribute("noticeDetail", noticeDetail.get());
+            model.addAttribute("requestBoardPosts", new RequestBoardPosts());
+
+            return "admin/board/postsDetail";
+        }
+
+        // 해당 게시글을 찾을 수 없는 경우에는 admin/board/list/noticeQna로 리다이렉션
+        return "redirect:/admin/board/list/noticeQna";
+    }
+
+
+    /* 공지 사항 및 FAQ 게시글 상세 조회 E */
+
+
+    /* 공지사항 및 FAQ 게시글 수정 S */
+
+    @GetMapping("/edit/{num}")
+    public String editForm(@PathVariable Long num, Model model) {
+
+        // 게시글 번호를 사용하여 해당 게시글 정보를 가져온다.
+        Optional<Notice_> noticeDetail = boardService.findByNum(num);
+
+        // 게시글이 존재하는 경우에는 모델에 추가하고 admin/board/noticeEdit 페이지를 반환
+        if (noticeDetail.isPresent()) {
+            model.addAttribute("requestBoardPosts", noticeDetail.get());
+            return "admin/board/postsEdit";
+        }
+
+        // 해당 게시글을 찾을 수 없는 경우에는 front/board/list로 리다이렉션
+        return "redirect:/admin/board/list/noticeFaq";
+    }
+
+    @PostMapping("/edit")
+    public String editBoard(RequestBoardPosts form, Model model) {
+        // 기존 게시물 정보 가져오기
+        Optional<Notice_> existingNotice = boardService.findByNum(form.getNum());
+
+        // 기존 게시물이 존재하는 경우에만 수정
+        if (existingNotice.isPresent()) {
+            Notice_ notice = existingNotice.get();
+
+            // 기존 게시물 내용 수정
+            notice.setTitle(form.getTitle());
+            notice.setPostingType(form.getPostingType());
+            notice.setQuestion(form.getQuestion());
+            notice.setAnswer(form.getAnswer());
+            notice.setContent(form.getContent());
+
+            // 수정된 게시물 저장
+            boardService.save(form);
+        }
+
+        return "redirect:/admin/board/list/noticeFaq";
+    }
+
+    /* 공지사항 및 FAQ 게시글 수정 E */
+
+
+    /* 공지사항 및 FAQ 게시글 삭제 S */
+
+    @GetMapping("/delete/{num}")
+    public String deleteBoard(@PathVariable Long num) {
+        boardService.deleteById(num);
+        return "redirect:/admin/board/list/noticeFaq";
+    }
+    /* 공지사항 및 FAQ 게시글 삭제 E */
 }
