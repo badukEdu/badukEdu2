@@ -9,9 +9,8 @@
 
         <th:block th:replace="~{teacher/homework/_form::homeworkList}"></th:block>
 
-    <!--        <th:block th:replace="~{front/teacher/studyGroup/_detail::detail}"></th:block>-->
         교육자가 등록한 학습그룹
-        <table class="table_cols">
+        <table class="table_rows mb30">
             <thead>
                 <tr>
                     <td  colspan="4">
@@ -25,7 +24,7 @@
             </thead>
             <tbody>
                 <tr>
-                    <th><input type="checkbox" id="checkall"></th>
+                    <th width="40"><input type="checkbox" id="checkall"></th>
                     <th>학습자명</th>
                     <th>전화번호</th>
                     <th>현재 레벨</th>
@@ -35,53 +34,10 @@
                 </tr>
             </tbody>
         </table>
-        <button type="reset" class="sbtn">다시하기</button>
-        <button type="submit" class="sbtn on">전송하기</button>
+        <div class="submit_btns">
+            <button type="reset" class="sbtn">다시하기</button>
+            <button type="submit" class="sbtn on">전송하기</button>
+        </div>
     </form>
 </section>
-<script>
-    window.addEventListener("DOMContentLoaded", function() {
-        /* 전체 선택 기능 S */
-        const checkall = document.getElementById("checkall");
-        checkall.addEventListener("change", function() {
-            const chks = document.getElementsByName("chk");
-             const checkedNums = [];
-            for (const chk of chks) {
-                chk.checked = checkall.checked;
-                const num = chk.value;
-                console.log(num);
-                checkedNums.push(num);
-            }
-        });
-        /* 전체 선택 기능 E */
-
-    });
-
-    function updateTable() {
-            const selectedOption = document.getElementById("options").value;
-
-            let selectedIndex = document.getElementById("options").getAttribute("data-index");
-            console.log("Selected Option Value: " + selectedOption);
-            console.log("Selected Option Index: " + selectedIndex);
-
-            // 선택 옵션이 없으면
-            if (selectedOption == "") {
-                return;
-            }
-
-            var xhr = new XMLHttpRequest();
-            xhr.onreadystatechange = function() {
-                if (this.readyState == 4 && this.status == 200) {
-                    // 서버로부터 응답을 받으면 테이블 업데이트
-
-                    document.getElementById("group_member").innerHTML = this.responseText;
-                }
-            };
-
-            // 선택한 값에 따라 새로운 내용을 생성합니다.
-            // 서버로 요청 보내기
-            xhr.open("GET", "/teacher/homework/get_table_data?option=" + selectedOption, true);
-            xhr.send();
-    }
-</script>
 </html>
