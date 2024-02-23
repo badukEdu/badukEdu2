@@ -1,8 +1,6 @@
 package org.choongang.configs;
 
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.choongang.member.Authority;
 import org.choongang.member.MemberUtil;
 import org.choongang.member.service.LoginFailureHandler;
 import org.choongang.member.service.LoginSuccessHandler;
@@ -50,7 +48,7 @@ public class SecurityConfig {
         c.requestMatchers("/member/**", "/guide/**", "/js/**", "/style/**", "/api/**", "/").permitAll()
             //.requestMatchers("/admin").hasAuthority("ADMIN")
             .requestMatchers(new AntPathRequestMatcher("/subscription/**")).hasAnyAuthority("TEACHER", "USER", "ADMIN")
-            .requestMatchers(new AntPathRequestMatcher("/education/**")).hasAnyAuthority("STUDENT ", "ADMIN")
+            .requestMatchers(new AntPathRequestMatcher("/education/**")).hasAnyAuthority("STUDENT", "ADMIN")
             .requestMatchers(new AntPathRequestMatcher("/teacher/**")).hasAnyAuthority("TEACHER", "ADMIN")
             .requestMatchers(new AntPathRequestMatcher("/student/**")).hasAnyAuthority("STUDENT", "ADMIN")
             .requestMatchers(new AntPathRequestMatcher("/admin/**")).hasAnyAuthority("ADMIN")
