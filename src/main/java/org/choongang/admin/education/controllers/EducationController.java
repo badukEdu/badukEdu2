@@ -67,6 +67,12 @@ public class EducationController {
         return "admin/education/edit";
     }
 
+    /**
+     * 교육 자료 삭제
+     * @param num
+     * @param model
+     * @return
+     */
     @GetMapping("/delete/{num}")
     public String delete(@PathVariable("num") Long num, Model model) {
         eduContentDeleteService.delete(num);
