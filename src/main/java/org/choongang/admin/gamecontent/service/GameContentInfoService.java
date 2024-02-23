@@ -22,7 +22,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.springframework.data.domain.Sort.Order.desc;
 
@@ -99,5 +101,40 @@ public class GameContentInfoService {
         List<FileInfo> items = fileInfoService.getListDone(data.getGid());
         if(items != null && !items.isEmpty()) data.setThumbnail(items.get(0));
 
+    }
+
+    public List<GameContent> getList(List<Long> nums) {
+
+        QGameContent gameContent = QGameContent.gameContent;
+        List<GameContent> items = (List<GameContent>)gameContentRepository.findAll(gameContent.num.in(nums));
+
+        items.forEach(this::addInfo);
+
+        return items;
+    }
+
+    /**
+     * 결제 요약 정보
+     *
+     * @param nums : 게임 콘텐츠 번호
+     *
+     * @return
+     *          items : 선택한 게임콘텐츠
+     *          totalPayment : 결제 총합
+     */
+    public Map<String, Object> getOrderSummary(List<Long> nums) {
+        List<GameContent> items = getList(nums);
+
+        if (items == null || items.isEmpty()) {
+            throw new GameContentNotFoundException();
+        }
+
+        long totalPayment = items.stream().mapToLong(GameContent::getSalePrice).sum();
+
+        Map<String, Object> data = new HashMap<>();
+        data.put("items", items);
+        data.put("totalPayment", totalPayment);
+
+        return data;
     }
 }

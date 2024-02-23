@@ -6,25 +6,28 @@
 <section layout:fragment="content">
     <h2>내 구독 상품 조회</h2>
     <form method="get" th:action="@{/subscription}" autocomplete="off" th:object="${gameContentSearch}">
-        <table>
+        <table class="table_cols">
             <tr>
-                <th>검색</th>
+                <th width="180">검색</th>
                 <td>
-                    <select name="sopt">
-                        <option value="ALL" th:field="*{sopt}">통합검색</option>
-                        <option value="gameTitle" th:field="*{sopt}">게임콘텐츠명</option>
-                        <option value="packageContents" th:field="*{sopt}">패키지내용</option>
-                    </select>
-                    <input type="text" name="skey" th:field="*{skey}">
+                    <div class="input_grp">
+                        <select name="sopt">
+                            <option value="ALL" th:field="*{sopt}">통합검색</option>
+                            <option value="gameTitle" th:field="*{sopt}">게임콘텐츠명</option>
+                            <option value="packageContents" th:field="*{sopt}">패키지내용</option>
+                        </select>
+                        <input type="text" name="skey" th:field="*{skey}">
+                    </div>
                 </td>
             </tr>
-            <td>
-                <button type="submit">검색하기</button>
-            </td>
         </table>
+        <div class="submit_btns">
+            <button type="submit" class="btn">검색하기</button>
+        </div>
     </form>
 
-    <table border="1">
+    <table class="table_rows">
+        <thead>
         <tr>
             <th>번호</th>
             <th>콘텐츠명</th>
@@ -33,17 +36,19 @@
             <th>구매일자</th>
             <th>학습그룹 등록내역</th>
         </tr>
-
-        <tr th:each="item : ${items}" th:object="${item}">
-            <td th:text="*{num}"></td>
-            <td th:text="*{gameTitle}"></td>
-            <td>
-                <th:block th:if="*{thumbnail != null}" th:utext="*{@utils.printThumb(thumbnail.seq, 100, 100, 'image')}"></th:block>
-            </td>
-            <td th:text="*{originalPrice + '원' + startDate + '~' + endDate + '(' + subscriptionMonths + '개월)'}"></td>
-            <td>구매일자</td>
-            <td>학습그룹 등록내역</td>
-        </tr>
+        </thead>
+        <tbody>
+            <tr th:each="item : ${items}" th:object="${item}">
+                <td th:text="*{num}"></td>
+                <td th:text="*{gameTitle}"></td>
+                <td>
+                    <th:block th:if="*{thumbnail != null}" th:utext="*{@utils.printThumb(thumbnail.seq, 100, 100, 'image')}"></th:block>
+                </td>
+                <td th:text="*{originalPrice + '원' + startDate + '~' + endDate + '(' + subscriptionMonths + '개월)'}"></td>
+                <td>구매일자</td>
+                <td>학습그룹 등록내역</td>
+            </tr>
+        </tbody>
     </table>
     <th:block th:replace="~{common/_pagination::pagination}"></th:block>
 </section>
