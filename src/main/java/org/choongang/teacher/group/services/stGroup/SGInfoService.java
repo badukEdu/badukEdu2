@@ -43,7 +43,12 @@ public class SGInfoService {
     private final GameContentInfoService gameContentInfoService ;
     private final MemberUtil memberUtil;
 
-
+    /**
+     * 교육자는 본인이 생성한 스터디 그룹 목록만 가져옴.
+     * 나머지는 모든 스터디 그ㅜㅂ 목록 가져옴
+     * @param search
+     * @return
+     */
     public ListData<StudyGroup> getList(StGroupSearch search){
 
         int page = Utils.onlyPositiveNumber(search.getPage(), 1);
@@ -65,20 +70,46 @@ public class SGInfoService {
         String skey = search.getSkey().trim();
 
         if(StringUtils.hasText(skey)){
-
             BooleanExpression groupNameCond = studyGroup.name.contains(skey);
             BooleanExpression gameNameCond = studyGroup.gameTitle.contains(skey);
-            if(sopt.equals("groupName")){
-                andBuilder.and(groupNameCond);
-            } else if (sopt.equals("gameName")) {
-                andBuilder.and(gameNameCond);
-            } else if (sopt.equals("ALL")) {
-                BooleanBuilder orBuilder = new BooleanBuilder();
-                orBuilder.or(groupNameCond)
-                        .or(gameNameCond);
 
-                andBuilder.and(orBuilder);
+            if(memberUtil.isStudent()){
+                BooleanExpression teacherNameCond = studyGroup.teacherName.contains(skey);
+
+                if(sopt.equals("groupName")){
+                    andBuilder.and(groupNameCond);
+                } else if (sopt.equals("gameName")) {
+                    andBuilder.and(gameNameCond);
+                } else if (sopt.equals("teacherName")) {
+                    andBuilder.and(teacherNameCond);
+                }else if (sopt.equals("ALL")) {
+                    BooleanBuilder orBuilder = new BooleanBuilder();
+                    orBuilder.or(groupNameCond)
+                            .or(gameNameCond)
+                            .or(teacherNameCond);
+
+                    andBuilder.and(orBuilder);
+                }
+            } else {
+
+                if(sopt.equals("groupName")){
+                    andBuilder.and(groupNameCond);
+                } else if (sopt.equals("gameName")) {
+                    andBuilder.and(gameNameCond);
+                } else if (sopt.equals("ALL")) {
+                    BooleanBuilder orBuilder = new BooleanBuilder();
+                    orBuilder.or(groupNameCond)
+                            .or(gameNameCond);
+
+                    andBuilder.and(orBuilder);
+                }
             }
+
+
+
+
+            /////////
+
 
         }
 /*
