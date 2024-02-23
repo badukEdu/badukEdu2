@@ -4,11 +4,12 @@
 <th:div th:fragment="form" th:if="${requestStGroup != null}" th:object="${requestStGroup}">
 
     <h2>스터디 그룹 등록 / 게임 선택</h2>
-<!--
+
     <div th:if="${mode == 'edit'}">
         <input type="hidden" name="num" th:value="*{num}">
     </div>
-    <table border="1">
+    <table class="table_rows">
+        <thead>
         <tr>
             <th>선택</th>
             <th>컨텐츠명</th>
@@ -19,6 +20,8 @@
             <th>(스터디그룹)그룹 배정 인원 ???</th>
             <th>잔여분M/M ???</th>
         </tr>
+        </thead>
+        <tbody>
         <tr th:each="game : ${items}" th:object="${game}">
             <td>
                 <input type="radio" name="num" th:value="*{num}">
@@ -34,11 +37,12 @@
             <th >???</th>
             <th >???</th>
         </tr>
+        </tbody>
     </table>
     <div th:text="${emsg}"></div>
     <hr>
     <th:block th:replace="~{common/_pagination::pagination}"></th:block>
-    -->
+
 
 </th:div>
 </html>

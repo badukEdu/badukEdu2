@@ -35,7 +35,9 @@ out/
 
 ### VS Code ###
 .vscode/
-
+application.*
+application-prod.*
+application-test.*
 application-dev.*
 
 src/main/generated/
