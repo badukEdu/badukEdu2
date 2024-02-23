@@ -45,10 +45,6 @@ TeacherController {
     private final GameContentInfoService gameContentInfoService;
     private final JoinSTGInfoService joinSTGInfoService;
     private final JoinSTGSaveService joinSTGSaveService;
-
-
-
-
     //group DI SSS
 
 
@@ -72,8 +68,6 @@ TeacherController {
     @GetMapping("/group")
     public String groupList(Model model , @ModelAttribute StGroupSearch search) {
         commonProcess("list", model);
-
-
 
         ListData<StudyGroup> data = sgInfoService.getList(search);
         model.addAttribute("list" , data.getItems());
