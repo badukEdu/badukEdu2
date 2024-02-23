@@ -3,7 +3,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/main}">
 <section layout:fragment="content">
-<h2>숙제 전송</h2>
+<h2>숙제 배포</h2>
     <form method="post" th:action="@{/teacher/homework/post}" autocomplete="off">
 
 
@@ -11,10 +11,10 @@
 
     <!--        <th:block th:replace="~{front/teacher/studyGroup/_detail::detail}"></th:block>-->
         교육자가 등록한 학습그룹
-        <table>
+        <table class="table_cols">
             <thead>
                 <tr>
-                    <td colspan="4">
+                    <td  colspan="4">
                     <label for="options">학습그룹</label>
                         <select id="options" name="options" onChange="updateTable()">
                             <option>선택</option>
@@ -25,18 +25,18 @@
             </thead>
             <tbody>
                 <tr>
-                    <td><input type="checkbox" id="checkall"></td>
-                    <td>학습자명</td>
-                    <td>전화번호</td>
-                    <td>현재 레벨</td>
+                    <th><input type="checkbox" id="checkall"></th>
+                    <th>학습자명</th>
+                    <th>전화번호</th>
+                    <th>현재 레벨</th>
                 </tr>
                 <tr id="group_member" th:each="item : ${list}" th:object="${item}">
                     <td colspan="4">학습그룹을 선택해주세요.</td>
                 </tr>
             </tbody>
         </table>
-        <button type="reset">다시하기</button>
-        <button type="submit">전송</button>
+        <button type="reset" class="sbtn">다시하기</button>
+        <button type="submit" class="sbtn on">전송하기</button>
     </form>
 </section>
 <script>

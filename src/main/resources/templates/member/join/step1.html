@@ -6,7 +6,7 @@
 <section layout:fragment="content">
 
 <h1 th:text="#{약관동의}"></h1>
-<form name="frmJoin" method="post" th:action="@{/member/confirmation}" autocomplete="off" th:object="${requestJoin}">
+<form name="frmJoin" method="post" th:action="@{/member/join/step2}" autocomplete="off" th:object="${requestJoin}">
 
   <div class="agree">
     <input type="checkbox" name="agree" value="true" id="agree" th:field="*{agree}">
