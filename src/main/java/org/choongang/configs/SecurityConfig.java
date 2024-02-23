@@ -16,6 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+
 @Configuration
 @EnableMethodSecurity
 @RequiredArgsConstructor
@@ -44,46 +45,52 @@ public class SecurityConfig {
         
         /* 인가 설정 S - 접근 통제  작업 완료 후 // 제거 필수 !! */
 
-//      http.authorizeHttpRequests(c -> {
-//        c.requestMatchers("/member/**", "/admin/**").permitAll() //작업완료 후 "/admin/**" 제거
-//            //.requestMatchers("/admin").hasAuthority("ADMIN") //작업완료 후 주석제거
-//            .requestMatchers("/teacher").hasAnyAuthority("TEACHER", "ADMIN")
-//            .requestMatchers("/student").hasAnyAuthority("STUDENT", "ADMIN")
-//            .anyRequest().authenticated(); // 나머지는 회원 전용
-//
-//      });
-//
-//      http.exceptionHandling(c ->
-//          // 미로그인시
-//          c.authenticationEntryPoint((req, res, e) -> {
-//                String URL = req.getRequestURI();
-//                if (URL.indexOf("/admin") != -1) { // 관리자 페이지
-//                  res.sendError(HttpServletResponse.SC_UNAUTHORIZED);
-//                } else { // 회원전용 페이지
-//                  res.sendRedirect(req.getContextPath() + "/member/login");
-//                }
-//              })
-//              // 로그인 후 권한 X
-//              .accessDeniedHandler((req, res, e) -> {
-//                String requestURL = req.getRequestURI();
-//                if (requestURL.indexOf("/admin") != -1) {
-//                  res.sendError(HttpServletResponse.SC_UNAUTHORIZED);
-//                } else {
-//                  String redirectURL =  "/";
-//                  if (memberUtil.isLogin()) {
-//                    Authority authority = memberUtil.getMember().getAuthority();
-//                    if (authority == Authority.TEACHER) {
-//                      redirectURL =  "/teacher";
-//                    } else if (authority == Authority.STUDENT) {
-//                      redirectURL = "/student";
-//                    }
-//
-//                  }
-//
-//                  res.sendRedirect(req.getContextPath() + redirectURL);
-//                }
-//              })
-//      );
+
+      http.authorizeHttpRequests(c -> {
+        c.requestMatchers("/member/**", "/guide/**", "/js/**", "/style/**", "/api/**", "/").permitAll()
+            //.requestMatchers("/admin").hasAuthority("ADMIN")
+            .requestMatchers(new AntPathRequestMatcher("/subscription/**")).hasAnyAuthority("TEACHER", "USER", "ADMIN")
+            .requestMatchers(new AntPathRequestMatcher("/education/**")).hasAnyAuthority("STUDENT ", "ADMIN")
+            .requestMatchers(new AntPathRequestMatcher("/teacher/**")).hasAnyAuthority("TEACHER", "ADMIN")
+            .requestMatchers(new AntPathRequestMatcher("/student/**")).hasAnyAuthority("STUDENT", "ADMIN")
+            .requestMatchers(new AntPathRequestMatcher("/admin/**")).hasAnyAuthority("ADMIN")
+            .requestMatchers(new AntPathRequestMatcher("/basic/**")).hasAnyAuthority("ADMIN")
+            .anyRequest().authenticated(); // 나머지는 회원 전용
+
+      });
+
+      /*
+      http.exceptionHandling(c ->
+          // 미로그인시
+          c.authenticationEntryPoint((req, res, e) -> {
+                String URL = req.getRequestURI();
+                if (URL.indexOf("/admin") != -1) { // 관리자 페이지
+                  res.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+                } else { // 회원전용 페이지
+                  res.sendRedirect(req.getContextPath() + "/member/login");
+                }
+              })
+              // 로그인 후 권한 X
+              .accessDeniedHandler((req, res, e) -> {
+                String requestURL = req.getRequestURI();
+                if (requestURL.indexOf("/admin") != -1) {
+                  res.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+                } else {
+                  String redirectURL =  "/";
+                  if (memberUtil.isLogin()) {
+                    Authority authority = memberUtil.getMember().getAuthority();
+                    if (authority == Authority.TEACHER) {
+                      redirectURL =  "/";
+                    } else if (authority == Authority.STUDENT) {
+                      redirectURL = "/";
+                    }
+
+                  }
+
+                  res.sendRedirect(req.getContextPath() + redirectURL);
+                }
+              })
+      );
 
         /* http.authorizeHttpRequests(c -> {
            c.requestMatchers("/mypage/**").authenticated() // 회원 전용
