@@ -28,8 +28,8 @@ public class MemberUtil {
 
     public boolean isUser() {
 
-        //return isLogin() && getMember().getAuthority() == Authority.USER;
-        return true;
+        return isLogin() && getMember().getAuthority() == Authority.USER;
+//        return true;
     }
 
 
