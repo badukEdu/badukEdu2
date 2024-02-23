@@ -43,7 +43,8 @@ public class StudyGroup {
     private String gameTitle;   //게임컨텐츠명
 
     @Column
-    private String teacherName;   //게임컨텐츠명
+    private String teacherName;   //선생님명
+
 
     ////////////////////////////////
 

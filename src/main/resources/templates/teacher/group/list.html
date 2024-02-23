@@ -34,7 +34,7 @@
             <i class="xi-plus"></i> 생성
         </a>
     </div>
-    <form name="frmList" method="post" th:action="@{/teacher/group}" autocomplete="off">
+    <form name="frmList" method="post" th:action="@{/teacher}" autocomplete="off">
         <input type="hidden" name="_method" value="delete">
     <table class="table_rows">
         <thead>
@@ -63,12 +63,19 @@
                     <a th:href="@{/teacher/group/delete/{num}(num=*{num})}" class="sbtn">삭제</a>
                 </td>
             </tr>
+        <tr>
+
+        </tr>
 
         </tbody>
     </table>
+
         <div class="table_actions">
             <button type="button" class="sbtn blue form_action" data-mode='delete' data-form-name="frmList">선택 스터디 그룹 삭제</button>
         </div>
+        <a th:href="@{/teacher/group/add}" class="sbtn">
+            <i class="xi-plus"></i> 생성
+        </a>
         <th:block th:replace="~{common/_pagination::pagination}"></th:block>
     </form>
 
