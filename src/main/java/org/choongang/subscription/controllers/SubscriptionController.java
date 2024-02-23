@@ -8,7 +8,10 @@ import org.choongang.admin.education.service.EduDataInfoService;
 import org.choongang.admin.gamecontent.controllers.GameContentSearch;
 import org.choongang.admin.gamecontent.entities.GameContent;
 import org.choongang.admin.gamecontent.service.GameContentInfoService;
-import org.choongang.admin.gamecontent.service.GameContentSaveService;
+import org.choongang.admin.order.controllers.OrderSearch;
+import org.choongang.admin.order.entities.OrderItem;
+import org.choongang.admin.order.service.OrderApplyService;
+import org.choongang.admin.order.service.OrderInfoService;
 import org.choongang.commons.ListData;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,15 +32,17 @@ public class SubscriptionController {
 
     private final EduDataInfoService eduDataInfoService;
     private final GameContentInfoService gameContentInfoService;
+    private final OrderApplyService orderApplyService;
     private final OrderValidator orderValidator;
+    private final OrderInfoService orderInfoService;
 
     /* 구매한 게임콘텐츠 목록 */
     @GetMapping
-    public String list(@ModelAttribute GameContentSearch search,
+    public String list(@ModelAttribute OrderSearch search,
                        Model model) {
         commonProcess("list", model);
 
-        ListData<GameContent> data = gameContentInfoService.getList(search);
+        ListData<OrderItem> data = orderInfoService.getList(search);
         model.addAttribute("items", data.getItems());
         model.addAttribute("pagination", data.getPagination());;
 
@@ -81,10 +86,21 @@ public class SubscriptionController {
         }
 
         // 주문 접수 처리
+        orderApplyService.apply(form);
 
         status.setComplete();
 
         return "redirect:/subscription";
+    }
+
+    /* 주문 목록 */
+    @GetMapping("/orders")
+    public String orderList(Model model) {
+        commonProcess("orders", model);
+
+
+
+        return "subscription/orders";
     }
 
     /* 관리자가 등록한 교육 자료 리스트 */

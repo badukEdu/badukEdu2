@@ -27,6 +27,8 @@ public class OrderItem extends Base {
     @JoinColumn(name="gameContentNum")
     private GameContent gameContent;
 
+    private long subscriptionMonths; // 구독개월수
+
     @Column(length=100)
     private String gameTitle; // 게임명
     private long salePrice; // 게임 판매가
