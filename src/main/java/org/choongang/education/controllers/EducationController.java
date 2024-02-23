@@ -97,7 +97,7 @@ public class EducationController {
         if (mode.equals("list")) {
             pageTitle = "신청목록::" + pageTitle;
         } else if (mode.equals("join")) {
-            pageTitle = "학습그룹 가입신청::" + pageTitle;
+            pageTitle = "학습그룹 가입신청::" + pageTitle ;
             addScript.add("education/form");
         } else if (mode.equals("cancal")) {
             pageTitle = "신청취소::" + pageTitle;
