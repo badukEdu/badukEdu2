@@ -14,7 +14,7 @@
             <thead>
                 <tr>
                     <td  colspan="4">
-                    <label for="options">학습그룹</label>
+                        <label for="options">학습그룹</label>
                         <select id="options" name="options" onChange="updateTable()">
                             <option>선택</option>
                             <option th:each="item : ${list}" th:value="${item.num}" th:text="${item.name}" th:attr="data-index=${item.num}"></option>
@@ -29,9 +29,12 @@
                     <th>전화번호</th>
                     <th>현재 레벨</th>
                 </tr>
-                <tr id="group_member" th:each="item : ${list}" th:object="${item}">
-                    <td colspan="4">학습그룹을 선택해주세요.</td>
+                <tr id="group_member">
+                    <td colspan="4">학습그룹을 선택해 주세요.</td>
                 </tr>
+<!--                <tr id="group_member" th:each="item : ${list}" th:object="${item}">-->
+<!--                    <td colspan="4">학습그룹을 선택해주세요.</td>-->
+<!--                </tr>-->
             </tbody>
         </table>
         <div class="submit_btns">
