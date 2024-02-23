@@ -4,7 +4,8 @@
     <table class="table_rows mb30">
         <thead>
         <tr>
-            <th width="180">번호</th>
+<!--            <th width="180">번호</th>-->
+            <th width="40"><input type="checkbox" id="checkAll"></th>
             <th>숙제명</th>
             <th>내용</th>
             <th>숙제레벨</th>
@@ -17,7 +18,8 @@
             <td colspan="6">숙제 정보가 없습니다.</td>
         </tr>
         <tr th:unless="${items == null || items.isEmpty()}" th:each="item : ${items}" th:object="${item}">
-            <td th:text="*{num}"></td>
+<!--            <td th:text="*{num}"></td>-->
+            <td><input type="checkbox" name="check"></td>
             <td th:text="*{name}"></td>
             <td th:text="*{content}"></td>
             <td th:text="*{studyLevel}"></td>
