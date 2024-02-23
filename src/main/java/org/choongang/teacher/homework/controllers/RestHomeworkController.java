@@ -18,14 +18,17 @@ public class RestHomeworkController {
     @ResponseBody
     public String getTableData(@RequestParam("option") String selectedOption) {
 
+        if (selectedOption.equals("선택")) {
+            return "<tr><td colspan='4'>학습 그룹을 선택해주세요.</td></tr>";
+        }
         // 선택된 학습 그룹의 데이터를 조회
         List<Member> members = sgInfoService.getJoinMember(Long.valueOf(selectedOption));
 
-        System.out.println("members :" +  members);
-
+        if (members.isEmpty()) {
+            return "<tr><td colspan='4'>그룹에 속한 학습자가 없습니다.</td></tr>";
+        }
         // 조회된 데이터를 HTML 형식으로 생성
         StringBuilder tableData = new StringBuilder();
-
 
         for (Member member : members) {
             tableData.append("<tr>");
