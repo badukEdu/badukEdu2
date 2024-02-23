@@ -47,11 +47,11 @@
                 <tr th:each="item : ${list}" th:object="${item}">
                     <td>
                         <div th:if="*{accept}">
-                            <input type="checkbox" name="n" checked  onClick="return false">
+                            <input type="checkbox" name="n" checked  onClick="return false" >
                             승인완료
                         </div>
                         <div th:if="*{!accept}">
-                            <input type="checkbox" name="chk" th:value="*{num}"> 미승인
+                            <input type="checkbox" name="chk" th:value="*{num}" onClick="return false"> 미승인
                         </div>
                     </td>
                     <td th:text="*{studyGroup.name}" ></td>
