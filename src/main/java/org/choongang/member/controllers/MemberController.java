@@ -4,9 +4,12 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.choongang.commons.ExceptionProcessor;
 import org.choongang.commons.Utils;
+import org.choongang.member.MemberUtil;
+import org.choongang.member.entities.Member;
 import org.choongang.member.service.FindIdService;
 import org.choongang.member.service.FindPwService;
 import org.choongang.member.service.JoinService;
+import org.choongang.member.service.MemberEditService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -28,6 +31,9 @@ public class MemberController implements ExceptionProcessor {
     private final FindPwService findPwService;
     private final FindIdService findIdService;
     private final FindIdValidator findIdValidator;
+    private final MemberUtil memberUtil;
+    private final MemberEditValidator memberEditValidator;
+    private final MemberEditService memberEditService;
 
     @ModelAttribute("requestJoin")
     public RequestJoin requestJoin() {
@@ -93,10 +99,46 @@ public class MemberController implements ExceptionProcessor {
     }
 
     @PostMapping("/login")
-    public String loginPs(@Valid RequestJoin form, Errors errors,Model model) {
+    public String loginPs(@Valid RequestJoin form, Errors errors, Model model) {
         commonProcess("login", model);
 
         return "redirect:/studyGroup";
+    }
+
+    /**
+     * 회원 정보 수정
+     */
+
+    @ModelAttribute("requestEdit")
+    public RequestEdit requestEdit() {
+        return new RequestEdit();
+    }
+
+    @GetMapping("/member_edit")
+    public String editMemberInfo(@ModelAttribute RequestEdit form, Model model) {
+        // 회원 정보 수정 로직 추가
+        commonProcess("member_edit", model);
+        Member member = (Member) memberUtil.getMember();
+
+            model.addAttribute("member", member);
+            model.addAttribute("EmailAuthVerified", false);
+
+            return "member/member_edit";
+    }
+
+    @PostMapping("/member_edit")
+    public String editMemberInfoPs(@ModelAttribute RequestEdit form, Errors errors, Model model) {
+
+        memberEditValidator.validate(form, errors);
+
+        if (errors.hasErrors()) {
+            System.out.println(errors + "member_edit@@@@@@@@@@@@@@@@@@@@@@@");
+
+            return "member/member_edit";
+        }
+        memberEditService.edit(form);
+
+        return "redirect:/";
     }
 
     /* 아이디 찾기 S */
@@ -218,12 +260,14 @@ public class MemberController implements ExceptionProcessor {
         } else if (mode.equals("join")) {
             addScript.add("member/form");
 
-        } else if (mode.equals("find_id")) { // 아이디 찾기
+        } else if (mode.equals("find_id")) {
             pageTitle = Utils.getMessage("아이디_찾기", "commons");
 
-        } else if (mode.equals("find_pw")) { // 비밀번호 찾기
+        } else if (mode.equals("find_pw")) {
             pageTitle = Utils.getMessage("비밀번호_찾기", "commons");
 
+        } else if (mode.equals("member_edit")) {
+            addScript.add("member/form");
         }
 
         model.addAttribute("pageTitle", pageTitle);
