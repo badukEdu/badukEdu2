@@ -10,6 +10,8 @@ public class JoinStGroupSearch {
     private String sopt="ALL"; // 검색옵션
     private String skey=""; // 검색 키워드
 
+    private String type="";
+
 
 }
 
