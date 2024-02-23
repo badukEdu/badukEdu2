@@ -10,7 +10,7 @@
 
         <section class="btn_area">
             <th:block sec:authorize="isAuthenticated()">
-                <a th:href="@{/member/info}">회원정보 수정</a>
+                <a th:href="@{/member/member_edit}">회원정보 수정</a>
                 <a th:href="@{/member/logout}">로그아웃</a>
             </th:block>
             <th:block sec:authorize="isAnonymous()">

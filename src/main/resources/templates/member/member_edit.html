@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/main}">
+
+<section layout:fragment="content">
+
+  <h1 th:text="#{회원정보_수정}"></h1>
+  <form name="frmJoin" method="post" th:action="@{/member/member_edit}" autocomplete="off" th:object="${requestEdit}">
+
+    <dl>
+      <dt th:text="#{비밀번호}"></dt>
+      <dd>
+        <input type="password" name="password" th:field="*{password}" placeholder="공백없이 영문(대&소문자) 숫자 및 특수문자 조합 8자 이상">
+        <div class="error" th:each="err : ${#fields.errors('password')}" th:text="${err}"></div>
+      </dd>
+    </dl>
+
+    <dl>
+      <dt th:text="#{비밀번호_확인}"></dt>
+      <dd>
+        <input type="password" name="confirmPassword" th:field="*{confirmPassword}" placeholder="비밀번호를 한번 더 입력하세요">
+        <div class="error" th:each="err : ${#fields.errors('confirmPassword')}" th:text="${err}"></div>
+      </dd>
+    </dl>
+
+    <dl>
+      <dt th:text="#{휴대전화}"></dt>
+      <dd>
+        <input type="text" name="tel" th:field="*{tel}" placeholder="( - ) 빼고 숫자만 입력">
+        <div class="error" th:each="err : ${#fields.errors('tel')}" th:text="${err}"></div>
+      </dd>
+    </dl>
+
+    <div class="email">
+      <dl>
+        <dt th:text="#{이메일}"></dt>
+        <dd>
+          <div>
+            <input type="text" name="email" th:field="*{email}" th:readonly="${session.EmailAuthVerified != null && session.EmailAuthVerified}" placeholder="이메일 입력">
+            <button th:if="${session.EmailAuthVerified == null || !session.EmailAuthVerified}" type="button" id="email_verify" th:text="#{인증코드전송}"></button>
+          </div>
+          <div class="auth_box">
+            <th:block th:if="${session.EmailAuthVerified == null || !session.EmailAuthVerified}">
+              <input type="text" id="auth_num" th:placeholder="#{인증코드_입력}">
+              <span id="auth_count">03:00</span>
+              <button type="button" id="email_confirm" th:text="#{확인}" disabled></button>
+              <button type="button" id="email_re_verify" th:text="#{재전송}" disabled></button>
+            </th:block>
+            <th:block th:unless="${session.EmailAuthVerified == null || !session.EmailAuthVerified}">
+              <span class='confirmed' th:text="#{확인된_이메일_입니다.}"></span>
+            </th:block>
+          </div>
+          <div class="error" th:each="err : ${#fields.errors('email')}" th:text="${err}"></div>
+        </dd>
+      </dl>
+    </div>
+    <button type="submit" th:text="#{정보_수정_하기}"></button>
+
+  </form>
+</section>
+</html>
