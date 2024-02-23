@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>아이디 전송 안내</title>
+</head>
+<body>
+    <div th:text="${subject}"></div>
+    <div>
+        <th:block th:text="#{아이디}"></th:block>: <th:block th:text="${userId}"></th:block>
+    </div>
+</body>
+</html>

@@ -106,6 +106,7 @@ public class GameContentController {
         } else if (mode.equals("add") || mode.equals("edit")) {
             pageTitle = "게임콘텐츠 " + (mode == "edit" ? "수정":"등록") + " ::" + pageTitle;
             addScript.add("admin/gamecontent/form");
+            addScript.add("fileManager");
         }
 
         model.addAttribute("pageTitle", pageTitle);

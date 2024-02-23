@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/main}">
+
+<section layout:fragment="content">
+
+<h1 th:text="#{약관동의}"></h1>
+<form name="frmJoin" method="post" th:action="@{/member/join/step2}" autocomplete="off" th:object="${requestJoin}">
+
+  <div class="agree">
+    <input type="checkbox" name="agree" value="true" id="agree" th:field="*{agree}">
+    <label for="agree" th:text="#{이용_약관}"></label>
+    <div class="error" th:each="err : ${#fields.errors('agree')}" th:text="${err}"></div>
+  </div>
+
+  <div class="agree2">
+    <input type="checkbox" name="agree2" value="true" id="agree2" th:field="*{agree2}">
+    <label for="agree2" th:text="#{개인정보_필수항목에_대한_처리_및_이용}"></label>
+    <div class="error" th:each="err : ${#fields.errors('agree2')}" th:text="${err}"></div>
+  </div>
+
+  <div class="agree3">
+    <input type="checkbox" name="agree3" value="true" id="agree3" th:field="*{agree3}">
+    <label for="agree3" th:text="#{개인정보_선택항목에_대한_처리_및_이용}"></label>
+  </div>
+
+  <div class="agree4">
+    <input type="checkbox" name="agree4" value="true" id="agree4" th:field="*{agree4}">
+    <label for="agree4" th:text="#{개인정보_마케팅_및_광고_활용}"></label>
+  </div>
+
+  <div class="agree5">
+    <input type="checkbox" name="agree5" value="true" id="agree5" th:field="*{agree5}">
+    <label for="agree5" th:text="#{개인정보의_위탁}"></label>
+  </div>
+
+  <h1 th:text="#{본인인증}"></h1>
+
+  <div class="email">
+  <dl>
+    <dt th:text="#{이름}"></dt>
+    <dd>
+      <input type="text" name="name" th:field="*{name}" placeholder="이름 입력">
+      <div class="error" th:each="err : ${#fields.errors('name')}" th:text="${err}"></div>
+    </dd>
+  </dl>
+
+  <dl>
+    <dt th:text="#{이메일}"></dt>
+    <dd>
+      <div>
+        <input type="text" name="email" th:field="*{email}" th:readonly="${session.EmailAuthVerified != null && session.EmailAuthVerified}" placeholder="이메일 입력">
+        <button th:if="${session.EmailAuthVerified == null || !session.EmailAuthVerified}" type="button" id="email_verify" th:text="#{인증코드전송}"></button>
+      </div>
+      <div class="auth_box">
+        <th:block th:if="${session.EmailAuthVerified == null || !session.EmailAuthVerified}">
+          <input type="text" id="auth_num" th:placeholder="#{인증코드_입력}">
+          <span id="auth_count">03:00</span>
+          <button type="button" id="email_confirm" th:text="#{확인}" disabled></button>
+          <button type="button" id="email_re_verify" th:text="#{재전송}" disabled></button>
+        </th:block>
+        <th:block th:unless="${session.EmailAuthVerified == null || !session.EmailAuthVerified}">
+          <span class='confirmed' th:text="#{확인된_이메일_입니다.}"></span>
+        </th:block>
+      </div>
+      <div class="error" th:each="err : ${#fields.errors('email')}" th:text="${err}"></div>
+    </dd>
+  </dl>
+  </div>
+  <button type="submit" th:text="#{인증_요청_하기}"></button>
+
+</form>
+</section>
+</html>

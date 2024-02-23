@@ -4,71 +4,82 @@
       layout:decorate="~{layouts/main}">
 
 <section layout:fragment="content">
-    <h3>결제 방법 선택</h3>
-    <form method="post" th:action="@{/subscription}">
-        <table>
-            <tr>
-                <td colspan="2"><h3>주문하실 상품 정보</h3></td>
-            </tr>
+    <h1>주문하기</h1>
+    <form method="post" th:action="@{/subscription/applyPs}" autocomplete="off" th:object="${requestOrder}">
+        <div class="error global" th:each="err : ${#fields.globalErrors()}" th:text="${err}"></div>
+        <h2>주문하실 상품 정보</h2>
+        <table class="table_rows mb30">
+            <thead>
+                <tr>
+                    <th width="300">콘텐츠명</th>
+                    <th width="120">콘텐츠이미지</th>
+                    <th>가격/구독기간</th>
+                </tr>
+            </thead>
+            <tbody>
             <tr th:each="item : ${items}" th:object="${item}">
-                <td>구매상품명</td>
-                <td>
-                    <input th:value="*{gameTitle}">
+                <td th:text="*{gameTitle}"></td>
+                <td align="center">
+                    <input type="hidden" name="num" th:value="*{num}">
+                    <th:block th:if="*{thumbnail != null}" th:utext="*{@utils.printThumb(thumbnail.seq, 100, 100, 'image')}"></th:block>
                 </td>
+                <td th:text="*{originalPrice + '원' + startDate + '~' + endDate + '(' + subscriptionMonths + '개월)'}"></td>
             </tr>
-            <tr>
-                <td colspan="2"><h3>구매자 정보</h3></td>
-            </tr>
-            <tr>
-                <td>구매자명</td>
-                <td>
-                    <input type="text">
-                    <input type="hidden" name="memberName" value="user01">
-                    <input type="hidden" name="gameContentName" value="user01">
+            </tbody>
+        </table>
 
-                </td>
-            </tr>
+
+
+        <h2>구매자 정보</h2>
+        <table class="table_cols mb30">
             <tr>
-                <td>연락처</td>
+                <th width="180">구매자명</th>
                 <td>
-                    <input type="text">
+                    <input type="text" name="orderName" th:field="*{orderName}">
+                    <div class="error" th:each="err : ${#fields.errors('orderName')}" th:text="${err}"></div>
                 </td>
             </tr>
             <tr>
-                <td colspan="2">
-                    <h3>주문 합계</h3>
-                <td th:text="${totalMoney}">원</td>
-                </td>
-            </tr>
-            <tr>
-                <td colspan="2"><h3>결제 방법 선택</h3></td>
-            </tr>
-            <tr>
-                <td colspan="2">
-                    <input type="radio" name="paymentMethod" value="bankTransfer">
-                    <label for="bankTransfer">무통장 입금</label>
-                </td>
-            </tr>
-            <tr>
-                <td colspan="2">
-                    <input type="radio" id="bankTransfer" name="paymentMethod" value="bankTransfer">
-                    <label for="bankTransfer">계좌이체</label>
-                </td>
-            </tr>
-            <tr>
-                <td colspan="2">
-                    <input type="radio" id="kakaoPay" name="paymentMethod" value="kakaoPay">
-                    <label for="kakaoPay">카카오페이</label>
-                </td>
-            </tr>
-            <tr>
-                <td>입금자명</td>
+                <th>연락처</th>
                 <td>
-                    <input type="text">
+                    <input type="text" name="orderMobile" th:field="*{orderMobile}">
+                    <div class="error" th:each="err : ${#fields.errors('orderMobile')}" th:text="${err}"></div>
+                </td>
+            </tr>
+            <tr>
+                <th>주문합계</th>
+                <td>
+                    <th:block th:text="${totalPayment >= 1000 ? #numbers.formatInteger(3, totalPayment, 'COMMA') : totalPayment}"></th:block> 원
                 </td>
             </tr>
         </table>
-        <button type="submit">결제하기</button>
+
+        <h2>결제 방법 선택</h2>
+        <table class="table_cols">
+            <tr>
+                <th width="180">결제방법</th>
+                <td>
+                    <input type="radio" name="paymentMethod" value="BANK_TRANSFER" id="bankTransfer" th:field="*{paymentMethod}">
+                    <label for="bankTransfer">무통장 입금</label> <br>
+                    <input type="radio" id="direct" name="paymentMethod" value="DIRECT" th:field="*{paymentMethod}">
+                    <label for="direct">계좌이체</label> <br>
+                    <input type="radio" id="kakaoPay" name="paymentMethod" value="KAKAOPAY" th:field="*{paymentMethod}">
+                    <label for="kakaoPay">카카오페이</label>
+
+                    <div class="error" th:each="err : ${#fields.errors('paymentMethod')}" th:text="${err}"></div>
+                </td>
+            </tr>
+            <tr>
+                <th>입금자명</th>
+                <td>
+                    <input type="text" name="depositor" th:field="*{depositor}">
+                    <div class="error" th:each="err : ${#fields.errors('depositor')}" th:text="${err}"></div>
+                </td>
+            </tr>
+        </table>
+        <div class="submit_btns">
+            <button type="submit" class="btn">결제하기</button>
+        </div>
     </form>
 </section>
 </html>

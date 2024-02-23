@@ -4,6 +4,8 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.choongang.commons.ExceptionProcessor;
 import org.choongang.commons.Utils;
+import org.choongang.member.service.FindIdService;
+import org.choongang.member.service.FindPwService;
 import org.choongang.member.service.JoinService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,11 +20,19 @@ import java.util.List;
 @Controller
 @RequestMapping("/member")
 @RequiredArgsConstructor
-@SessionAttributes({"requestJoin"})
+@SessionAttributes({"EmailAuthVerified", "requestJoin"})
 public class MemberController implements ExceptionProcessor {
 
     private final JoinService joinService;
     private final JoinValidator joinValidator;
+    private final FindPwService findPwService;
+    private final FindIdService findIdService;
+    private final FindIdValidator findIdValidator;
+
+    @ModelAttribute("requestJoin")
+    public RequestJoin requestJoin() {
+        return new RequestJoin();
+    }
 
     @GetMapping
     public String join() {
@@ -33,7 +43,10 @@ public class MemberController implements ExceptionProcessor {
     public String joinStep1(@ModelAttribute RequestJoin form, Model model) {
         commonProcess("join", model);
 
-        return "member/join_step1";
+        // 이메일 인증 여부 false로 초기화
+        model.addAttribute("EmailAuthVerified", false);
+
+        return "member/join/step1";
     }
 
     @PostMapping("/join/step2")
@@ -45,14 +58,16 @@ public class MemberController implements ExceptionProcessor {
         joinValidator.validate(form, errors);
 
         if (errors.hasErrors()) {
-            return "member/join_step1";
+            System.out.println(errors + "step1@@@@@@@@@@@@@@@@@@@@@@@");
+
+            return "member/join/step1";
         }
 
-        return "member/join_step2";
+        return "member/join/step2";
     }
 
     @PostMapping("/join")
-    public String joinPs(@Valid RequestJoin form, Errors errors,Model model, SessionStatus status) {
+    public String joinPs(@Valid RequestJoin form, Errors errors, Model model, SessionStatus status) {
         commonProcess("join", model);
         form.setMode("step2");
 
@@ -60,36 +75,161 @@ public class MemberController implements ExceptionProcessor {
         joinService.process(form, errors);
 
         if (errors.hasErrors()) {
-            return "member/join_step2";
-        }
+            System.out.println(errors + "step2@@@@@@@@@@@@@@@@@@@@@@@");
 
-        status.setComplete(); // 세션 비우기
+            return "member/join/step2";
+        }
+        // EmailAuthVerified, requestJoin 세션값 비우기 */
+        status.setComplete();
 
         return "redirect:/member/login";
     }
 
     @GetMapping("/login")
-    public String login(Model model) {
+    public String login(@ModelAttribute RequestJoin form, Model model) {
         commonProcess("login", model);
 
         return "member/login";
     }
+
+    @PostMapping("/login")
+    public String loginPs(@Valid RequestJoin form, Errors errors,Model model) {
+        commonProcess("login", model);
+
+        return "redirect:/studyGroup";
+    }
+
+    /* 아이디 찾기 S */
+
+    /**
+     * 아이디 찾기 양식
+     *
+     * @param form
+     * @param model
+     * @return
+     */
+
+    @GetMapping("/find_id")
+    public String findId(@ModelAttribute RequestFindId form, Model model) {
+        commonProcess("find_id", model);
+
+        return "member/find_id";
+    }
+
+    /**
+     * 아이디 찾기 처리
+     *
+     * @param form
+     * @param errors
+     * @param model
+     * @return
+     */
+
+    @PostMapping("/find_id")
+    public String findIdPs(@Valid RequestFindId form, Errors errors, Model model) {
+        commonProcess("find_id", model);
+
+        findIdValidator.validate(form, errors);
+
+        if (errors.hasErrors()) {
+
+            return "member/find_id";
+        }
+
+        findIdService.sendUserId(form.name(), form.email());
+
+        return "member/find_id_done";
+    }
+
+
+    @GetMapping("/find_id_done")
+
+    public String toFindIdDone() {
+
+        return "member/find_id_done";
+    }
+
+    @PostMapping("/member/find_id_done")
+    public String findIdDone() {
+
+        return "member/find_id_done";
+    }
+
+    /* 아이디 찾기 E */
+
+    /**
+     * 비밀번호 찾기 양식
+     *
+     * @param model
+     * @return
+     */
+    @GetMapping("/find_pw")
+    public String findPw(@ModelAttribute RequestFindPw form, Model model) {
+        commonProcess("find_pw", model);
+
+        return "member/find_pw";
+    }
+
+    /**
+     * 비밀번호 찾기 처리
+     *
+     * @param model
+     * @return
+     */
+    @PostMapping("/find_pw")
+    public String findPwPs(@Valid RequestFindPw form, Errors errors, Model model) {
+        commonProcess("find_pw", model);
+
+        findPwService.process(form, errors); // 비밀번호 찾기 처리
+
+        if (errors.hasErrors()) {
+            return "member/find_pw";
+        }
+
+        // 비밀번호 찾기에 이상 없다면 완료 페이지로 이동
+        return "redirect:/member/find_pw_done";
+    }
+
+    /**
+     * 비밀번호 찾기 완료 페이지
+     *
+     * @param model
+     * @return
+     */
+    @GetMapping("/find_pw_done")
+    public String findPwDone(Model model) {
+        commonProcess("find_pw", model);
+
+        return "member/find_pw_done";
+    }
+
 
     private void commonProcess(String mode, Model model) {
         mode = StringUtils.hasText(mode) ? mode : "join";
         String pageTitle = Utils.getMessage("회원가입", "commons");
 
         List<String> addScript = new ArrayList<>();
+        List<String> addCss = new ArrayList<>();
+        List<String> addCommonScript = new ArrayList<>();
 
         if (mode.equals("login")) {
             pageTitle = Utils.getMessage("로그인", "commons");
 
         } else if (mode.equals("join")) {
-            addScript.add("fileManager");
             addScript.add("member/form");
+
+        } else if (mode.equals("find_id")) { // 아이디 찾기
+            pageTitle = Utils.getMessage("아이디_찾기", "commons");
+
+        } else if (mode.equals("find_pw")) { // 비밀번호 찾기
+            pageTitle = Utils.getMessage("비밀번호_찾기", "commons");
+
         }
 
         model.addAttribute("pageTitle", pageTitle);
         model.addAttribute("addScript", addScript);
+        model.addAttribute("addCss", addCss);
+        model.addAttribute("addCommonScript", addCommonScript);
+
     }
 }
