@@ -90,7 +90,7 @@ public class SubscriptionController {
     /* 관리자가 등록한 교육 자료 리스트 */
     @GetMapping("/eduList")
     public String eduList(@ModelAttribute EduDataSearch search, Model model) {
-        commonProcess("list", model);
+        commonProcess("eduList", model);
 
         ListData<EduData> data = eduDataInfoService.getList(search);
         model.addAttribute("items", data.getItems());
