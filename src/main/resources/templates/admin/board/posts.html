@@ -42,29 +42,7 @@
     <h2>공지 등록</h2>
     <form th:action="@{/admin/board/posts}" method="post" th:object="${RequestBoardPosts}" autocomplete="off">
         <div class="tableContainer">
-            <table>
-                <!--        &lt;!&ndash; Notice 공지 분류 &ndash;&gt;-->
-                <!--        <tr class="noticeRow">-->
-                <!--            <th>공지 분류</th>-->
-                <!--            <td>-->
-                <!--                <select id="noticeCategory" th:field="*{noticeCategory}" name="noticeCategory">-->
-                <!--                    <option value="notice">공지사항</option>-->
-                <!--                    <option value="faq">FAQ</option>-->
-                <!--                </select>-->
-                <!--            </td>-->
-                <!--        </tr>-->
-
-                <!--        &lt;!&ndash; FAQ 공지 분류 &ndash;&gt;-->
-                <!--        <tr class="faqRow">-->
-                <!--            <th>공지 분류</th>-->
-                <!--            <td>-->
-                <!--                <select id="faqCategory" th:field="*{faqCategory}" name="faqCategory">-->
-                <!--                    <option value="notice">공지사항</option>-->
-                <!--                    <option value="faq">FAQ</option>-->
-                <!--                </select>-->
-                <!--            </td>-->
-                <!--        </tr>-->
-
+            <table class="table_rows">
                 <tr>
                     <th>공지 분류</th>
                     <td>
@@ -144,17 +122,6 @@
                         <button id="clearButton">비우기</button>
                     </td>
                 </tr>
-
-
-                <!--        <tr>-->
-                <!--            <td colspan="2"> &lt;!&ndash; colspan="2"를 사용하여 테이블의 두 열을 합친다. &ndash;&gt;-->
-
-                <!--                <input type="file" id="uploadFile" accept=".doc, .docx, .jpg, .png, .pdf">-->
-                <!--                <input type="button" id="uploadButton" value="파일 선택">-->
-                <!--            <td colspan="2" id="fileInfo">선택된 파일 없음</td>-->
-                <!--        </tr>-->
-
-
                 <tr>
                     <td>
                         <input type="submit" id="addNoticeFaq" value="등록하기">

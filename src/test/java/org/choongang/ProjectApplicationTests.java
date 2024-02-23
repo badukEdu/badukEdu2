@@ -19,7 +19,8 @@ class ProjectApplicationTests {
         @Test
         void member(){
 
-            /*Member admin = new Member();
+            /*
+            Member admin = new Member();
             admin.setName("운영자");
             admin.setAgree(true);
             admin.setAgree2(true);

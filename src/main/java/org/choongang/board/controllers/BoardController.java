@@ -29,7 +29,7 @@ public class BoardController {
     @GetMapping("/list/noticeFaq")
     public String adminnoticeFaqList(@ModelAttribute Notice_ form, Model model) {
 
-        commonProcess("list/noticeFaq", model);
+        commonProcess("notice&faq", model);
 
         List<Notice_> noticeList = boardService.getListOrderByOnTop();
         model.addAttribute("noticeList", noticeList);
