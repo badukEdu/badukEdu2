@@ -50,7 +50,7 @@ public class SecurityConfig {
         c.requestMatchers("/member/**", "/guide/**", "/js/**", "/style/**", "/api/**", "/").permitAll()
             //.requestMatchers("/admin").hasAuthority("ADMIN")
             .requestMatchers(new AntPathRequestMatcher("/subscription/**")).hasAnyAuthority("TEACHER", "USER", "ADMIN")
-            .requestMatchers(new AntPathRequestMatcher("/education/**")).hasAnyAuthority("STUDENT ", "ADMIN")
+            .requestMatchers(new AntPathRequestMatcher("/education/**")).hasAnyAuthority("STUDENT", "ADMIN")
             .requestMatchers(new AntPathRequestMatcher("/teacher/**")).hasAnyAuthority("TEACHER", "ADMIN")
             .requestMatchers(new AntPathRequestMatcher("/student/**")).hasAnyAuthority("STUDENT", "ADMIN")
             .requestMatchers(new AntPathRequestMatcher("/admin/**")).hasAnyAuthority("ADMIN")
