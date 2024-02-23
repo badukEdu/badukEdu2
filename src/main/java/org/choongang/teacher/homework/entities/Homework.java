@@ -24,7 +24,7 @@ public class Homework extends Base {
     @Column
     private String content; // 숙제내용
 
-    @Column()
+    @Column
     private Long studyLevel; // 숙제레벨
 
     @Column
@@ -32,7 +32,7 @@ public class Homework extends Base {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "studyGroupNum")
-    private StudyGroup studyGroup; //작성자 회원번호
+    private StudyGroup studyGroup; // 스터디그룹
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "memberNum")

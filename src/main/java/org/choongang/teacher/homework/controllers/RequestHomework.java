@@ -18,6 +18,8 @@ public class RequestHomework {
     private String name;
     @NotBlank @Lob
     private String content;
+    @NotNull
+    private Long studyGroupNum;
 
     private Long memberNum;
 
@@ -26,4 +28,5 @@ public class RequestHomework {
     private Long studyLevel;
     @NotNull
     private LocalDate deadLine;
+
 }

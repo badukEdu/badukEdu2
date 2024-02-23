@@ -6,6 +6,7 @@ import lombok.ToString;
 import org.choongang.admin.gamecontent.entities.GameContent;
 import org.choongang.education.group.entities.JoinStudyGroup;
 import org.choongang.member.entities.Member;
+import org.choongang.teacher.homework.entities.Homework;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -56,11 +57,11 @@ public class StudyGroup {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "gameContentNum")
     private GameContent gameContent; //게임 번호
-/*
+
 
     @OneToMany(mappedBy = "studyGroup", fetch = FetchType.LAZY)
     private List<Homework> homeworks;
-*/
+
 
     @OneToMany(mappedBy = "studyGroup", fetch = FetchType.LAZY)
     private List<JoinStudyGroup> joinStudyGroups;
