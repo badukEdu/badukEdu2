@@ -331,8 +331,6 @@ TeacherController {
     public String saveHomework(@Valid RequestHomework form, Errors errors,
                                Model model) {
 
-        System.out.println("/////studyGroupNum: " + form.getStudyGroupNum());
-
         if (errors.hasErrors()) {
             return "teacher/homework/" + form.getMode();
         }
@@ -341,7 +339,7 @@ TeacherController {
         return "redirect:/teacher/homework/add";
     }
 
-    /** 숙제 삭제 처리 (예정)
+    /** 숙제 삭제 처리
      *
      * @param num
      * @param model
