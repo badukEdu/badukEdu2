@@ -7,27 +7,37 @@
     <h1>스터디그룹 목록 / UI-W-012</h1>
     <br>
 
-    <form method="get" th:action="@{/teacher/studyGroup}" th:object="${stGroupSearch}" >
-        <table>
+    <form method="get" th:action="@{/teacher/group}" th:object="${stGroupSearch}" >
+        <table class="table_cols">
             <tr>
                 <th>키워드</th>
                 <td>
-                    <select name="sopt">
-                        <option value="ALL" th:field="*{sopt}">통합검색</option>
-                        <option value="groupName" th:field="*{sopt}">스터디그룹명</option>
-                        <option value="gameName" th:field="*{sopt}">게임컨텐츠명</option>
-                    </select>
-                    <input type="text" name="skey" th:field="*{skey}">
-                </td>
-                <td>
-                    <button type="submit">검색하기</button>
+                    <div class="input_grp">
+                        <select name="sopt">
+                            <option value="ALL" th:field="*{sopt}">통합검색</option>
+                            <option value="groupName" th:field="*{sopt}">스터디그룹명</option>
+                            <option value="gameName" th:field="*{sopt}">게임컨텐츠명</option>
+                        </select>
+                        <input type="text" name="skey" th:field="*{skey}">
+                    </div>
                 </td>
             </tr>
         </table>
+        <div class="search_btn">
+            <button type="submit" class="btn">검색하기</button>
+        </div>
     </form>
-    <hr>
 
-    <table border="1">
+    <div class="flex sb mt20 mb20">
+        <h2>스터디 그룹목록</h2>
+        <a th:href="@{/teacher/group/add}" class="sbtn">
+            <i class="xi-plus"></i> 생성
+        </a>
+    </div>
+    <form name="frmList" method="post" th:action="@{/teacher/group}" autocomplete="off">
+        <input type="hidden" name="_method" value="delete">
+    <table class="table_rows">
+        <thead>
         <tr>
             <th>선택</th>
             <th>스터디그룹명</th>
@@ -38,36 +48,29 @@
             <th>가입학생수</th>
             <th>수정 / 삭제</th>
         </tr>
-        <form method="post" th:action="@{/teacher/studyGroup}" autocomplete="off">
-            <input type="hidden" name="_method" value="delete">
+        </thead>
+        <tbody>
             <tr th:each="item : ${list}" th:object="${item}">
                 <td><input type="checkbox" name="chk" th:value="*{num}"></td>
-                <td > <a th:href="@{/teacher/studyGroup/detail/{num}(num=*{num})}" th:text="*{name}"></a></td>
+                <td > <a th:href="@{/teacher/group/detail/{num}(num=*{num})}" th:text="*{name}"></a></td>
                 <td th:text="*{gameTitle}"></td>
                 <td th:text="*{maxSubscriber}"></td>
                 <td th:text="*{startDate+' ~ '+endDate}"></td>
                 <td th:text="*{maxLevel}"></td>
                 <td >member 완성되면</td>
-                <th>
-                    <a th:href="@{/teacher/studyGroup/edit/{num}(num=*{num})}">수정</a>
-                    /
-                    <a th:href="@{/teacher/studyGroup/delete/{num}(num=*{num})}">삭제</a>
-                <th>
-            </tr>
-            <tr>
                 <td>
-                    <a th:href="@{/teacher/studyGroup/add}">생성</a>
-                </td>
-                <td>
-                    <button type="submit">선택삭제</button>
-                </td>
-                <td colspan="6">
-                    <th:block th:replace="~{common/_pagination::pagination}"></th:block>
+                    <a th:href="@{/teacher/group/edit/{num}(num=*{num})}" class="sbtn on">수정</a>
+                    <a th:href="@{/teacher/group/delete/{num}(num=*{num})}" class="sbtn">삭제</a>
                 </td>
             </tr>
-        </form>
-    </table>
 
+        </tbody>
+    </table>
+        <div class="table_actions">
+            <button type="button" class="sbtn blue form_action" data-mode='delete' data-form-name="frmList">선택 스터디 그룹 삭제</button>
+        </div>
+        <th:block th:replace="~{common/_pagination::pagination}"></th:block>
+    </form>
 
 </section>
 </html>

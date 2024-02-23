@@ -24,7 +24,8 @@ public class Menu {
         // 구독서비스 / 권한 - TEACHER , USER
         menus.put("subscription", Arrays.asList(
                 new MenuDetail("apply", "게임콘텐츠 검색 및 구독신청", "/subscription/subscribe"),
-                new MenuDetail("list", "내 게임콘텐츠 조회", "/subscription")
+                new MenuDetail("list", "내 게임콘텐츠 조회", "/subscription"),
+                new MenuDetail("eduList", "교육자료", "/subscription/eduList")
         ));
 
         // 학습서비스 / 권한 - STUDENT , ADMIN
@@ -46,8 +47,8 @@ public class Menu {
         menus.put("admin", Arrays.asList(
                 new MenuDetail("gamecontent_add", "게임콘텐츠 등록", "/admin/gamecontent/add"),
                 new MenuDetail("gamecontent_list", "게임콘텐츠 조회", "/admin/gamecontent"),
-                new MenuDetail("education_add", "교육 자료 등록", "/admin/education/add"),
-                new MenuDetail("education_list", "교육 자료 조회", "/admin/education"),
+                new MenuDetail("add", "교육 자료 등록", "/admin/education/add"),
+                new MenuDetail("list", "교육 자료 조회", "/admin/education"),
                 new MenuDetail("board_posts", "공지 등록", "/admin/board/posts"),
                 new MenuDetail("order_list", "매출 조회", "/admin/order"),
                 new MenuDetail("member_list", "회원 조회", "/admin/member")));
