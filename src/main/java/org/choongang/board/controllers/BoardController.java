@@ -33,6 +33,7 @@ public class BoardController {
 
         List<Notice_> noticeList = boardService.getListOrderByOnTop();
         model.addAttribute("noticeList", noticeList);
+        // model.addAttribute("pagination", data.getPagination());
 
         return "board/noticeFaqList";
     }
