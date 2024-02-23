@@ -104,6 +104,27 @@ class ProjectApplicationTests {
 
             joinService.process(member44);
 
+            Member member00 = new Member();
+            member4.setName("관리자");
+            member4.setAgree(true);
+            member4.setAgree2(true);
+            member4.setAgree3(true);
+            member4.setAgree4(true);
+            member4.setAgree5(true);
+            member4.setEmailAgree(true);
+            member4.setEnable(true);
+            member4.setSMSAgree(true);
+            member4.setLevels(100L);
+            member4.setUserId("admin0101");
+            member4.setEmail("cbmffjjtghgㅎgha@naver.com");
+            member4.setPassword(encoder.encode("_aA123456"));
+            member4.setAuthority(Authority.ADMIN);
+            member4.setBirth("1999-01-01");
+            member4.setGender("M");
+            member4.setTel("01001010101");
+
+            joinService.process(member00);
+
 
 
 
