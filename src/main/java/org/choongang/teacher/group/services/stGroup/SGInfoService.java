@@ -81,6 +81,7 @@ public class SGInfoService {
             }
 
         }
+/*
 
         String type = search.getType();
         if (StringUtils.hasText(type) && type.equals("joinstg") && memberUtil.isLogin()) {
@@ -90,6 +91,7 @@ public class SGInfoService {
                 groups.forEach(group ->  andBuilder.andNot(studyGroup.joinStudyGroups.contains(group)));
             }
         }
+*/
 
         PathBuilder<StudyGroup> pathBuilder = new PathBuilder<>(StudyGroup.class, "stGroup");
 

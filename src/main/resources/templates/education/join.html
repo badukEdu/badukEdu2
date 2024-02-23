@@ -10,7 +10,7 @@
 
         <hr>
         <form method="get" th:action="@{/education/join}" th:object="${stGroupSearch}" >
-            <table >
+            <table class="table_cols">
                 <tr>
                     <th>키워드</th>
                     <td>
@@ -29,7 +29,8 @@
         </form>
         <hr>
 
-        <table border="1">
+        <table class="table_rows">
+            <thead>
             <tr>
                 <th>선택</th>
                 <th>게임 컨텐츠 이미지</th>
@@ -39,6 +40,7 @@
                 <th>잔여 T/O</th>
 
             </tr>
+            </thead>
             <form method="post" th:action="@{/education/apply}" autocomplete="off">
 
                 <tr th:each="item : ${list}" th:object="${item}">
