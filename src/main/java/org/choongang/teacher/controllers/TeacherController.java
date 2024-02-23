@@ -371,6 +371,7 @@ TeacherController {
             pageTitle = "숙제 수정::" + pageTitle;
         } else if (mode.equals("distribute")) {
             pageTitle = "숙제 배포::" + pageTitle;
+            addScript.add("homework/" + mode);
         } else if (mode.equals("homework_list")) {
             pageTitle = "숙제 학습 진도 조회::" + pageTitle;
         } else if (mode.equals("accept")) {
