@@ -2,6 +2,8 @@ server:
   port: 3000
 
 spring:
+ profiles:
+  active: dev
 
   # 메일 설정
   mail:
@@ -30,8 +32,8 @@ spring:
   datasource:
     driverClassName: oracle.jdbc.driver.OracleDriver
     url: jdbc:oracle:thin:@localhost:1521:orcl
-    username: PROJECT
-    password: _aA123456
+    username: cbmja
+    password: cbm007512
 
   # JPA 설정
   jpa:
@@ -42,7 +44,7 @@ spring:
         use_sql_comments: true
         dialect: org.hibernate.dialect.OracleDialect
     hibernate:
-      ddlAuto: create
+      ddlAuto: update
 
   # 타임리프 설정
   thymeleaf:

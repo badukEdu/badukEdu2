@@ -20,18 +20,22 @@ public class EduData extends Base {
 
     @Column(length = 30, nullable = false)
     private String name; // 학습자료명
+
     @Column(nullable = false)
     private String dataType; // 자료구분 (튜토리얼 0 / 교육영상 1)
 
     @Column(length = 30)
     private String contentType; // 자료유형 (동영상 / 교재 / 웹사이트)
+
     @Column
     private String serviceType; // 서비스구분 (무료 0 / 유료 1)
+
     @Column(length = 100, nullable = false)
     private String content; // 자료내용
 
     @Column(length = 30)
     private String fileName; // 자료file명
+
     @Column(length = 30)
     private String fileAddress; // 자료file주소
 
