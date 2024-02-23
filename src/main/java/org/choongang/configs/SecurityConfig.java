@@ -1,8 +1,6 @@
 package org.choongang.configs;
 
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.choongang.member.Authority;
 import org.choongang.member.MemberUtil;
 import org.choongang.member.service.LoginFailureHandler;
 import org.choongang.member.service.LoginSuccessHandler;
