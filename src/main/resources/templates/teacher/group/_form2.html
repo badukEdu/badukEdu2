@@ -24,66 +24,67 @@
             <legend>게임</legend>
             <table class="table_cols">
                 <tr>
-                    <td>게임 컨텐츠 :</td>
+                    <th>게임 컨텐츠 :</th>
                     <td th:text="*{gameTitle}">
 
                     </td>
                 </tr>
                 <tr>
-                    <td>최대 인원 :</td>
+                    <th>최대 인원 :</th>
                     <td th:text="*{maxSubscriber}"></td>
                 </tr>
                 <tr>
-                    <td>기간 : </td>
+                    <th>기간 : </th>
                     <td th:text="*{startDate + ' ~'  +endDate}"></td>
                 </tr>
                 <tr>
-                    <td>달성 레벨 : </td>
+                    <th>달성 레벨 : </th>
                     <td th:text="*{totalGameLevels}"></td>
                 </tr>
             </table>
 
         </fieldset>
     </div>
-    <hr>
+
     <table class="table_cols">
-        <h1>상세</h1>
-        <tr>
-            <td>교육자명</td>
+ <br>
+            <th>교육자명</th>
             <td>
                 <p th:text="${session.member.name}"></p>
+<!--
                 <div th:if="${mode_.equals('add2')}">
                     <p th:text="${session.member.name}"></p>
                 </div>
                 <dib th:if="${mode_.equals('edit')}">
                     <p th:text="*{teacherName}"></p>
                 </dib>
+-->
 
             </td>
         </tr>
         <tr>
-            <td>학습그룹명</td>
+            <th>학습그룹명</th>
             <td>
                 <input type="text" name="name" th:field="*{name}">
                 <div class="error" th:each="err : ${#fields.errors('name')}" th:text="${err}"></div>
             </td>
         </tr>
         <tr>
-            <td>그룹제한인원</td>
+            <th>그룹제한인원</th>
             <td>
                 <input type="number" name="maxSubscriber" th:field="*{maxSubscriber}">
                 <div class="error" th:each="err : ${#fields.errors('maxSubscriber')}" th:text="${err}"></div>
             </td>
         </tr>
         <tr>
-            <td>학습개월</td>
+            <th>학습개월</th>
             <td>
                 <input type="number" name="month" th:field="*{month}" >
                 <div class="error" th:each="err : ${#fields.errors('month')}" th:text="${err}"></div>
             </td>
         </tr>
         <tr>
-            <td>학습기간</td>
+            <th>학습기간</th>
             <td>
                 <input type="date" name="startDate" th:field="*{startDate}">
                 <div class="error" th:each="err : ${#fields.errors('startDate')}" th:text="${err}"></div>
@@ -92,14 +93,14 @@
             </td>
         </tr>
         <tr>
-            <td>달성 레벨</td>
+            <th>달성 레벨</th>
             <td>
                 <input type="number" name="maxLevel" th:field="*{maxLevel}">
                 <div class="error" th:each="err : ${#fields.errors('maxLevel')}" th:text="${err}"></div>
             </td>
         </tr>
         <tr>
-            <td>비고</td>
+            <th>비고</th>
             <td>
                 <input type="text" name="text" th:field="*{text}">
             </td>

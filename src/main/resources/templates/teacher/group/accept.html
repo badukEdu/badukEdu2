@@ -11,24 +11,27 @@
     <form method="get" th:action="@{/teacher/group/accept}" th:object="${joinStGroupSearch}" >
         <table class="table_cols">
             <tr>
-                <th>키워드(user 완성되면 -> 교육자명으로 검색 가능하도록)</th>
+                <th>키워드</th>
                 <td>
+                    <div class="input_grp">
                     <select name="sopt">
                         <option value="ALL" th:field="*{sopt}">통합검색</option>
                         <option value="groupName" th:field="*{sopt}">스터디그룹명</option>
                         <option value="memberName" th:field="*{sopt}">회원명</option>
                     </select>
                     <input type="text" name="skey" th:field="*{skey}">
-                </td>
-                <td>
-                    <button type="submit">검색하기</button>
+                    </div>
                 </td>
             </tr>
         </table>
+        <div class="search_btn">
+            <button type="submit" class="btn">검색하기</button>
+        </div>
     </form>
-    <hr>
 
-    <table border="1" class="table_cols">
+
+    <table  class="table_rows">
+        <thead>
         <tr>
             <th>승인여부</th>
             <th>스터디그룹명</th>
@@ -37,9 +40,10 @@
             <th>승인요청일자</th>
 
         </tr>
+        </thead>
         <form method="post" th:action="@{/teacher/group/accept}" autocomplete="off">
-            &lt;!&ndash;<input type="hidden" name="userNum" th:value="${session.member.num}">&ndash;&gt;
-
+            <input type="hidden" name="userNum" th:value="${session.member.num}">
+            <tbody>
             <tr th:each="item : ${list}" th:object="${item}">
                 <td>
                     <div th:if="*{accept}">
@@ -55,7 +59,8 @@
                 <td th:text="*{member.tel}"></td>
                 <td th:text="*{SDate}"></td>
             </tr>
-
+            </tbody>
+        </table>
             <tr >
                 <td colspan="6">
                     <button type="submit">가입 승인</button>
@@ -64,7 +69,7 @@
             </tr>
 
         </form>
-    </table>
+
 
     <th:block th:replace="~{common/_pagination::pagination}"></th:block>
 

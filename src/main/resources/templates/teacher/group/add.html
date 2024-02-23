@@ -9,27 +9,24 @@
     <div th:if="${mode_.equals('add1')}">
 
         <form method="get" th:action="@{/teacher/group/add}" autocomplete="off" th:object="${gameContentSearch}">
-            <table>
+            <hr>
+            <table class="table_cols">
                 <tr>
-                    <th>검색</th>
-                    <th>
-                        찾으시는 컨텐츠 명을 입력하세요
-                        <input type="hidden" name="skey" value="gameTitle" th:field="*{sopt}">
-                        <input type="text" name="skey" th:field="*{skey}">
-                    </th>
-                    <!--<td>
-                        <select name="sopt">
-                            <option value="ALL" th:field="*{sopt}">통합검색</option>
-                            <option value="gameTitle" th:field="*{sopt}">게임콘텐츠명</option>
-                            <option value="packageContents" th:field="*{sopt}">패키지내용</option>
-                        </select>
-                        <input type="text" name="skey" th:field="*{skey}">
-                    </td>-->
+                    <th>키워드</th>
                     <td>
-                        <button type="submit">검색하기</button>
+                        <div class="input_grp">
+                            <select name="sopt">
+                                <option value="ALL" th:field="*{sopt}">통합검색</option>
+                                <option value="gameTitle" th:field="*{sopt}">게임컨텐츠명</option>
+                            </select>
+                            <input type="text" name="skey" th:field="*{skey}">
+                        </div>
                     </td>
                 </tr>
             </table>
+            <div class="search_btn">
+                <button type="submit" class="btn">검색하기</button>
+            </div>
         </form>
 
 
