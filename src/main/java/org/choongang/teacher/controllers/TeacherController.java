@@ -134,7 +134,7 @@ TeacherController {
             model.addAttribute("items" ,  gameContentInfoService.getList(search).getItems());
             model.addAttribute("pagination" , gameContentInfoService.getList(search).getPagination());
             model.addAttribute("emsg" , "게임 컨텐츠를 선택하세요");
-            return "front/teacher/studyGroup/add";
+            return "teacher/group/add";
         }
 
         //게임 선택 정상적으로 한 경우
@@ -181,7 +181,7 @@ TeacherController {
         if (errors.hasErrors()) {
             errors.getAllErrors().stream().forEach(System.out::println);
             model.addAttribute("mode_" , "add2");
-            return "front/teacher/studyGroup/add";
+            return "teacher/group/add";
         }
 
         sgSaveService.save(form);
