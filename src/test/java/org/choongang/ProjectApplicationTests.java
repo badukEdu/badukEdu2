@@ -126,27 +126,27 @@ class ProjectApplicationTests {
 
             joinService.process(member4);
 
-
-            Member user01 = new Member();
-            user01.setName("사용자01");
-            user01.setAgree(true);
-            user01.setAgree2(true);
-            user01.setAgree3(true);
-            user01.setAgree4(true);
-            user01.setAgree5(true);
-            user01.setEmailAgree(true);
-            user01.setEnable(true);
-            user01.setSMSAgree(true);
-            user01.setLevels(100L);
-            user01.setUserId("user01");
-            user01.setEmail("user01@naver.com");
-            user01.setPassword(encoder.encode("_aA123456"));
-            user01.setAuthority(Authority.USER);
-            user01.setBirth("1999-01-01");
-            user01.setGender("M");
-            user01.setTel("01001010101");
-
-            joinService.process(user01);
+//
+//            Member user01 = new Member();
+//            user01.setName("사용자01");
+//            user01.setAgree(true);
+//            user01.setAgree2(true);
+//            user01.setAgree3(true);
+//            user01.setAgree4(true);
+//            user01.setAgree5(true);
+//            user01.setEmailAgree(true);
+//            user01.setEnable(true);
+//            user01.setSMSAgree(true);
+//            user01.setLevels(100L);
+//            user01.setUserId("user01");
+//            user01.setEmail("user01@naver.com");
+//            user01.setPassword(encoder.encode("_aA123456"));
+//            user01.setAuthority(Authority.USER);
+//            user01.setBirth("1999-01-01");
+//            user01.setGender("M");
+//            user01.setTel("01001010101");
+//
+//            joinService.process(user01);
 
 
         }

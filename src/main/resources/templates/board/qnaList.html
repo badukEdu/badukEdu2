@@ -6,7 +6,8 @@
 <section layout:fragment="content">
     <h2>QnA 조회</h2>
     <form th:action="@{/guide/qnaList}" method="post" autocomplete="off">
-        <table border="1">
+        <table class="table_rows" border="1">
+            <thead>
             <tr>
                 <th>선택</th>
                 <th>게시글 번호</th>
@@ -17,7 +18,9 @@
 <!--                <th>첨부파일명</th>-->
 <!--                <th>첨부파일경로</th>-->
             </tr>
+            </thead>
 
+            <tbody>
             <tr th:each="qnaList : ${qnaList}" th:object="${qnaList}">
                 <td><input type="checkbox" name="selectQna" th:value="${qnaList}" /></td>
                 <td th:text="*{num}"></td>
@@ -28,6 +31,7 @@
 <!--                <td th:text="*{fileName}"></td>-->
 <!--                <td th:text="*{fileAddress}"></td>-->
             </tr>
+            </tbody>
         </table>
     </form>
     <form th:action="@{/guide/add}" method="get" autocomplete="off">
