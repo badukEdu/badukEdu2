@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <th:block th:fragment="homeworkList">
-    <table class="table_cols mb30">
+    <table class="table_rows mb30">
         <thead>
         <tr>
             <th width="180">번호</th>
@@ -23,8 +23,8 @@
             <td th:text="*{studyLevel}"></td>
             <td th:text="*{deadLine}"></td>
             <td>
-                <a th:href="@{/teacher/homework/edit/{num}(num=*{num})}" class="btn">수정하기</a>
-                <a th:href="@{/teacher/homework/delete/{num}(num=*{num})}" class="btn" onclick="return confirm('정말 삭제하시겠습니까?');">삭제하기</a>
+                <a th:href="@{/teacher/homework/edit/{num}(num=*{num})}" class="sbtn">수정하기</a>
+                <a th:href="@{/teacher/homework/delete/{num}(num=*{num})}" class="sbtn" onclick="return confirm('정말 삭제하시겠습니까?');">삭제하기</a>
             </td>
         </tr>
         </tbody>

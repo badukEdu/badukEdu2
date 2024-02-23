@@ -12,6 +12,7 @@ import org.choongang.education.group.entities.JoinStudyGroup;
 import org.choongang.education.group.services.joinStG.JoinSTGInfoService;
 import org.choongang.education.group.services.joinStG.JoinSTGSaveService;
 import org.choongang.member.MemberUtil;
+import org.choongang.member.entities.Member;
 import org.choongang.teacher.group.controllers.RequestStGroup;
 import org.choongang.teacher.group.controllers.StGroupSearch;
 import org.choongang.teacher.group.entities.StudyGroup;
@@ -238,14 +239,14 @@ TeacherController {
         commonProcess("homework_list", model);
 
         // 내가(한 교육자가) 담당하는 그룹만 조회할 수 있도록
-//        Member member = memberUtil.getMember();
-//        if (member == null) {
-//            return "redirect:/member/login";
-//        }
+        Member member = memberUtil.getMember();
+        if (member == null) {
+            return "redirect:/member/login";
+        }
 
-//        List<Homework> items = homeworkInfoService.getList(member.getNum());
+        List<Homework> items = homeworkInfoService.getList(member.getNum());
 
-        List<Homework> items = homeworkInfoService.getList();
+//        List<Homework> items = homeworkInfoService.getList(); // 임시 전체조회
         model.addAttribute("items", items);
 
         return "teacher/homework/list";
@@ -275,8 +276,9 @@ TeacherController {
         commonProcess("homework_edit", model);
 
         RequestHomework form = homeworkInfoService.getForm(num);
+        form.setMode("edit");
 
-        model.addAttribute("requestForm", form);
+        model.addAttribute("requestHomework", form);
 
         return "teacher/homework/edit";
     }
@@ -288,8 +290,11 @@ TeacherController {
      * @return
      */
     @PostMapping("/homework/save")
-    public String saveHomework(@Valid RequestHomework form, Model model) {
-
+    public String saveHomework(@Valid RequestHomework form, Errors errors, Model model) {
+        System.out.println("mode: " + form.getMode());
+        if (errors.hasErrors()) {
+            return "teacher/homework/" + form.getMode();
+        }
         homeworkSaveService.save(form);
 
         return "redirect:/teacher/homework";
@@ -318,26 +323,17 @@ TeacherController {
     public String distributeHomework(@ModelAttribute StGroupSearch search, Model model) {
         commonProcess("distribute", model);
 
-        /*
-        학습그룹 조회, 숙제 조회
-        체크박스로 체크하여 숙제를 해당 인원들에게 전송.
-         */
-
-/*        Member member = memberUtil.getMember();
+        Member member = memberUtil.getMember();
         if (member == null) {
             return "redirect:/member/login";
         }
         List<Homework> items = homeworkInfoService.getList(member.getNum()); // 교육자가 작성한 숙제
- */
-        List<Homework> items = homeworkInfoService.getList(); // 임시 전체조회
 
 
-        /* 가입한 멤버가 있다면 나오는 리스트
         ListData<StudyGroup> data = sgInfoService.getList(search);
 
         model.addAttribute("list" , data.getItems());
         model.addAttribute("pagination", data.getPagination());
-         */
 
         model.addAttribute("items", items);
 
@@ -375,7 +371,7 @@ TeacherController {
             pageTitle = "숙제 수정::" + pageTitle;
         } else if (mode.equals("distribute")) {
             pageTitle = "숙제 배포::" + pageTitle;
-            addScript.add("homework/" + mode);
+//            addScript.add("homework/" + mode);
         } else if (mode.equals("homework_list")) {
             pageTitle = "숙제 학습 진도 조회::" + pageTitle;
         } else if (mode.equals("accept")) {
