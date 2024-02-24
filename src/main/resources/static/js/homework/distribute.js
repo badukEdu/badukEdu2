@@ -11,7 +11,7 @@ window.addEventListener("DOMContentLoaded", function() {
             checkedMembers.push(num);
         }
     });
-    /* 전체 선택 기능 E */
+    /* Member 전체 선택 기능 E */
 
     /* Homework 전체 선택 기능 S */
     const checkAllHomework = document.getElementById("checkAllHomework");
@@ -25,8 +25,31 @@ window.addEventListener("DOMContentLoaded", function() {
             checkedHomeworks.push(num);
         }
     });
-    /* 전체 선택 기능 E */
+    /* Homework 전체 선택 기능 E */
 
+    /* 배포 버튼 클릭시 S */
+    const distributeBtn = document.getElementById("submitBtn");
+    distributeBtn.addEventListener("click", function(e) {
+        e.preventDefault();
+        // 숙제 선택 항목 체크
+        const checkedHomeworks = document.querySelectorAll("input[name='checkHomework']:checked")
+        console.log(checkedHomeworks.length);
+        if (checkedHomeworks.length == 0) {
+            alert("학습자에게 전송할 숙제를 선택하세요.");
+            return;
+        }
+
+        // 학습자 선택 항목 체크
+        const checkedMembers = document.querySelectorAll("input[name='checkMember']:checked")
+        console.log(checkedMembers.length);
+        if (checkedMembers.length == 0) {
+            alert("숙제를 전송할 학생을 선택하세요.");
+            return;
+        }
+        const distributeFrm = document.getElementById('distributeFrm');
+        distributeFrm.submit();
+    });
+    /* 배포 버튼 클릭시 E */
 
 });
 

@@ -35,7 +35,7 @@ public class RestHomeworkController {
 
         for (Member member : members) {
             tableData.append("<tr>");
-            tableData.append("<td><input type='checkbox' name='checkMember' th:id='*{'chkMB_' + num} th:value=*{num}>").append("</td>"); // 체크박스
+            tableData.append("<td><input type='checkbox' name='checkMember' value='").append(member.getNum()).append("'></td>"); // 체크박스
             tableData.append("<td>").append(member.getName()).append("</td>"); // 학습자명
             tableData.append("<td>").append(member.getTel()).append("</td>"); // 전화번호
             tableData.append("<td>").append(member.getLevels()).append("</td>"); // 현재 레벨
@@ -63,7 +63,7 @@ public class RestHomeworkController {
 
         for (Homework homework : homeworks) {
             tableData.append("<tr>");
-            tableData.append("<td><input type='checkbox' name='checkHomework' th:id='*{'chkHW_' + num} th:value=*{num}>").append("</td>"); // 체크박스
+            tableData.append("<td><input type='checkbox' name='checkHomework' value='").append(homework.getNum()).append("'></td>"); // 체크박스
             tableData.append("<td>").append(homework.getName()).append("</td>"); // 숙제명
             tableData.append("<td>").append(homework.getContent()).append("</td>"); // 내용
             tableData.append("<td>").append(homework.getStudyGroup().getName()).append("</td>"); // 학습그룹

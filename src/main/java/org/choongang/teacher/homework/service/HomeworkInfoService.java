@@ -48,7 +48,7 @@ public class HomeworkInfoService {
     }
 
 
-    /** 숙제 하나 조회
+    /** 숙제 하나 조회(수정 시 사용)
      *
      * @param num
      * @return
