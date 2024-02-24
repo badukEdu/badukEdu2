@@ -54,7 +54,7 @@ public class Menu {
                 new MenuDetail("list", "교육 자료 조회", "/admin/education"),
                 new MenuDetail("board_posts", "공지 등록", "/admin/board/posts"),
                 new MenuDetail("order_list", "매출 조회", "/admin/order"),
-                new MenuDetail("member_list", "회원 조회", "/admin/member")));
+                new MenuDetail("member_list", "회원 관리", "/admin/member")));
     }
 
     public static List<MenuDetail> getMenus(String code) {

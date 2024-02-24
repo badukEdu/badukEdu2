@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/main}">
+
+<section layout:fragment="content">
+    <h1>매출 현황</h1>
+    <h2>매출 검색</h2>
+
+    <h2>매출 목록</h2>
+    <th:block th:replace="~{common/_pagination::pagination}"></th:block>
+</section>
+</html>
