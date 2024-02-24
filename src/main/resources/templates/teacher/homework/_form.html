@@ -8,6 +8,7 @@
             <th width="40"><input type="checkbox" id="checkAll"></th>
             <th>숙제명</th>
             <th>내용</th>
+            <th>그룹명</th>
             <th>숙제레벨</th>
             <th>제출마감</th>
             <th></th>
@@ -22,6 +23,7 @@
             <td><input type="checkbox" name="check"></td>
             <td th:text="*{name}"></td>
             <td th:text="*{content}"></td>
+            <td th:text="*{studyGroup.name}"></td>
             <td th:text="*{studyLevel}"></td>
             <td th:text="*{deadLine}"></td>
             <td>

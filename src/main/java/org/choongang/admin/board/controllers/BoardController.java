@@ -5,6 +5,7 @@ import org.choongang.admin.board.entities.NoticeSearch;
 import org.choongang.admin.board.entities.Notice_;
 import org.choongang.admin.board.service.BoardService;
 import org.choongang.commons.ListData;
+import org.choongang.commons.ExceptionProcessor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -17,7 +18,7 @@ import java.util.Optional;
 @Controller("adminBoardController")
 @RequestMapping("/admin/board")
 @RequiredArgsConstructor
-public class BoardController {
+public class BoardController implements ExceptionProcessor  {
 
     private final BoardService boardService;
 

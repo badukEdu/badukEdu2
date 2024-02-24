@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<th:block th:fragment="save">
+<th:block th:fragment="save" th:object="${requestHomework}">
     <table class="table_cols mb30">
         <input type="hidden" th:field="*{memberNum}">
         <tr>
             <th width="180">제목</th>
             <td>
-                <input type="text" th:field="*{name}">
+                <input type="text" name="name" th:field="*{name}">
                 <div class="error" th:each="err : ${#fields.errors('name')}" th:text="${err}"></div>
             </td>
         </tr>
@@ -17,16 +17,29 @@
                 <div class="error" th:each="err : ${#fields.errors('content')}" th:text="${err}"></div>
             </td>
         </tr>
+        <tr>
+            <th>학습그룹</th>
+            <td>
+
+                    <select datatype="number" name="studyGroupNum" th:field="*{studyGroupNum}">
+                        <option value="">선택</option>
+                        <option th:each="item : ${list}" th:value="${item.num}" th:text="${item.name}">
+                        </option>
+                    </select>
+
+                <div class="error" th:each="err : ${#fields.errors('studyGroupNum')}" th:text="${err}"></div>
+            </td>
+        </tr>
         <th>학습레벨</th>
         <td>
-            <input type="text" th:field="*{studyLevel}">
+            <input type="number" name="studyLevel" th:field="*{studyLevel}" min="1" max="100">
             <div class="error" th:each="err : ${#fields.errors('studyLevel')}" th:text="${err}"></div>
         </td>
         </tr>
         <tr>
             <th>제출마감일</th>
             <td>
-                <input type="date" th:field="*{deadLine}">
+                <input type="date" name="deadLine" th:field="*{deadLine}">
                 <div class="error" th:each="err : ${#fields.errors('deadLine')}" th:text="${err}"></div>
             </td>
         </tr>

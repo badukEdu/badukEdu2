@@ -4,6 +4,14 @@
       layout:decorate="~{layouts/main}">
 
 <section layout:fragment="content">
-
+    <ul class="products">
+        <li th:if="${items != null && !items.isEmpty()}" th:each="item : ${items}" th:object="${item}" class="item">
+            <div class="title" th:text="*{gameTitle}"></div>
+            <div class="product_image" th:if="*{thumbnail != null}" th:utext="*{@utils.printThumb(thumbnail.seq, 700, 700, 'image')}"></div>
+            <div class="description" th:text="*{packageContents}"></div>
+        </li>
+        <li th:unless="${items != null && !items.isEmpty()}" th:text="#{등록된_상품이_없습니다.}"></li>
+    </ul>
+    <th:block th:replace="~{common/_pagination::pagination}"></th:block>
 </section>
 </html>

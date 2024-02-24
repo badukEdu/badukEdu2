@@ -29,6 +29,7 @@ import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.support.SessionStatus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,8 +37,8 @@ import java.util.List;
 @Controller
 @RequestMapping("/teacher")
 @RequiredArgsConstructor
-public class
-TeacherController {
+@SessionAttributes({"requestHomework", "list", "pagination", "items"})
+public class TeacherController {
 
     //group DI SSS //스터디 그룹 의존성
     private final SGSaveService sgSaveService;
@@ -60,6 +61,11 @@ TeacherController {
 
     private final MemberUtil memberUtil;
 
+
+    @ModelAttribute("requestHomework")
+    public RequestHomework requestHomework() {
+        return new RequestHomework();
+    }
 
     // 그룹 목록
     /**
@@ -134,7 +140,7 @@ TeacherController {
             model.addAttribute("items" ,  gameContentInfoService.getList(search).getItems());
             model.addAttribute("pagination" , gameContentInfoService.getList(search).getPagination());
             model.addAttribute("emsg" , "게임 컨텐츠를 선택하세요");
-            return "front/teacher/studyGroup/add";
+            return "teacher/group/add";
         }
 
         //게임 선택 정상적으로 한 경우
@@ -181,7 +187,7 @@ TeacherController {
         if (errors.hasErrors()) {
             errors.getAllErrors().stream().forEach(System.out::println);
             model.addAttribute("mode_" , "add2");
-            return "front/teacher/studyGroup/add";
+            return "teacher/group/add";
         }
 
         sgSaveService.save(form);
@@ -255,7 +261,7 @@ TeacherController {
 
     ////////////////////////////////////////////////////////////////////////////////////////////
 
-    /** 숙제 리스트
+    /** 숙제 배포 페이지
      *
      * @param model
      * @return
@@ -264,29 +270,41 @@ TeacherController {
     public String homeworkList(Model model) {
         commonProcess("homework_list", model);
 
-        // 내가(한 교육자가) 담당하는 그룹만 조회할 수 있도록
         Member member = memberUtil.getMember();
         if (member == null) {
             return "redirect:/member/login";
         }
+        List<Homework> items = homeworkInfoService.getList(member.getNum()); // 교육자가 작성한 숙제
 
-        List<Homework> items = homeworkInfoService.getList(member.getNum());
-
-//        List<Homework> items = homeworkInfoService.getList(); // 임시 전체조회
         model.addAttribute("items", items);
 
         return "teacher/homework/list";
     }
 
-    /** 숙제 생성
+    /** 숙제 생성/조회
      *
      * @param form
      * @param model
      * @return
      */
     @GetMapping("/homework/add")
-    public String addHomework(@ModelAttribute RequestHomework form, Model model) {
+    public String addHomework(@ModelAttribute RequestHomework form, @ModelAttribute StGroupSearch search, Model model) {
         commonProcess("homework_add", model);
+
+
+        ListData<StudyGroup> data = sgInfoService.getList(search);
+
+        model.addAttribute("list" , data.getItems());
+        model.addAttribute("pagination", data.getPagination());
+
+        Member member = memberUtil.getMember();
+        if (member == null) {
+            return "redirect:/member/login";
+        }
+        List<Homework> items = homeworkInfoService.getList(member.getNum()); // 교육자가 작성한 숙제
+
+        model.addAttribute("items", items);
+
 
         return "teacher/homework/add";
     }
@@ -316,17 +334,20 @@ TeacherController {
      * @return
      */
     @PostMapping("/homework/save")
-    public String saveHomework(@Valid RequestHomework form, Errors errors, Model model) {
-        System.out.println("mode: " + form.getMode());
+    public String saveHomework(@Valid RequestHomework form, Errors errors, Model model, SessionStatus status) {
+
         if (errors.hasErrors()) {
             return "teacher/homework/" + form.getMode();
         }
         homeworkSaveService.save(form);
 
-        return "redirect:/teacher/homework";
+
+        status.setComplete();
+
+        return "redirect:/teacher/homework/add";
     }
 
-    /** 숙제 삭제 처리 (예정)
+    /** 숙제 삭제 처리
      *
      * @param num
      * @param model
@@ -355,13 +376,13 @@ TeacherController {
         }
         List<Homework> items = homeworkInfoService.getList(member.getNum()); // 교육자가 작성한 숙제
 
+        model.addAttribute("items", items);
 
         ListData<StudyGroup> data = sgInfoService.getList(search);
 
         model.addAttribute("list" , data.getItems());
         model.addAttribute("pagination", data.getPagination());
 
-        model.addAttribute("items", items);
 
         return "teacher/homework/distribute";
     }

@@ -3,37 +3,53 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/main}">
 <section layout:fragment="content">
-<h2>숙제 배포</h2>
+<h1>숙제 배포</h1>
     <form method="post" th:action="@{/teacher/homework/post}" autocomplete="off">
 
 
-        <th:block th:replace="~{teacher/homework/_form::homeworkList}"></th:block>
+<!--        <th:block th:replace="~{teacher/homework/_form::homeworkList}"></th:block>-->
 
-        교육자가 등록한 학습그룹
+        <div class="mb30">
+            <label for="options">학습그룹</label>
+            <select id="options" name="options" onChange="updateHomework(); updateMember();">
+                <option>선택</option>
+                <option th:each="item : ${list}" th:value="${item.num}" th:text="${item.name}" th:attr="data-index=${item.num}"></option>
+            </select>
+        </div>
+
         <table class="table_rows mb30">
             <thead>
                 <tr>
-                    <td  colspan="4">
-                    <label for="options">학습그룹</label>
-                        <select id="options" name="options" onChange="updateTable()">
-                            <option>선택</option>
-                            <option th:each="item : ${list}" th:value="${item.num}" th:text="${item.name}" th:attr="data-index=${item.num}"></option>
-                        </select>
-                    </td>
+                    <th width="40"><input type="checkbox" id="checkAllHomework"></th>
+                    <th>숙제명</th>
+                    <th>내용</th>
+                    <th>학습그룹</th>
+                    <th>숙제레벨</th>
+                    <th>제출마감</th>
                 </tr>
             </thead>
             <tbody>
+                <tr id="group_homework">
+                    <td colspan="4">학습그룹 숙제</td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table_rows">
+            <thead>
                 <tr>
-                    <th width="40"><input type="checkbox" id="checkall"></th>
+                    <th width="40"><input type="checkbox" id="checkAllMember"></th>
                     <th>학습자명</th>
                     <th>전화번호</th>
                     <th>현재 레벨</th>
                 </tr>
-                <tr id="group_member" th:each="item : ${list}" th:object="${item}">
-                    <td colspan="4">학습그룹을 선택해주세요.</td>
-                </tr>
+            </thead>
+            <tbody>
+                <tr id="group_member">
+                    <td colspan="4">학습그룹 멤버</td>
+            </tr>
             </tbody>
         </table>
+
         <div class="submit_btns">
             <button type="reset" class="sbtn">다시하기</button>
             <button type="submit" class="sbtn on">전송하기</button>

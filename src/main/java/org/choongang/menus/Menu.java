@@ -28,6 +28,8 @@ public class Menu {
                 new MenuDetail("eduList", "교육자료", "/subscription/eduList")
         ));
 
+
+
         // 학습서비스 / 권한 - STUDENT , ADMIN
         menus.put("education", Arrays.asList(
                 new MenuDetail("join", "학습그룹 가입 신청", "/education/join"),
@@ -52,7 +54,7 @@ public class Menu {
                 new MenuDetail("list", "교육 자료 조회", "/admin/education"),
                 new MenuDetail("board_posts", "공지 등록", "/admin/board/posts"),
                 new MenuDetail("order_list", "매출 조회", "/admin/order"),
-                new MenuDetail("member_list", "회원 조회", "/admin/member")));
+                new MenuDetail("member_list", "회원 관리", "/admin/member")));
     }
 
     public static List<MenuDetail> getMenus(String code) {

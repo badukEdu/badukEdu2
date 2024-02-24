@@ -5,7 +5,7 @@
 
 <section layout:fragment="content">
     <h2>내 구독 상품 조회</h2>
-    <form method="get" th:action="@{/subscription}" autocomplete="off" th:object="${gameContentSearch}">
+    <form method="get" th:action="@{/subscription}" autocomplete="off" th:object="${orderSearch}">
         <table class="table_cols">
             <tr>
                 <th width="180">검색</th>
@@ -14,7 +14,6 @@
                         <select name="sopt">
                             <option value="ALL" th:field="*{sopt}">통합검색</option>
                             <option value="gameTitle" th:field="*{sopt}">게임콘텐츠명</option>
-                            <option value="packageContents" th:field="*{sopt}">패키지내용</option>
                         </select>
                         <input type="text" name="skey" th:field="*{skey}">
                     </div>
@@ -29,7 +28,6 @@
     <table class="table_rows">
         <thead>
         <tr>
-            <th>번호</th>
             <th>콘텐츠명</th>
             <th>콘텐츠이미지</th>
             <th>가격/구독기간</th>
@@ -39,12 +37,14 @@
         </thead>
         <tbody>
             <tr th:each="item : ${items}" th:object="${item}">
-                <td th:text="*{num}"></td>
                 <td th:text="*{gameTitle}"></td>
                 <td>
-                    <th:block th:if="*{thumbnail != null}" th:utext="*{@utils.printThumb(thumbnail.seq, 100, 100, 'image')}"></th:block>
+                    <th:block th:if="*{gameContent != null && gameContent.thumbnail != null}" th:utext="*{@utils.printThumb(gameContent.thumbnail.seq, 100, 100, 'image')}"></th:block>
                 </td>
-                <td th:text="*{originalPrice + '원' + startDate + '~' + endDate + '(' + subscriptionMonths + '개월)'}"></td>
+                <td>
+                    <th:block th:text="*{salePrice >= 1000 ? #numbers.formatInteger(salePrice, 3, 'COMMA') : salePrice}"></th:block>원
+                    <th:block th:text="*{startDate + '~' + endDate + '(' + subscriptionMonths + '개월)'}"></th:block>
+                </td>
                 <td>구매일자</td>
                 <td>학습그룹 등록내역</td>
             </tr>

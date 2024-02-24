@@ -39,7 +39,10 @@
         </tr>
         </tbody>
     </table>
-    <div th:text="${emsg}"></div>
+    <div th:if="${emsg != null}">
+        <div th:text="${emsg}" class="error"></div>
+    </div>
+
     <hr>
     <th:block th:replace="~{common/_pagination::pagination}"></th:block>
 

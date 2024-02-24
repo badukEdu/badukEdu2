@@ -1,6 +1,7 @@
 package org.choongang.admin.controllers;
 
 import lombok.RequiredArgsConstructor;
+import org.choongang.commons.ExceptionProcessor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -9,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/admin")
 @RequiredArgsConstructor
-public class AdminController {
+public class AdminController implements ExceptionProcessor  {
 
     @ModelAttribute("pageTitle")
     public String pageTitle() {
