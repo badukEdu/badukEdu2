@@ -5,8 +5,10 @@ import org.choongang.admin.board.entities.Notice_;
 import org.choongang.admin.board.service.BoardService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,7 +23,10 @@ public class BoardController {
 
     @GetMapping("posts")
     public String board_posts(Model model) {
+
+        commonProcess("posts", model);
         model.addAttribute("RequestBoardPosts", new RequestBoardPosts());
+
 
         return "admin/board/posts";
     }
@@ -134,4 +139,23 @@ public class BoardController {
         return "redirect:/admin/board/list/noticeFaq";
     }
     /* 공지사항 및 FAQ 게시글 삭제 E */
+
+
+    private void commonProcess(String mode, Model model) {
+        mode = StringUtils.hasText(mode) ? mode : "posts";
+        String pageTitle = "운영마당";
+        List<String> addCss = new ArrayList<>();
+        List<String> addScript = new ArrayList<>();
+
+        if (mode.equals("posts")) {
+            pageTitle = "공지사항 " + (mode == "edit" ? "수정" : "등록") + " ::" + pageTitle;
+            addScript.add("admin/Board/form");
+            addScript.add("fileManager");
+        }
+
+        model.addAttribute("pageTitle", pageTitle);
+        model.addAttribute("subMenuCode", "board_" + mode);
+        model.addAttribute("addCss", addCss);
+        model.addAttribute("addScript", addScript);
+    }
 }

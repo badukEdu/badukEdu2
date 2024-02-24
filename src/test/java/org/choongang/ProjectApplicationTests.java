@@ -19,6 +19,7 @@ class ProjectApplicationTests {
         @Test
         void member(){
 
+            /*
             Member admin = new Member();
             admin.setName("운영자");
             admin.setAgree(true);
@@ -127,6 +128,8 @@ class ProjectApplicationTests {
             joinService.process(member4);
 
 
+
+
             Member user01 = new Member();
             user01.setName("사용자01");
             user01.setAgree(true);
@@ -148,7 +151,30 @@ class ProjectApplicationTests {
 
             joinService.process(user01);
 
+*/
 
+
+
+            Member member4 = new Member();
+            member4.setName("관리자");
+            member4.setAgree(true);
+            member4.setAgree2(true);
+            member4.setAgree3(true);
+            member4.setAgree4(true);
+            member4.setAgree5(true);
+            member4.setEmailAgree(true);
+            member4.setEnable(true);
+            member4.setSMSAgree(true);
+            member4.setLevels(100L);
+            member4.setUserId("admin0101");
+            member4.setEmail("cbmffjjtgghgㅎgha@naver.com");
+            member4.setPassword(encoder.encode("_aA123456"));
+            member4.setAuthority(Authority.ADMIN);
+            member4.setBirth("1999-01-01");
+            member4.setGender("M");
+            member4.setTel("01001010101");
+
+            joinService.process(member4);
         }
 
 }

@@ -6,8 +6,6 @@
 <section layout:fragment="content">
     <h1>스터디그룹 가입신청 / UI-W-006 </h1>
 
-
-
         <hr>
         <form method="get" th:action="@{/education/join}" th:object="${stGroupSearch}" >
             <table class="table_cols">
@@ -17,7 +15,7 @@
                         <select name="sopt">
                            <option value="ALL" th:field="*{sopt}">통합검색</option>
                           <option value="groupName" th:field="*{sopt}">스터디그룹명</option>
-
+                          <option value="teacherName" th:field="*{sopt}">선생님명</option>
                         </select>
                        <input type="text" name="skey" th:field="*{skey}">
                     </td>

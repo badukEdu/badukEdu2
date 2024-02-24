@@ -3,6 +3,7 @@ package org.choongang.education.controllers;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.choongang.commons.ListData;
+import org.choongang.education.group.controllers.JoinStGroupSearch;
 import org.choongang.education.group.entities.JoinStudyGroup;
 import org.choongang.education.group.services.joinStG.JoinSTGInfoService;
 import org.choongang.education.group.services.joinStG.JoinSTGSaveService;
@@ -29,9 +30,21 @@ public class EducationController {
     private final HttpSession session;
     
     // 현재 신청중인 목록
+    /**
+     *
+     * 가입 가능한 스터디그룹 가입 승인 대기 목록
+     * @param model
+     * @return
+     */
     @GetMapping
-    public String list(Model model) {
+    public String list(Model model , @ModelAttribute JoinStGroupSearch search) {
         commonProcess("list", model);
+
+        search.setType("wait");
+
+        ListData<JoinStudyGroup> data = joinSTGInfoService.getList(search);
+        model.addAttribute("list" , data.getItems());
+        model.addAttribute("pagination" , data.getPagination());
 
         return "education/list";
     }
@@ -97,7 +110,7 @@ public class EducationController {
         if (mode.equals("list")) {
             pageTitle = "신청목록::" + pageTitle;
         } else if (mode.equals("join")) {
-            pageTitle = "학습그룹 가입신청::" + pageTitle;
+            pageTitle = "학습그룹 가입신청::" + pageTitle ;
             addScript.add("education/form");
         } else if (mode.equals("cancal")) {
             pageTitle = "신청취소::" + pageTitle;
