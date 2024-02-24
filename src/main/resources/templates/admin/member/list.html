@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/main}">
+
+<section layout:fragment="content">
+    <h1>회원 관리</h1>
+    <h2>회원 검색</h2>
+
+    <h2>회원목록</h2>
+
+    <th:block th:replace="~{common/_pagination::pagination}"></th:block>
+</section>
+</html>
