@@ -7,7 +7,7 @@ window.addEventListener("DOMContentLoaded", function() {
         for (const chk of checkMembers) {
             chk.checked = checkAllMember.checked;
             const num = chk.value;
-            console.log(num);
+//            console.log(num);
             checkedMembers.push(num);
         }
     });
@@ -21,7 +21,7 @@ window.addEventListener("DOMContentLoaded", function() {
         for (const chk of checkHomeworks) {
             chk.checked = checkAllHomework.checked;
             const num = chk.value;
-            console.log(num);
+//            console.log(num);
             checkedHomeworks.push(num);
         }
     });
