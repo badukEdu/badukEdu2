@@ -4,7 +4,7 @@ window.addEventListener("DOMContentLoaded", function() {
     checkAllMember.addEventListener("change", function() {
         const checkMembers = document.getElementsByName("checkMember");
         const checkedMembers = [];
-        for (const chk of checkedMembers) {
+        for (const chk of checkMembers) {
             chk.checked = checkAllMember.checked;
             const num = chk.value;
             console.log(num);
@@ -16,9 +16,9 @@ window.addEventListener("DOMContentLoaded", function() {
     /* Homework 전체 선택 기능 S */
     const checkAllHomework = document.getElementById("checkAllHomework");
     checkAllHomework.addEventListener("change", function() {
-        const checkMembers = document.getElementsByName("checkHomework");
+        const checkHomeworks = document.getElementsByName("checkHomework");
         const checkedHomeworks = [];
-        for (const chk of checkedHomeworks) {
+        for (const chk of checkHomeworks) {
             chk.checked = checkAllHomework.checked;
             const num = chk.value;
             console.log(num);
@@ -53,7 +53,7 @@ function updateMember() {
 
     // 선택한 값에 따라 새로운 내용을 생성합니다.
     // 서버로 요청 보내기
-    xhr.open("GET", "/get_table_data?option=" + selectedOption, true);
+    xhr.open("GET", "/get_table_data/member?option=" + selectedOption, true);
     xhr.send();
 }
 function updateHomework() {
@@ -73,12 +73,12 @@ function updateHomework() {
         if (this.readyState == 4 && this.status == 200) {
             // 서버로부터 응답을 받으면 테이블 업데이트
 
-            document.getElementById("group_member").innerHTML = this.responseText;
+            document.getElementById("group_homework").innerHTML = this.responseText;
         }
     };
 
     // 선택한 값에 따라 새로운 내용을 생성합니다.
     // 서버로 요청 보내기
-    xhr.open("GET", "/get_table_data?option=" + selectedOption, true);
+    xhr.open("GET", "/get_table_data/homework?option=" + selectedOption, true);
     xhr.send();
 }
