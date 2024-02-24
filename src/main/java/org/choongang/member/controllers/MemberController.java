@@ -7,6 +7,8 @@ import org.choongang.commons.Utils;
 import org.choongang.member.service.FindIdService;
 import org.choongang.member.service.FindPwService;
 import org.choongang.member.service.JoinService;
+import org.choongang.menus.Menu;
+import org.choongang.menus.MenuDetail;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -28,6 +30,11 @@ public class MemberController implements ExceptionProcessor {
     private final FindPwService findPwService;
     private final FindIdService findIdService;
     private final FindIdValidator findIdValidator;
+
+    @ModelAttribute("subMenus")
+    public List<MenuDetail> subMenus() {
+        return Menu.getMenus("guide");
+    }
 
     @ModelAttribute("requestJoin")
     public RequestJoin requestJoin() {
