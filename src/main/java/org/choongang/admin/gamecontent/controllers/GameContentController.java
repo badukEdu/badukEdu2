@@ -6,6 +6,7 @@ import org.choongang.admin.gamecontent.entities.GameContent;
 import org.choongang.admin.gamecontent.service.GameContentDeleteService;
 import org.choongang.admin.gamecontent.service.GameContentInfoService;
 import org.choongang.admin.gamecontent.service.GameContentSaveService;
+import org.choongang.commons.ExceptionProcessor;
 import org.choongang.commons.ListData;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,7 +20,7 @@ import java.util.List;
 @Controller("adminGameContentController")
 @RequestMapping("/admin/gamecontent")
 @RequiredArgsConstructor
-public class GameContentController {
+public class GameContentController implements ExceptionProcessor  {
 
     private final GameContentInfoService gameContentInfoService;
     private final GameContentSaveService gameContentSaveService;
@@ -29,7 +30,7 @@ public class GameContentController {
     public String list(@ModelAttribute GameContentSearch search, Model model) {
         commonProcess("list", model);
 
-        ListData<GameContent> data = gameContentInfoService.getList(search);
+        ListData<GameContent> data = gameContentInfoService.getList(search, true);
         model.addAttribute("items", data.getItems());
         model.addAttribute("pagination", data.getPagination());
 

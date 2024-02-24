@@ -11,6 +11,7 @@ import org.choongang.admin.order.repositories.OrderInfoRepository;
 import org.choongang.admin.order.repositories.OrderItemRepository;
 import org.choongang.commons.exceptions.AlertException;
 import org.choongang.member.MemberUtil;
+import org.choongang.member.entities.Member;
 import org.choongang.subscription.controllers.RequestOrder;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -41,12 +42,15 @@ public class OrderApplyService {
         if (items == null || items.isEmpty()) {
             throw new GameContentNotFoundException();
         }
+
+        Member member = memberUtil.getMember();
+
         Long orderNo = System.currentTimeMillis();
         OrderInfo orderInfo = OrderInfo.builder()
                 .orderNo(orderNo)
                 .orderMobile(form.getOrderMobile())
                 .orderName(form.getOrderName())
-                .member(memberUtil.getMember())
+                .member(member)
                 .paymentMethod(PaymentMethod.valueOf(form.getPaymentMethod()))
                 .totalPayment(totalPayment)
                 .build();
@@ -55,17 +59,29 @@ public class OrderApplyService {
 
         List<OrderItem> orderItems = new ArrayList<>();
         for (GameContent item : items) {
-            LocalDate startDate = LocalDate.now();
-            LocalDate endDate = startDate.plusMonths(item.getSubscriptionMonths());
-            OrderItem orderItem = OrderItem.builder()
-                    .orderInfo(orderInfo)
-                    .gameContent(item)
-                    .gameTitle(item.getGameTitle())
-                    .salePrice(item.getSalePrice())
-                    .startDate(startDate)
-                    .endDate(endDate)
-                    .subscriptionMonths(item.getSubscriptionMonths())
-                    .build();
+
+            OrderItem orderItem = orderItemRepository.getMemberItem(member, item).orElse(null);
+
+            LocalDate startDate = null, endDate = null;
+
+            if (orderItem != null) { // 기 구독 상품이 있는 경우
+                startDate = orderItem.getStartDate();
+                endDate = orderItem.getEndDate().plusMonths(item.getSubscriptionMonths());
+                orderItem.setSubscriptionMonths(orderItem.getSubscriptionMonths() + item.getSubscriptionMonths());
+            } else {
+                startDate = LocalDate.now();
+                endDate = startDate.plusMonths(item.getSubscriptionMonths());
+                orderItem = new OrderItem();
+                orderItem.setOrderInfo(orderInfo);
+                orderItem.setGameContent(item);
+                orderItem.setSubscriptionMonths(item.getSubscriptionMonths());
+            }
+
+            orderItem.setGameTitle(item.getGameTitle());
+            orderItem.setSalePrice(item.getSalePrice());
+            orderItem.setStartDate(startDate);
+            orderItem.setEndDate(endDate);
+
             orderItems.add(orderItem);
         }
 

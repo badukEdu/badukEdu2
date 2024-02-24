@@ -13,6 +13,7 @@ import org.choongang.education.group.services.joinStG.JoinSTGInfoService;
 import org.choongang.education.group.services.joinStG.JoinSTGSaveService;
 import org.choongang.member.MemberUtil;
 import org.choongang.member.entities.Member;
+import org.choongang.member.repositories.MemberRepository;
 import org.choongang.teacher.group.controllers.RequestStGroup;
 import org.choongang.teacher.group.controllers.StGroupSearch;
 import org.choongang.teacher.group.entities.StudyGroup;
@@ -21,9 +22,12 @@ import org.choongang.teacher.group.services.stGroup.SGInfoService;
 import org.choongang.teacher.group.services.stGroup.SGSaveService;
 import org.choongang.teacher.homework.controllers.RequestHomework;
 import org.choongang.teacher.homework.entities.Homework;
+import org.choongang.teacher.homework.entities.TrainingData;
+import org.choongang.teacher.homework.repositories.HomeworkRepository;
 import org.choongang.teacher.homework.service.HomeworkDeleteService;
 import org.choongang.teacher.homework.service.HomeworkInfoService;
 import org.choongang.teacher.homework.service.HomeworkSaveService;
+import org.choongang.teacher.homework.service.TrainingDataSaveService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -57,6 +61,9 @@ public class TeacherController {
     private final HomeworkInfoService homeworkInfoService;
     private final HomeworkSaveService homeworkSaveService;
     private final HomeworkDeleteService homeworkDeleteService;
+    private final TrainingDataSaveService trainingDataSaveService;
+    private final HomeworkRepository homeworkRepository;
+    private final MemberRepository memberRepository;
     ////////////////////////////
 
     private final MemberUtil memberUtil;
@@ -361,7 +368,7 @@ public class TeacherController {
         return "redirect:/teacher/homework";
     }
 
-    /** 숙제 배포 (작업중)
+    /** 숙제 배포
      *
      * @param model
      * @return
@@ -390,12 +397,36 @@ public class TeacherController {
 
     /** 숙제 배포 처리 (예정)
      *
+     * @param checkedHomeworks -> 체크된 학습그룹 숙제
+     * @param checkedMembers -> 체크된 학습그룹 멤버
+     * @param num -> 학습그룹 num
      * @param model
      * @return
      */
     @PostMapping("/homework/distribute")
-    public String distributeHomeworkPs(Model model) {
+    public String distributeHomeworkPs(@RequestParam("checkHomework") List<Long> checkedHomeworks,
+                                       @RequestParam("checkMember") List<Long> checkedMembers,
+                                       Model model) {
         commonProcess("distribute", model);
+
+        TrainingData form = null;
+        Homework homework = null;
+        Member member = null;
+        for (Long chkHW : checkedHomeworks) {
+            // 각 숙제 당
+            homework = homeworkRepository.findById(chkHW).orElseThrow();
+            for (Long chkMB : checkedMembers) {
+                form = new TrainingData();
+                member = memberRepository.findById(chkMB).orElseThrow();
+                form.setHomework(homework);
+                form.setMember(member);
+                trainingDataSaveService.save(form);
+            }
+        }
+
+
+
+
 
         return "redirect:/teacher/homework";
     }

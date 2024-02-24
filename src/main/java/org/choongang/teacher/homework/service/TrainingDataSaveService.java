@@ -14,11 +14,10 @@ public class TrainingDataSaveService {
 
     /**
      *
-     * @param form - 전송될 숙제 폼
-     * @param num - 숙제번호
+     * @param trainingData
      */
     public void save(TrainingData trainingData) {
-        TrainingData data = null;
+
 
 /*
         if (form == null && form.getNum() == null) {
@@ -35,6 +34,6 @@ public class TrainingDataSaveService {
 
 */
         // 작성중..
-        trainingDataRepository.save(trainingData);
+        trainingDataRepository.saveAndFlush(trainingData);
     }
 }
