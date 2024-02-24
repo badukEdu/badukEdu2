@@ -2,6 +2,7 @@ package org.choongang.education.controllers;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.choongang.commons.ExceptionProcessor;
 import org.choongang.commons.ListData;
 import org.choongang.education.group.controllers.JoinStGroupSearch;
 import org.choongang.education.group.entities.JoinStudyGroup;
@@ -22,7 +23,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/education")
 @RequiredArgsConstructor
-public class EducationController {
+public class EducationController implements ExceptionProcessor  {
 
     private final SGInfoService sgInfoService;
     private final JoinSTGSaveService joinSTGSaveService;
@@ -148,7 +149,4 @@ public class EducationController {
         }
         return list;
     }
-
-
-
 }

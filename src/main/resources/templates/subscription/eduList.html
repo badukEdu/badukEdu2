@@ -3,32 +3,35 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/main}">
 <section layout:fragment="content">
-    <h2>교육 자료</h2>
+    <h1>교육 자료</h1>
     <form method="get" th:action="@{/subscription/eduList}" autocomplete="off" th:object="${eduDataSearch}">
-        <table>
+        <table class="table_cols">
             <tr>
                 <th>검색</th>
                 <td>
-                    <select name="sopt">
-                        <option value="ALL" th:field="*{sopt}">통합검색</option>
-                        <option value="name" th:field="*{sopt}">학습자료명</option>
-                        <option value="content" th:field="*{sopt}">자료내용</option>
-                    </select>
-                    <input type="text" name="skey" th:field="*{skey}">
+                    <div class="input_grp">
+                        <select name="sopt">
+                            <option value="ALL" th:field="*{sopt}">통합검색</option>
+                            <option value="name" th:field="*{sopt}">학습자료명</option>
+                            <option value="content" th:field="*{sopt}">자료내용</option>
+                        </select>
+                        <input type="text" name="skey" th:field="*{skey}">
+                    </div>
                 </td>
             </tr>
-            <td>
-                <button type="submit">검색하기</button>
-            </td>
         </table>
+        <div class="submit_btns">
+            <button type="submit" class="btn">검색하기</button>
+        </div>
     </form>
 
+    <h2>교육 자료 목록</h2>
     <form method="post" autocomplete="off">
-        <table class="table_rows" border="1">
+        <table class="table_rows">
             <thead>
             <tr>
                 <th>학습자료명</th>
-                <th>썸네일</th>
+                <th width="120">썸네일</th>
                 <th>자료구분</th>
                 <th>자료유형</th>
                 <th>자료file주소</th>
@@ -39,7 +42,7 @@
             <tbody>
             <tr th:each="item : ${items}"  th:object="${item}">
                 <td th:text="*{name}"></td>
-                <td>
+                <td align="center">
                     <th:block th:if="*{thumbnail != null}" th:utext="*{@utils.printThumb(thumbnail.seq, 100, 100, 'image')}"></th:block>
                 </td>
                 <td th:text="*{dataType}"></td>
