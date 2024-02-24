@@ -6,17 +6,39 @@ import org.choongang.board.entities.Qna;
 import org.choongang.board.service.QnaService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Controller
-@RequestMapping("/board")
+@RequestMapping("/guide")
 @RequiredArgsConstructor
 public class QnaController {
 
     private final QnaService qnaService;
+
+    /* QnA 게시글 목록 조회 S */
+    @GetMapping("/qnaList")
+    public String list(@ModelAttribute Qna form, Model model) {
+
+        commonProcess("qna", model);
+
+        List<Qna> qnaList = qnaService.getList();
+        model.addAttribute("qnaList", qnaList);
+
+        return "board/qnaList";
+    }
+
+    @PostMapping("/qnaList")
+    public String qnaList() {
+
+        return "redirect:/board/qna/add";
+    }
+
+    /* QnA 게시글 목록 조회 E */
 
     /* QnA 게시글 등록(이용자, 관리자 권한) S */
     @GetMapping("/add")
@@ -31,28 +53,12 @@ public class QnaController {
 
         qnaService.save(form);
 
-        return "redirect:/board/qna/list";
+        return "redirect:/guide/qnaList";
     }
     /* QnA 게시글 등록(이용자, 관리자 권한) E */
 
 
-    /* QnA 게시글 목록 조회 S */
-    @GetMapping("/qnaList")
-    public String list(@ModelAttribute Qna form, Model model) {
 
-        List<Qna> qnaList = qnaService.getList();
-        model.addAttribute("qnaList", qnaList);
-
-        return "board/qnaList";
-    }
-
-    @PostMapping("/list")
-    public String qnaList() {
-
-        return "redirect:/board/qna/add";
-    }
-
-    /* QnA 게시글 목록 조회 E */
 
     /* QnA 게시글 상세 조회 S */
 
@@ -61,21 +67,21 @@ public class QnaController {
 
         // 경로 변수 num이 null이거나 음수인 경우에는 admin/board/qnaList로 리다이렉션
         if (num <= 0) {
-            return "redirect:/admin/board/qnaList";
+            return "redirect:/board/qnaList";
         }
 
         // 게시글 번호를 사용하여 해당 게시글 정보를 가져온다.
         Optional<Qna> qnaDetail = qnaService.qnaFindByNum(num);
 
-        // 게시글이 존재하는 경우에는 모델에 추가하고 admin/board/qnaDetail 페이지를 반환
+        // 게시글이 존재하는 경우에는 모델에 추가하고 /board/qnaDetail 페이지를 반환
         if (qnaDetail.isPresent()) {
             model.addAttribute("qnaDetail", qnaDetail.get());
             model.addAttribute("requestQnaAdd", new RequestQnaAdd());
-            return "admin/board/qnaDetail";
+            return "board/qnaDetail";
         }
 
-        // 해당 게시글을 찾을 수 없는 경우에는 admin/board/qnaList로 리다이렉션
-        return "redirect:/admin/board/qnaList";
+        // 해당 게시글을 찾을 수 없는 경우에는 /board/qnaList로 리다이렉션
+        return "redirect:/board/qnaList";
     }
 
     /* QnA 게시글 상세 조회 E */
@@ -92,11 +98,11 @@ public class QnaController {
         if (qnaDetail.isPresent()) {
             model.addAttribute("requestQnaAdd", qnaDetail.get());
 
-            return "admin/board/qnaEdit";
+            return "board/qnaEdit";
         }
 
-        // 해당 게시글을 찾을 수 없는 경우에는 admin/board/qnaList로 리다이렉션
-        return "redirect:/guid/qna/list";
+        // 해당 게시글을 찾을 수 없는 경우에는 guide/qnaList로 리다이렉션
+        return "redirect:/guide/qnaList";
     }
 
     @PostMapping("/qnaEdit")
@@ -122,7 +128,7 @@ public class QnaController {
 
         }
 
-        return "redirect:/guid/qna/list";
+        return "redirect:/guide/qnaList";
     }
 
     /* QnA 게시글 수정 E */
@@ -131,11 +137,25 @@ public class QnaController {
 
     @GetMapping("/qnaDelete/{num}")
     public String deleteQna(@PathVariable Long num) {
+
         qnaService.deleteById(num);
-        return "redirect:/guid/qna/list";
+
+        return "redirect:/guide/qnaList";
     }
 
     /* QnA 게시글 삭제 E */
+
+    private void commonProcess(String mode, Model model) {
+        mode = StringUtils.hasText(mode) ? mode : "add";
+        List<String> addCss = new ArrayList<>();
+        addCss.add("guide/" + mode);
+        String pageTitle = "이용안내";
+        if (mode.equals("qnaList")) pageTitle = "QnA::" + pageTitle;
+
+        model.addAttribute("addCss", addCss);
+        model.addAttribute("subMenuCode", mode);
+        model.addAttribute("pageTitle", pageTitle);
+    }
 
 
 }

@@ -198,3 +198,30 @@ window.addEventListener("DOMContentLoaded", function() {
         console.log(date)
     }
 });
+
+/////스터디그룹용//엔티티명이 달라서 하나 추가했습니다.//
+window.addEventListener("DOMContentLoaded", function() {
+    const startDateEl = document.getElementById("startDate");
+    const endDateEl = document.getElementById("endDate");
+    const subscriptionMonths = document.getElementById("month");
+
+    startDateEl.addEventListener("change", updateEndDate);
+    subscriptionMonths.addEventListener("blur", updateEndDate);
+
+    function updateEndDate() {
+        if(!subscriptionMonths.value) return;
+
+        const month = parseInt(subscriptionMonths.value);
+        if (month < 1) return;
+
+        const date = new Date(startDateEl.value);
+
+        date.setMonth(date.getMonth() + month);
+        const endDate = `${date.getFullYear()}-${("" + (date.getMonth() + 1))
+        .padStart(2, '0')}-${("" + date.getDate()).padStart(2, '0')}`;
+
+        endDateEl.value = endDate;
+
+        console.log(date)
+    }
+});

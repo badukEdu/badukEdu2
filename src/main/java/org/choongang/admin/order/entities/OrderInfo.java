@@ -1,13 +1,13 @@
 package org.choongang.admin.order.entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.choongang.admin.order.constants.PaymentMethod;
 import org.choongang.commons.entities.Base;
 import org.choongang.member.entities.Member;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Entity
@@ -23,15 +23,19 @@ public class OrderInfo extends Base {
     private Member member;
 
     @Column(length=40, nullable = false)
-    private String orderName;
+    private String orderName; // 구매자명
 
     @Column(length=40, nullable = false)
-    private String orderMobile;
+    private String orderMobile; // 연락처
 
     @Enumerated(EnumType.STRING)
     @Column(length=30, nullable = false)
-    private PaymentMethod paymentMethod = PaymentMethod.BANK_TRANSFER;
+    private PaymentMethod paymentMethod = PaymentMethod.BANK_TRANSFER; // 결제방법선택, 기본은 무통장입금 
 
-    private long totalPayment;
+    private long totalPayment; // 주문합계
+
+    @ToString.Exclude
+    @OneToMany(mappedBy = "orderInfo", fetch = FetchType.LAZY)
+    private List<OrderItem> orderItems = new ArrayList<>();
 
 }

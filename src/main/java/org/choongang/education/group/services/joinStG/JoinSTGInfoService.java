@@ -67,6 +67,11 @@ public class JoinSTGInfoService {
             andBuilder.and(joinStudyGroup.studyGroup.member.eq((Member) session.getAttribute("member")));
         }
 
+        //승인 대기 목록일 경우에는 내가 신청한 스터디 그룹만 보이도록
+        if(search.getType().equals("wait")){
+            andBuilder.and(joinStudyGroup.member.eq((Member) session.getAttribute("member")));
+        }
+
         String sopt = search.getSopt();
         String skey = search.getSkey().trim();
 
