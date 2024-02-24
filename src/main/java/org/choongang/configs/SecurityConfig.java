@@ -45,15 +45,13 @@ public class SecurityConfig {
 
 
       http.authorizeHttpRequests(c -> {
-        c.requestMatchers("/member/**", "/guide/**", "/js/**", "/style/**", "/api/**", "/").permitAll()
-            //.requestMatchers("/admin").hasAuthority("ADMIN")
-            .requestMatchers(new AntPathRequestMatcher("/subscription/**")).hasAnyAuthority("TEACHER", "USER", "ADMIN")
-            .requestMatchers(new AntPathRequestMatcher("/education/**")).hasAnyAuthority("STUDENT", "ADMIN")
-            .requestMatchers(new AntPathRequestMatcher("/teacher/**")).hasAnyAuthority("TEACHER", "ADMIN")
-            .requestMatchers(new AntPathRequestMatcher("/student/**")).hasAnyAuthority("STUDENT", "ADMIN")
-            .requestMatchers(new AntPathRequestMatcher("/admin/**")).hasAnyAuthority("ADMIN")
-            .requestMatchers(new AntPathRequestMatcher("/basic/**")).hasAnyAuthority("ADMIN")
-            .anyRequest().authenticated(); // 나머지는 회원 전용
+        c.requestMatchers(new AntPathRequestMatcher("/subscription/**")).hasAnyAuthority("TEACHER", "USER", "ADMIN")
+                .requestMatchers(new AntPathRequestMatcher("/education/**")).hasAnyAuthority("STUDENT", "ADMIN")
+                .requestMatchers(new AntPathRequestMatcher("/teacher/**")).hasAnyAuthority("TEACHER", "ADMIN")
+                .requestMatchers(new AntPathRequestMatcher("/student/**")).hasAnyAuthority("STUDENT", "ADMIN")
+                .requestMatchers(new AntPathRequestMatcher("/admin/**")).hasAnyAuthority("ADMIN")
+                .requestMatchers(new AntPathRequestMatcher("/basic/**")).hasAnyAuthority("ADMIN")
+                .anyRequest().permitAll(); // 나머지는 회원 전용
 
       });
 

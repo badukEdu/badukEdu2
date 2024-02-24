@@ -29,6 +29,7 @@ import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.support.SessionStatus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,8 +37,8 @@ import java.util.List;
 @Controller
 @RequestMapping("/teacher")
 @RequiredArgsConstructor
-public class
-TeacherController {
+@SessionAttributes({"requestHomework", "list", "pagination", "items"})
+public class TeacherController {
 
     //group DI SSS //스터디 그룹 의존성
     private final SGSaveService sgSaveService;
@@ -60,6 +61,11 @@ TeacherController {
 
     private final MemberUtil memberUtil;
 
+
+    @ModelAttribute("requestHomework")
+    public RequestHomework requestHomework() {
+        return new RequestHomework();
+    }
 
     // 그룹 목록
     /**
@@ -328,13 +334,15 @@ TeacherController {
      * @return
      */
     @PostMapping("/homework/save")
-    public String saveHomework(@Valid RequestHomework form, Errors errors,
-                               Model model) {
+    public String saveHomework(@Valid RequestHomework form, Errors errors, Model model, SessionStatus status) {
 
         if (errors.hasErrors()) {
             return "teacher/homework/" + form.getMode();
         }
         homeworkSaveService.save(form);
+
+
+        status.setComplete();
 
         return "redirect:/teacher/homework/add";
     }

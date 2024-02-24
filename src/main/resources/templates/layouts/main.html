@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        xmlns:sec="http://www.thymeleaf.org/extras/spring-securty">
 <head>
     <meta charset="UTF-8">
     <meta name="_csrf" th:content="${_csrf.token}">
@@ -30,11 +31,12 @@
     <header th:replace="~{outlines/header::common}"></header>
 
     <main>
-        <aside th:replace="~{outlines/_submenu::menu}"></aside>
+        <aside sec:authorize="isAuthenticated()" th:replace="~{outlines/_submenu::menu}"></aside>
         <section>
             <section layout:fragment="content"></section>
         </section>
     </main>
+    <footer sec:authorize="isAnonymous()" th:replace="~{outlines/footer::common}"></footer>
     <iframe name="ifrmProcess" class="dn"></iframe>
 </body>
 </html>

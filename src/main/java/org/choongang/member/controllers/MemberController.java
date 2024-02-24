@@ -9,6 +9,8 @@ import org.choongang.member.entities.Member;
 import org.choongang.member.service.FindIdService;
 import org.choongang.member.service.FindPwService;
 import org.choongang.member.service.JoinService;
+import org.choongang.menus.Menu;
+import org.choongang.menus.MenuDetail;
 import org.choongang.member.service.MemberEditService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,6 +36,11 @@ public class MemberController implements ExceptionProcessor {
     private final MemberUtil memberUtil;
     private final MemberEditValidator memberEditValidator;
     private final MemberEditService memberEditService;
+
+    @ModelAttribute("subMenus")
+    public List<MenuDetail> subMenus() {
+        return Menu.getMenus("guide");
+    }
 
     @ModelAttribute("requestJoin")
     public RequestJoin requestJoin() {

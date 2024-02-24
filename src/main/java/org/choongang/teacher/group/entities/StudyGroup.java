@@ -59,10 +59,12 @@ public class StudyGroup {
     private GameContent gameContent; //게임 번호
 
 
+    @ToString.Exclude
     @OneToMany(mappedBy = "studyGroup", fetch = FetchType.LAZY)
     private List<Homework> homeworks;
 
 
+    @ToString.Exclude
     @OneToMany(mappedBy = "studyGroup", fetch = FetchType.LAZY)
     private List<JoinStudyGroup> joinStudyGroups;
 

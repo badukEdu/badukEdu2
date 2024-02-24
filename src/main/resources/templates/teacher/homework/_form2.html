@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<th:block th:fragment="save">
+<th:block th:fragment="save" th:object="${requestHomework}">
     <table class="table_cols mb30">
         <input type="hidden" th:field="*{memberNum}">
         <tr>
@@ -20,19 +20,19 @@
         <tr>
             <th>학습그룹</th>
             <td>
-                <label for="options">
-                    <select id="options" datatype="number" name="studyGroupNum">
-                        <option>선택</option>
+
+                    <select datatype="number" name="studyGroupNum" th:field="*{studyGroupNum}">
+                        <option value="">선택</option>
                         <option th:each="item : ${list}" th:value="${item.num}" th:text="${item.name}">
                         </option>
                     </select>
-                </label>
+
                 <div class="error" th:each="err : ${#fields.errors('studyGroupNum')}" th:text="${err}"></div>
             </td>
         </tr>
         <th>학습레벨</th>
         <td>
-            <input type="text" name="studyLevel" th:field="*{studyLevel}">
+            <input type="number" name="studyLevel" th:field="*{studyLevel}" min="1" max="100">
             <div class="error" th:each="err : ${#fields.errors('studyLevel')}" th:text="${err}"></div>
         </td>
         </tr>
