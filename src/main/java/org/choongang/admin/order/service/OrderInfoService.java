@@ -15,6 +15,7 @@ import org.choongang.admin.order.repositories.OrderItemRepository;
 import org.choongang.commons.ListData;
 import org.choongang.commons.Pagination;
 import org.choongang.commons.Utils;
+import org.choongang.member.MemberUtil;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -33,6 +34,7 @@ public class OrderInfoService {
     private final OrderInfoRepository orderInfoRepository;
     private final GameContentInfoService gameContentInfoService;
     private final OrderItemRepository orderItemRepository;
+    private final MemberUtil memberUtil;
 
     public OrderInfo get(Long orderNo) {
         OrderInfo data = orderInfoRepository.findById(orderNo).orElseThrow(OrderNotFoundException::new);
@@ -44,6 +46,10 @@ public class OrderInfoService {
     }
 
     public ListData<OrderItem> getList(OrderSearch search) {
+        return getList(search, false);
+    }
+
+    public ListData<OrderItem> getList(OrderSearch search, boolean isAll) {
 
         int page = Utils.onlyPositiveNumber(search.getPage(), 1);
         int limit = Utils.onlyPositiveNumber(search.getLimit(), 20);
@@ -68,7 +74,9 @@ public class OrderInfoService {
             }
         }
 
-        /* 검색 조건 처리 E */
+        if (!isAll) {
+            andBuilder.and(orderItem.orderInfo.member.eq(memberUtil.getMember()));
+        }
 
         /* 검색 조건 처리 E */
 
@@ -89,5 +97,4 @@ public class OrderInfoService {
         gameContentInfoService.addInfo(game);
 
     }
-
 }
