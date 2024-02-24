@@ -5,29 +5,18 @@
 
 <section layout:fragment="content">
     <h1>공지사항 및 FAQ 조회</h1>
-    <form th:action="@{/admin/board/list/noticeFaq}" method="post" autocomplete="off">
+    <form th:action="@{/admin/board/list/noticeFaq}" method="get" autocomplete="off" th:object="${noticeSearch}">
         <table class="table_cols">
             <thead>
             <tr>
-                <th width="180">검색</th>
-                <td width="450">
-                    <div class="input_grp">
-                        <select>
-                            <option value="" hidden>검색 유형을 선택하세요</option>
-                            <option value="TitleContent">제목+내용</option>
-                            <option value="Title">제목</option>
-                            <option value="Content">내용</option>
-                        </select>
-
-                        <input type="text" placeholder="검색어를 입력하세요">
-                    </div>
-                </td>
-                <th width="180">표기</th>
+                <th>검색</th>
                 <td>
-                    <select>
-                        <option value="10">10</option>
-                        <option value="20">20</option>
+                    <select name="sopt">
+                        <option value="ALL" th:field="*{sopt}">통합검색</option>
+                        <option value="title" th:field="*{sopt}">제목</option>
+                        <option value="content" th:field="*{sopt}">내용</option>
                     </select>
+                    <input type="text" name="skey" th:field="*{skey}">
                 </td>
             </tr>
         </table>
@@ -36,8 +25,7 @@
         </div>
     </form>
 
-    <h2>게시글 목록</h2>
-
+    <h2>Notice & FaQ 목록</h2>
         <table class="table_rows">
             <thead>
             <tr>
@@ -58,17 +46,18 @@
                 <th>답변</th>
             </tr>
             </thead>
+
             <tbody>
             <tr th:each="noticeList : ${noticeList}" th:object="${noticeList}">
                 <td><input type="checkbox" name="selectNotice" th:value="${noticeList}" /></td>
                 <td th:text="*{num}"></td>
                 <td th:text="*{type}"></td>
 <!--                <td>-->
-<!--                    <span th:if="${noticeList.type == 'faq'}">NULL</span>-->
-<!--                    <span th:unless="${noticeList.type == 'faq'}">-->
-<!--            <span th:if="${noticeList.onTop}">O</span>-->
-<!--            <span th:unless="${noticeList.onTop}">X</span>-->
-<!--        </span>-->
+<!--                <span th:if="${#strings.isNull(noticeList.type)}">NULL</span>-->
+<!--                <span th:unless="${#strings.isNull(noticeList.type)}">-->
+<!--                <span th:if="${noticeList.onTop}">O</span>-->
+<!--                <span th:unless="${noticeList.onTop}">X</span>-->
+<!--                </span>-->
 <!--                </td>-->
                 <td><a th:href="@{'/admin/board/detail/' + ${noticeList.num}}" th:text="*{title}"></a></td>
                 <td th:text="*{content}"></td>

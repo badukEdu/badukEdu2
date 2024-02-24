@@ -55,14 +55,22 @@ public class FileInfoService {
         mode = StringUtils.hasText(mode) ? mode : "ALL";
 
         BooleanBuilder builder = new BooleanBuilder();
-        builder.and(fileInfo.gid.eq(gid));
+        if (gid != null) {
+            builder.and(fileInfo.gid.eq(gid));
+        }
 
         if (StringUtils.hasText(location)) {
-            builder.and(fileInfo.location.eq(location));
+            if (StringUtils.hasText(location)) {
+                builder.and(fileInfo.location.eq(location));
+            }
         }
 
         if (!mode.equals("ALL")) {
-            builder.and(fileInfo.done.eq(mode.equals("DONE")));
+            if (mode.equals("DONE")) {
+                builder.and(fileInfo.done.isTrue());
+            } else if (mode.equals("UNDONE")) {
+                builder.and(fileInfo.done.isFalse());
+            }
         }
 
         List<FileInfo> items = (List<FileInfo>)repository.findAll(builder, Sort.by(asc("createdAt")));

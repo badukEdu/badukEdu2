@@ -4,20 +4,40 @@
       layout:decorate="~{layouts/main}">
 
 <section layout:fragment="content">
-    <h2>QnA 조회</h2>
-    <form th:action="@{/guide/qnaList}" method="post" autocomplete="off">
-        <table class="table_rows" border="1">
+    <h1>QnA 조회</h1>
+    <form th:action="@{/guide/qnaList}" method="get" autocomplete="off" th:object="${qnaSearch}">
+        <table class="table_cols">
             <thead>
             <tr>
-                <th>선택</th>
-                <th>게시글 번호</th>
-                <th>문의 유형</th>
-                <th>제목</th>
-                <th>내용</th>
-                <th>답변 알림 신청 여부</th>
-<!--                <th>첨부파일명</th>-->
-<!--                <th>첨부파일경로</th>-->
+                <th>검색</th>
+                <td>
+                    <select name="sopt">
+                        <option value="ALL" th:field="*{sopt}">통합검색</option>
+                        <option value="title" th:field="*{sopt}">제목</option>
+                        <option value="content" th:field="*{sopt}">내용</option>
+                    </select>
+                    <input type="text" name="skey" th:field="*{skey}">
+                </td>
             </tr>
+        </table>
+        <div class="submit_btns">
+            <button type="submit" class="btn">검색하기</button>
+        </div>
+    </form>
+
+    <h2>QnA 목록</h2>
+        <table class="table_rows">
+            <thead>
+                <tr>
+                    <th>선택</th>
+                    <th>게시글 번호</th>
+                    <th>문의 유형</th>
+                    <th>제목</th>
+                    <th>내용</th>
+                    <th>답변 알림 신청 여부</th>
+    <!--                <th>첨부파일명</th>-->
+    <!--                <th>첨부파일경로</th>-->
+                </tr>
             </thead>
 
             <tbody>
@@ -33,7 +53,7 @@
             </tr>
             </tbody>
         </table>
-    </form>
+
     <form th:action="@{/guide/add}" method="get" autocomplete="off">
         <button type="submit">등록하기</button>
     </form>
