@@ -1,8 +1,10 @@
 package org.choongang.admin.board.controllers;
 
 import lombok.RequiredArgsConstructor;
+import org.choongang.admin.board.entities.NoticeSearch;
 import org.choongang.admin.board.entities.Notice_;
 import org.choongang.admin.board.service.BoardService;
+import org.choongang.commons.ListData;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -45,11 +47,15 @@ public class BoardController {
 
     /* 공지사항 및 FAQ 게시글 목록 조회 S */
 
-    @GetMapping("/list/noticeFaq")
-    public String adminnoticeFaqList(@ModelAttribute Notice_ form, Model model) {
 
-        List<Notice_> noticeList = boardService.getListOrderByOnTop();
-        model.addAttribute("noticeList", noticeList);
+    @GetMapping("/list/noticeFaq")
+    public String adminnoticeFaqList(@ModelAttribute NoticeSearch search, Model model) {
+
+
+        ListData<Notice_> noticeList = boardService.getListOrderByOnTop(search);
+
+        model.addAttribute("noticeList", noticeList.getItems());
+        model.addAttribute("pagination", noticeList.getPagination());
 
         return "board/noticeFaqList";
     }
@@ -61,7 +67,7 @@ public class BoardController {
 
 
     @GetMapping("/detail/{num}")
-    public String detail(@PathVariable Long num, Model model){
+    public String detail(@PathVariable("num") Long num, Model model){
 
         // 경로 변수 num이 null이거나 음수인 경우에는 admin/board/list/noticeQna로 리다이렉션
         if (num <= 0) {
@@ -90,7 +96,7 @@ public class BoardController {
     /* 공지사항 및 FAQ 게시글 수정 S */
 
     @GetMapping("/edit/{num}")
-    public String editForm(@PathVariable Long num, Model model) {
+    public String editForm(@PathVariable("num") Long num, Model model) {
 
         // 게시글 번호를 사용하여 해당 게시글 정보를 가져온다.
         Optional<Notice_> noticeDetail = boardService.findByNum(num);
@@ -134,7 +140,7 @@ public class BoardController {
     /* 공지사항 및 FAQ 게시글 삭제 S */
 
     @GetMapping("/delete/{num}")
-    public String deleteBoard(@PathVariable Long num) {
+    public String deleteBoard(@PathVariable("num") Long num) {
         boardService.deleteById(num);
         return "redirect:/admin/board/list/noticeFaq";
     }

@@ -2,7 +2,9 @@ package org.choongang.board.controllers;
 
 import lombok.RequiredArgsConstructor;
 import org.choongang.admin.board.controllers.RequestBoardPosts;
+import org.choongang.admin.board.entities.NoticeSearch;
 import org.choongang.admin.board.entities.Notice_;
+import org.choongang.commons.ListData;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -27,12 +29,13 @@ public class BoardController {
 //    }
 
     @GetMapping("/list/noticeFaq")
-    public String adminnoticeFaqList(@ModelAttribute Notice_ form, Model model) {
+    public String adminnoticeFaqList(@ModelAttribute NoticeSearch search, Model model) {
 
         commonProcess("notice&faq", model);
 
-        List<Notice_> noticeList = boardService.getListOrderByOnTop();
-        model.addAttribute("noticeList", noticeList);
+        ListData<Notice_> noticeList = boardService.getListOrderByOnTop(search);
+        model.addAttribute("noticeList", noticeList.getItems());
+        model.addAttribute("pagination", noticeList.getPagination());
 
         return "board/noticeFaqList";
     }
@@ -47,7 +50,7 @@ public class BoardController {
     }
 
     @GetMapping("/detail/{num}")
-    public String detail(@PathVariable Long num, Model model){
+    public String detail(@PathVariable("num") Long num, Model model){
 
         // 경로 변수 num이 null이거나 음수인 경우에는 board/list/noticeQna로 리다이렉션
         if (num <= 0) {
@@ -73,9 +76,14 @@ public class BoardController {
     private void commonProcess(String mode, Model model) {
         mode = StringUtils.hasText(mode) ? mode : "list/noticeFaq";
         List<String> addCss = new ArrayList<>();
-        addCss.add("guide/" + mode);
+        List<String> addScript = new ArrayList<>();
+
         String pageTitle = "이용안내";
-        if (mode.equals("list/noticeFaq")) pageTitle = "Notice & FaQ::" + pageTitle;
+        if (mode.equals("list/noticeFaq")) {
+            pageTitle = "Notice & FaQ " + (mode == "edit" ? "수정" : "등록") + " ::" + pageTitle;
+            addCss.add("guide/" + mode);
+            addScript.add("fileManager");
+        }
 
         model.addAttribute("addCss", addCss);
         model.addAttribute("subMenuCode", mode);

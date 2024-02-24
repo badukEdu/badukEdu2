@@ -3,9 +3,11 @@ package org.choongang.admin.board.entities;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.choongang.commons.entities.Base;
+import org.choongang.file.entities.FileInfo;
 import org.choongang.member.entities.Member;
 
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Data // getter, setter, NoArgsConstructor 등 필요한 것만 구성 가능
@@ -15,6 +17,9 @@ public class Notice_ extends Base {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "notice_seq")
     @SequenceGenerator(name = "notice_seq", sequenceName = "NOTICE_SEQ", allocationSize = 1)
     private Long num; // 공지사항(게시물) 번호
+
+    @Column(length = 65)
+    private String gid = UUID.randomUUID().toString();
 
     @Column
     private String type; // 공지사항 분류(공지사항, FAQ , QnA-> ENUM 클래스 사용?)
@@ -51,6 +56,9 @@ public class Notice_ extends Base {
 
     @Column
     private String answer; // 답변(FaQ일 경우에만 사용)
+
+    @Transient
+    private FileInfo thumbnail; // 썸네일 (파일명)
 
 ////////////////////////////
 
