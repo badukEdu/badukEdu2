@@ -13,6 +13,8 @@ import org.choongang.admin.order.entities.OrderItem;
 import org.choongang.admin.order.service.OrderApplyService;
 import org.choongang.admin.order.service.OrderInfoService;
 import org.choongang.commons.ListData;
+import org.choongang.member.MemberUtil;
+import org.choongang.member.entities.Member;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -35,6 +37,7 @@ public class SubscriptionController {
     private final OrderApplyService orderApplyService;
     private final OrderValidator orderValidator;
     private final OrderInfoService orderInfoService;
+    private final MemberUtil memberUtil;
 
     /* 구매한 게임콘텐츠 목록 */
     @GetMapping
@@ -68,6 +71,13 @@ public class SubscriptionController {
     public String apply(@ModelAttribute RequestOrder form, Model model,
                         @RequestParam(name = "chk") List<Long> nums) {
         commonProcess("apply", model);
+
+        if (memberUtil.isLogin()) {
+            Member member = memberUtil.getMember();
+            form.setOrderName(member.getName());
+            form.setDepositor(member.getName());
+            form.setOrderMobile(member.getTel());
+        }
 
         Map<String, Object> data = gameContentInfoService.getOrderSummary(nums);
         model.addAllAttributes(data);

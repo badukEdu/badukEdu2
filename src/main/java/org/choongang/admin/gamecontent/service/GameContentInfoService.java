@@ -2,6 +2,7 @@ package org.choongang.admin.gamecontent.service;
 
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.Expressions;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.choongang.admin.gamecontent.controllers.GameContentSearch;
@@ -22,6 +23,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,6 +43,11 @@ public class GameContentInfoService {
      * @return
      */
     public ListData<GameContent> getList(GameContentSearch search) {
+
+        return getList(search, false);
+    }
+
+    public ListData<GameContent> getList(GameContentSearch search, boolean isAll) {
 
         int page = Utils.onlyPositiveNumber(search.getPage(), 1);
         int limit = Utils.onlyPositiveNumber(search.getLimit(), 20);
@@ -65,6 +72,11 @@ public class GameContentInfoService {
             } else if (sopt.equals("packageContents")) {
                 andBuilder.and(gameContentConds);
             }
+        }
+
+        if (!isAll) { // 구독 신청 가능 상품으로 한정 조회
+            andBuilder.and(gameContent.endDate.loe(Expressions.dateTimeTemplate(LocalDate.class, "ADD_MONTHS(SYSDATE, {0})", gameContent.subscriptionMonths.intValue())))
+                    .and(gameContent.startDate.goe(LocalDate.now()));
 
         }
 
@@ -130,7 +142,6 @@ public class GameContentInfoService {
         }
 
         long totalPayment = items.stream().mapToLong(GameContent::getSalePrice).sum();
-
         Map<String, Object> data = new HashMap<>();
         data.put("items", items);
         data.put("totalPayment", totalPayment);

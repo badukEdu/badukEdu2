@@ -23,7 +23,7 @@
                     <input type="hidden" name="num" th:value="*{num}">
                     <th:block th:if="*{thumbnail != null}" th:utext="*{@utils.printThumb(thumbnail.seq, 100, 100, 'image')}"></th:block>
                 </td>
-                <td th:text="*{originalPrice + '원' + startDate + '~' + endDate + '(' + subscriptionMonths + '개월)'}"></td>
+                <td th:text="*{salePrice + '원' + startDate + '~' + endDate + '(' + subscriptionMonths + '개월)'}"></td>
             </tr>
             </tbody>
         </table>
@@ -47,7 +47,7 @@
             <tr>
                 <th>주문합계</th>
                 <td>
-                    <th:block th:text="${totalPayment >= 1000 ? #numbers.formatInteger(3, totalPayment, 'COMMA') : totalPayment}"></th:block> 원
+                    <th:block th:text="${totalPayment >= 1000 ? #numbers.formatInteger(totalPayment, 3, 'COMMA') : totalPayment}"></th:block> 원
                 </td>
             </tr>
         </table>

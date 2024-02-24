@@ -6,26 +6,28 @@
 <section layout:fragment="content">
     <h2>교육 자료 조회</h2>
     <form method="get" th:action="@{/admin/education}" autocomplete="off" th:object="${eduDataSearch}">
-        <table>
+        <table class="table_cols">
             <tr>
                 <th>검색</th>
                 <td>
+                    <div class="input_grp">
                     <select name="sopt">
                         <option value="ALL" th:field="*{sopt}">통합검색</option>
                         <option value="name" th:field="*{sopt}">학습자료명</option>
                         <option value="content" th:field="*{sopt}">자료내용</option>
                     </select>
-                    <input type="text" name="skey" th:field="*{skey}">
+                        <input type="text" name="skey" th:field="*{skey}">
+                    </div>
                 </td>
             </tr>
-            <td>
-                <button type="submit">검색하기</button>
-            </td>
         </table>
+        <div class="search_btn">
+            <button type="submit" class="btn">검색하기</button>
+        </div>
     </form>
 
     <form method="post" autocomplete="off">
-        <table class="table_rows" border="1">
+        <table class="table_rows">
             <thead>
             <tr>
                 <th>학습자료명</th>
