@@ -23,7 +23,7 @@ public class Menu {
 
         // 구독서비스 / 권한 - TEACHER , USER
         menus.put("subscription", Arrays.asList(
-                new MenuDetail("apply", "게임콘텐츠 검색 및 구독신청", "/subscription/subscribe"),
+                new MenuDetail("apply", "게임콘텐츠 구독신청", "/subscription/subscribe"),
                 new MenuDetail("list", "내 게임콘텐츠 조회", "/subscription"),
                 new MenuDetail("eduList", "교육자료", "/subscription/eduList")
         ));
