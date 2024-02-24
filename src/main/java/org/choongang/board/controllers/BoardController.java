@@ -3,6 +3,7 @@ package org.choongang.board.controllers;
 import lombok.RequiredArgsConstructor;
 import org.choongang.admin.board.controllers.RequestBoardPosts;
 import org.choongang.admin.board.entities.Notice_;
+import org.choongang.commons.ExceptionProcessor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -16,7 +17,7 @@ import java.util.Optional;
 @Controller
 @RequestMapping("/guide")
 @RequiredArgsConstructor
-public class BoardController {
+public class BoardController implements ExceptionProcessor  {
 
     private final BoardService boardService;
 

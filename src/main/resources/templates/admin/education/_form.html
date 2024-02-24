@@ -6,7 +6,7 @@
     <input type="hidden" name="gid" th:field="*{gid}">
     <table class="table_cols">
         <tr>
-            <th th:text="#{학습자료명}"></th>
+            <th width="180" th:text="#{학습자료명}"></th>
             <td>
                 <input type="text" name="name" th:field="*{name}">
                 <div class="error" th:each="err: ${#fields.errors('name')}"

@@ -6,6 +6,7 @@ import org.choongang.admin.education.entities.EduData;
 import org.choongang.admin.education.service.EduContentDeleteService;
 import org.choongang.admin.education.service.EduDataInfoService;
 import org.choongang.admin.education.service.EduDataSaveService;
+import org.choongang.commons.ExceptionProcessor;
 import org.choongang.commons.ListData;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,7 +20,7 @@ import java.util.List;
 @Controller("adminEducationController")
 @RequestMapping("/admin/education")
 @RequiredArgsConstructor
-public class EducationController {
+public class EducationController implements ExceptionProcessor  {
 
     private final EduDataSaveService eduDataSaveService;
     private final EduDataInfoService eduDataInfoService;

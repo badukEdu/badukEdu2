@@ -6,26 +6,28 @@
 <section layout:fragment="content">
     <h2>게임 콘텐츠 조회</h2>
     <form method="get" th:action="@{/admin/gamecontent}" autocomplete="off" th:object="${gameContentSearch}">
-        <table>
+        <table class="table_cols">
             <tr>
-                <th>검색</th>
+                <th width="180">검색</th>
                 <td>
-                    <select name="sopt">
-                        <option value="ALL" th:field="*{sopt}">통합검색</option>
-                        <option value="gameTitle" th:field="*{sopt}">게임콘텐츠명</option>
-                        <option value="packageContents" th:field="*{sopt}">패키지내용</option>
-                    </select>
-                    <input type="text" name="skey" th:field="*{skey}">
+                    <div class="input_grp">
+                        <select name="sopt">
+                            <option value="ALL" th:field="*{sopt}">통합검색</option>
+                            <option value="gameTitle" th:field="*{sopt}">게임콘텐츠명</option>
+                            <option value="packageContents" th:field="*{sopt}">패키지내용</option>
+                        </select>
+                        <input type="text" name="skey" th:field="*{skey}">
+                    </div>
                 </td>
             </tr>
-            <td>
-                <button type="submit">검색하기</button>
-            </td>
         </table>
+        <div class="search_btn">
+            <button type="submit" class="btn">검색하기</button>
+        </div>
     </form>
 
     <form method="post" autocomplete="off">
-        <table class="table_rows" border="1">
+        <table class="table_rows">
             <thead>
             <tr>
                 <th>게임콘텐츠명</th>

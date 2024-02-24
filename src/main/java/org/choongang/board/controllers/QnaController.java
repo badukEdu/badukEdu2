@@ -1,9 +1,9 @@
 package org.choongang.board.controllers;
 
 import lombok.RequiredArgsConstructor;
-import org.choongang.admin.board.entities.Notice_;
 import org.choongang.board.entities.Qna;
 import org.choongang.board.service.QnaService;
+import org.choongang.commons.ExceptionProcessor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -16,7 +16,7 @@ import java.util.Optional;
 @Controller
 @RequestMapping("/guide")
 @RequiredArgsConstructor
-public class QnaController {
+public class QnaController implements ExceptionProcessor  {
 
     private final QnaService qnaService;
 
