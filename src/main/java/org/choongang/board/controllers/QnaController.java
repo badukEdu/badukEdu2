@@ -2,8 +2,10 @@ package org.choongang.board.controllers;
 
 import lombok.RequiredArgsConstructor;
 import org.choongang.board.entities.Qna;
+import org.choongang.board.entities.QnaSearch;
 import org.choongang.board.service.QnaService;
 import org.choongang.commons.ExceptionProcessor;
+import org.choongang.commons.ListData;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -22,12 +24,12 @@ public class QnaController implements ExceptionProcessor  {
 
     /* QnA 게시글 목록 조회 S */
     @GetMapping("/qnaList")
-    public String list(@ModelAttribute Qna form, Model model) {
+    public String list(@ModelAttribute QnaSearch search, Model model) {
 
-        commonProcess("qna", model);
+        ListData<Qna> qnaList = qnaService.getList(search);
 
-        List<Qna> qnaList = qnaService.getList();
-        model.addAttribute("qnaList", qnaList);
+        model.addAttribute("qnaList", qnaList.getItems());
+        model.addAttribute("pagination", qnaList.getPagination());
 
         return "board/qnaList";
     }
@@ -35,7 +37,7 @@ public class QnaController implements ExceptionProcessor  {
     @PostMapping("/qnaList")
     public String qnaList() {
 
-        return "redirect:/board/qna/add";
+        return "board/qnaList";
     }
 
     /* QnA 게시글 목록 조회 E */
@@ -63,11 +65,11 @@ public class QnaController implements ExceptionProcessor  {
     /* QnA 게시글 상세 조회 S */
 
     @GetMapping("/qnaDetail/{num}")
-    public String detail(@PathVariable Long num, Model model) {
+    public String detail(@PathVariable("num") Long num, Model model) {
 
-        // 경로 변수 num이 null이거나 음수인 경우에는 admin/board/qnaList로 리다이렉션
+        // 경로 변수 num이 null이거나 음수인 경우에는 /guide/qnaList로 리다이렉션
         if (num <= 0) {
-            return "redirect:/board/qnaList";
+            return "redirect:/guide/qnaList";
         }
 
         // 게시글 번호를 사용하여 해당 게시글 정보를 가져온다.
@@ -80,8 +82,8 @@ public class QnaController implements ExceptionProcessor  {
             return "board/qnaDetail";
         }
 
-        // 해당 게시글을 찾을 수 없는 경우에는 /board/qnaList로 리다이렉션
-        return "redirect:/board/qnaList";
+        // 해당 게시글을 찾을 수 없는 경우에는 /guide/qnaList로 리다이렉션
+        return "redirect:/guide/qnaList";
     }
 
     /* QnA 게시글 상세 조회 E */
@@ -89,7 +91,7 @@ public class QnaController implements ExceptionProcessor  {
     /* QnA 게시글 수정 S */
 
     @GetMapping("/qnaEdit/{num}")
-    public String editForm(@PathVariable Long num, Model model) {
+    public String editForm(@PathVariable("num") Long num, Model model) {
 
         // 게시글 번호를 사용하여 해당 게시글 정보를 가져온다.
         Optional<Qna> qnaDetail = qnaService.qnaFindByNum(num);
@@ -136,7 +138,7 @@ public class QnaController implements ExceptionProcessor  {
     /* QnA 게시글 삭제 S */
 
     @GetMapping("/qnaDelete/{num}")
-    public String deleteQna(@PathVariable Long num) {
+    public String deleteQna(@PathVariable("num") Long num) {
 
         qnaService.deleteById(num);
 

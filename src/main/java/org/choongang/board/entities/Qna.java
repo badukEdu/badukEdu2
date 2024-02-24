@@ -2,15 +2,22 @@ package org.choongang.board.entities;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.choongang.commons.entities.Base;
+import org.choongang.file.entities.FileInfo;
+
+import java.util.UUID;
 
 @Entity
 @Data
-public class Qna {
+public class Qna extends Base {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "qna_seq")
     @SequenceGenerator(name = "qna_seq", sequenceName = "QNA_SEQ", allocationSize = 1)
     private Long num;
+
+    @Column(length = 65)
+    private String gid = UUID.randomUUID().toString();
 
     private String type;
 
@@ -25,5 +32,8 @@ public class Qna {
 
     @Column
     private String fileAddress; // 파일경로 (파일 경로)
+
+    @Transient
+    private FileInfo thumbnail; // 썸네일 (파일명)
 
 }

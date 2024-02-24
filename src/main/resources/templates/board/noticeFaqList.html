@@ -25,8 +25,7 @@
         </div>
     </form>
 
-    <h2>게시글 목록</h2>
-
+    <h2>Notice & FaQ 목록</h2>
         <table class="table_rows">
             <thead>
             <tr>
@@ -47,17 +46,18 @@
                 <th>답변</th>
             </tr>
             </thead>
+
             <tbody>
             <tr th:each="noticeList : ${noticeList}" th:object="${noticeList}">
                 <td><input type="checkbox" name="selectNotice" th:value="${noticeList}" /></td>
                 <td th:text="*{num}"></td>
                 <td th:text="*{type}"></td>
 <!--                <td>-->
-<!--                    <span th:if="${noticeList.type == 'faq'}">NULL</span>-->
-<!--                    <span th:unless="${noticeList.type == 'faq'}">-->
-<!--            <span th:if="${noticeList.onTop}">O</span>-->
-<!--            <span th:unless="${noticeList.onTop}">X</span>-->
-<!--        </span>-->
+<!--                <span th:if="${#strings.isNull(noticeList.type)}">NULL</span>-->
+<!--                <span th:unless="${#strings.isNull(noticeList.type)}">-->
+<!--                <span th:if="${noticeList.onTop}">O</span>-->
+<!--                <span th:unless="${noticeList.onTop}">X</span>-->
+<!--                </span>-->
 <!--                </td>-->
                 <td><a th:href="@{'/admin/board/detail/' + ${noticeList.num}}" th:text="*{title}"></a></td>
                 <td th:text="*{content}"></td>

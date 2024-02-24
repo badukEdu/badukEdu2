@@ -105,7 +105,7 @@ public class BoardService {
                 BooleanBuilder orBuilder = new BooleanBuilder();
                 andBuilder.and(orBuilder.or(titleConds).or(contentConds));
 
-            } else if (sopt.equals("name")) {
+            } else if (sopt.equals("title")) {
                 andBuilder.and(titleConds);
             } else if (sopt.equals("content")) {
                 andBuilder.and(contentConds);
@@ -127,6 +127,8 @@ public class BoardService {
     }
 
     /* 등록된 게시글 조회(정렬 기준 X, 등록 순) S */
+
+
 
     /* 게시글 번호로 상세 페이지 조회 S */
     public Optional<Notice_> findByNum(Long num) {
