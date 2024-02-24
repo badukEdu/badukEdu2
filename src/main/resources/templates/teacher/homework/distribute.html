@@ -4,7 +4,7 @@
       layout:decorate="~{layouts/main}">
 <section layout:fragment="content">
 <h1>숙제 배포</h1>
-    <form method="post" th:action="@{/teacher/homework/post}" autocomplete="off">
+    <form name="distributeFrm" id="distributeFrm" method="post" th:action="@{/teacher/homework/distribute}" autocomplete="off">
 
 
 <!--        <th:block th:replace="~{teacher/homework/_form::homeworkList}"></th:block>-->
@@ -13,7 +13,7 @@
             <label for="options">학습그룹</label>
             <select id="options" name="options" onChange="updateHomework(); updateMember();">
                 <option>선택</option>
-                <option th:each="item : ${list}" th:value="${item.num}" th:text="${item.name}" th:attr="data-index=${item.num}"></option>
+                <option th:each="item : ${list}" name="num" th:value="${item.num}" th:text="${item.name}" th:attr="data-index=${item.num}"></option>
             </select>
         </div>
 
@@ -28,8 +28,8 @@
                     <th>제출마감</th>
                 </tr>
             </thead>
-            <tbody>
-                <tr id="group_homework">
+            <tbody id="group_homework">
+                <tr>
                     <td colspan="4">학습그룹 숙제</td>
                 </tr>
             </tbody>
@@ -43,16 +43,16 @@
                     <th>현재 레벨</th>
                 </tr>
             </thead>
-            <tbody>
-                <tr id="group_member">
+            <tbody id="group_member">
+                <tr>
                     <td colspan="4">학습그룹 멤버</td>
-            </tr>
+                </tr>
             </tbody>
         </table>
 
         <div class="submit_btns">
             <button type="reset" class="sbtn">다시하기</button>
-            <button type="submit" class="sbtn on">전송하기</button>
+            <button id="submitBtn" class="sbtn on">전송하기</button>
         </div>
     </form>
 </section>

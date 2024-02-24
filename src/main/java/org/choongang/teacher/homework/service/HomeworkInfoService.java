@@ -10,6 +10,7 @@ import org.choongang.teacher.homework.repositories.HomeworkRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -47,7 +48,7 @@ public class HomeworkInfoService {
     }
 
 
-    /** 숙제 하나 조회
+    /** 숙제 하나 조회(수정 시 사용)
      *
      * @param num
      * @return
@@ -56,5 +57,20 @@ public class HomeworkInfoService {
         Homework homework = homeworkRepository.findById(num).orElseThrow();
         RequestHomework form = new ModelMapper().map(homework, RequestHomework.class);
         return form;
+    }
+
+
+
+    /**
+     *  해당 스터디그룹에 등록된 숙제 목록 리턴
+     * @param num -> 스터디그룹 num
+     * @return
+     */
+    public List<Homework> getHomeworks(Long num) {
+
+        List<Homework> homeworks = new ArrayList<>();
+        homeworks = homeworkRepository.getByStudyGroupNum(num);
+
+        return homeworks;
     }
 }
