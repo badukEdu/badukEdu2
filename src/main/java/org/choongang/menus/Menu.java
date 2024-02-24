@@ -33,7 +33,8 @@ public class Menu {
         // 학습서비스 / 권한 - STUDENT , ADMIN
         menus.put("education", Arrays.asList(
                 new MenuDetail("join", "학습그룹 가입 신청", "/education/join"),
-                new MenuDetail("list", "가입 승인 대기 목록", "/education")
+                new MenuDetail("list", "가입 승인 대기 목록", "/education"),
+                new MenuDetail("homeworkList", "숙제 목록", "/education/homework")
         ));
 
         // 교육자마당 / 권한 - TEACHER , ADMIN

@@ -12,6 +12,7 @@ import org.choongang.member.entities.Member;
 import org.choongang.teacher.group.controllers.StGroupSearch;
 import org.choongang.teacher.group.entities.StudyGroup;
 import org.choongang.teacher.group.services.stGroup.SGInfoService;
+import org.choongang.education.homework.service.TrainingDataInfoService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -104,6 +105,23 @@ public class EducationController implements ExceptionProcessor  {
         return "education/view";
     }
 
+
+    /////////////////////////////////////////homework
+
+    @GetMapping("/homework")
+    public String homeworkList(Model model) {
+        commonProcess("homeworkList", model);
+
+        return "/education/homework/list";
+    }
+
+    @GetMapping("/homework/submit/{num}")
+    public String homeworkSubmit(@PathVariable("num") Long num, Model model) {
+        commonProcess("homeworkSubmit", model);
+
+        return "/education/homework/submit";
+    }
+
     private void commonProcess(String mode, Model model) {
         mode = StringUtils.hasText(mode) ? mode : "list";
         String pageTitle = "학습서비스";
@@ -117,6 +135,10 @@ public class EducationController implements ExceptionProcessor  {
             pageTitle = "신청취소::" + pageTitle;
         } else if (mode.equals("view")) {
             pageTitle = "신청내용::" + pageTitle;
+        } else if (mode.equals("homeworkList")) {
+            pageTitle = "숙제 목록::" + pageTitle;
+        } else if (mode.equals("homeworkSubmit")) {
+            pageTitle = "숙제 제출" + pageTitle;
         }
 
         model.addAttribute("pageTitle", pageTitle);
