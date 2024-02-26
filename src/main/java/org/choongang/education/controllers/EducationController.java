@@ -88,9 +88,19 @@ public class EducationController implements ExceptionProcessor  {
      */
     @PostMapping("/apply")
     public String apply(Model model , @ModelAttribute StGroupSearch search ,
-                        @RequestParam(name = "chk" ) List<Long> chks ) {
+                        @RequestParam(name = "chk" , required = false) List<Long> chks ) {
         commonProcess("join", model);
         //가입 신청 내역 저장(칼럼 : accept -> (미승인)false == 0)
+        if(chks == null || chks.isEmpty()){
+            commonProcess("join", model);
+            search.setType("joinstg");
+            ListData<StudyGroup> data = sgInfoService.getList(search);
+            //validstg -> 이미 가입 한 스터디그룹은 목록에서 제외 / andBuilder로 처리한 것이 아니라 pagination 사용 불가
+            model.addAttribute("list" , validstg(data.getItems()) );
+            model.addAttribute("emsg" , "가입할 스터디그룹을 선택하세요");
+            return "education/join";
+        }
+
         joinSTGSaveService.save(chks);
         return "redirect:/education/join";
     }
@@ -111,25 +121,7 @@ public class EducationController implements ExceptionProcessor  {
         return "education/view";
     }
 
-    private void commonProcess(String mode, Model model) {
-        mode = StringUtils.hasText(mode) ? mode : "list";
-        String pageTitle = "학습서비스";
-        List<String> addScript = new ArrayList<>();
-        if (mode.equals("list")) {
-            pageTitle = "신청목록::" + pageTitle;
-        } else if (mode.equals("join")) {
-            pageTitle = "학습그룹 가입신청::" + pageTitle ;
-            addScript.add("education/form");
-        } else if (mode.equals("cancal")) {
-            pageTitle = "신청취소::" + pageTitle;
-        } else if (mode.equals("view")) {
-            pageTitle = "신청내용::" + pageTitle;
-        }
 
-        model.addAttribute("pageTitle", pageTitle);
-        model.addAttribute("addScript", addScript);
-        model.addAttribute("subMenuCode", "education_" + mode);
-    }
 
     /**
      * 현재 로그인 회원이 이미 가입 신청한 스터디그룹은 목록에서 제외 처리해주는 메서드
@@ -156,4 +148,26 @@ public class EducationController implements ExceptionProcessor  {
         }
         return list;
     }
+
+    private void commonProcess(String mode, Model model) {
+        mode = StringUtils.hasText(mode) ? mode : "list";
+        String pageTitle = "학습서비스";
+        List<String> addScript = new ArrayList<>();
+        if (mode.equals("list")) {
+            pageTitle = "신청목록::" + pageTitle;
+        } else if (mode.equals("join")) {
+            pageTitle = "학습그룹 가입신청::" + pageTitle ;
+            addScript.add("education/form");
+        } else if (mode.equals("cancal")) {
+            pageTitle = "신청취소::" + pageTitle;
+        } else if (mode.equals("view")) {
+            pageTitle = "신청내용::" + pageTitle;
+        }
+
+        model.addAttribute("pageTitle", pageTitle);
+        model.addAttribute("addScript", addScript);
+        model.addAttribute("subMenuCode", mode);
+    }
+
+
 }
