@@ -1,11 +1,14 @@
 package org.choongang.admin.board.controllers;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.choongang.admin.board.entities.NoticeSearch;
 import org.choongang.admin.board.entities.Notice_;
 import org.choongang.admin.board.service.BoardService;
 import org.choongang.commons.ListData;
 import org.choongang.commons.ExceptionProcessor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -52,11 +55,16 @@ public class BoardController implements ExceptionProcessor  {
     @GetMapping("/list/noticeFaq")
     public String adminnoticeFaqList(@ModelAttribute NoticeSearch search, Model model) {
 
-
         ListData<Notice_> noticeList = boardService.getListOrderByOnTop(search);
 
         model.addAttribute("noticeList", noticeList.getItems());
         model.addAttribute("pagination", noticeList.getPagination());
+
+        // 게시 예정인 리스트 가져오기
+        NoticeSearch futureSearch = new NoticeSearch();
+        futureSearch.setOnTop("O"); // 게시 예정인 것은 onTop이 'O'인 것으로 검색
+        ListData<Notice_> futureNoticeList = boardService.getListOrderByOnTop(futureSearch);
+        model.addAttribute("futureNoticeList", futureNoticeList.getItems());
 
         return "board/noticeFaqList";
     }

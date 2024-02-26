@@ -91,6 +91,12 @@ public class TeacherController {
         commonProcess("list", model);
 
         ListData<StudyGroup> data = sgInfoService.getList(search);
+
+        for(StudyGroup s : data.getItems()){
+            int c = sgInfoService.getJoinMember(s.getNum()).size();
+            s.setCount(c);
+        }
+
         model.addAttribute("list" , data.getItems());
         model.addAttribute("pagination", data.getPagination());
 
@@ -106,10 +112,50 @@ public class TeacherController {
      */
     @GetMapping("/group/detail/{num}")
     public String detail(@PathVariable("num") Long num, Model model, @ModelAttribute StGroupSearch search){
-
+        commonProcess("detail", model);
         model.addAttribute("list" , sgInfoService.getList(search).getItems());
         model.addAttribute("item" , sgInfoService.getForm(num));
         model.addAttribute("members" , sgInfoService.getJoinMember(num));
+        model.addAttribute("jlist" , joinSTGInfoService.getJoin(num));
+        return "teacher/group/detail";
+    }
+
+    /**
+     * 스터디그룹 상세 (detail -> detail /
+     * 서브메뉴에서 바로 detail 접근 시 등록된 스터디 그룹이 없다면 목록으로, 있다면 첫 번재 스터디 그룹 보여줌)
+     * @param num
+     * @param model
+     * @param search
+     * @return
+     */
+    @GetMapping("/group/detail")
+    public String detail2(@RequestParam(value = "num" ,required = false) Long num, Model model, @ModelAttribute StGroupSearch search){
+
+        if(num == null || num == 0){
+            if(sgInfoService.getList(search).getItems().isEmpty()){
+                commonProcess("list", model);
+                ListData<StudyGroup> data = sgInfoService.getList(search);
+                model.addAttribute("list" , data.getItems());
+                model.addAttribute("pagination", data.getPagination());
+                model.addAttribute("emsg" , "학습 그룹을 등록해야 상세보기가 가능합니다.");
+                return "teacher/group/list";
+            } else if (!sgInfoService.getList(search).getItems().isEmpty()) {
+
+                num = sgInfoService.getList(search).getItems().get(0).getNum();
+                commonProcess("detail", model);
+                model.addAttribute("list" , sgInfoService.getList(search).getItems());
+                model.addAttribute("item" , sgInfoService.getForm(num));
+                model.addAttribute("members" , sgInfoService.getJoinMember(num));
+                model.addAttribute("jlist" , joinSTGInfoService.getJoin(num));
+                return "teacher/group/detail";
+            }
+        }
+
+        commonProcess("detail", model);
+        model.addAttribute("list" , sgInfoService.getList(search).getItems());
+        model.addAttribute("item" , sgInfoService.getForm(num));
+        model.addAttribute("members" , sgInfoService.getJoinMember(num));
+        model.addAttribute("jlist" , joinSTGInfoService.getJoin(num));
         return "teacher/group/detail";
     }
 
@@ -149,14 +195,15 @@ public class TeacherController {
      */
     @PostMapping("/group/add2")
     public String addGroup2(Model model , @ModelAttribute RequestStGroup form
-            , @RequestParam(name = "num" , required = false) Long num,@ModelAttribute GameContentSearch search) {
+            , @RequestParam(name = "num" , required = false) Long num,@ModelAttribute OrderSearch search) {
         commonProcess("add", model);
 
         //스터디그룹 등록 1. 게임 컨텐츠 설정에서 게임 선택하지 않을경우
         if(num == null){
             model.addAttribute("mode_" , "add1");
-            model.addAttribute("items" ,  gameContentInfoService.getList(search).getItems());
-            model.addAttribute("pagination" , gameContentInfoService.getList(search).getPagination());
+            ListData<OrderItem> data = orderInfoService.getList(search);
+            model.addAttribute("items", data.getItems());
+            model.addAttribute("pagination", data.getPagination());
             model.addAttribute("emsg" , "게임 컨텐츠를 선택하세요");
             return "teacher/group/add";
         }
@@ -269,8 +316,21 @@ public class TeacherController {
      */
 
     @PostMapping("/group/accept")
-    public String acceptGroupPs(Model model ,  @RequestParam(name = "chk" ) List<Long> chks) {
+    public String acceptGroupPs(Model model ,  @RequestParam(name = "chk" , required = false) List<Long> chks,
+     @ModelAttribute JoinStGroupSearch search) {
         commonProcess("accept", model);
+
+        if(chks == null || chks.isEmpty()){
+            commonProcess("accept", model);
+            //가입 승인 대기 / 완료 목록
+            ListData<JoinStudyGroup> data = joinSTGInfoService.getList(search);
+            model.addAttribute("list" , data.getItems());
+            model.addAttribute("pagination" , data.getPagination());
+            model.addAttribute("emsg" , "승인할 스터디그룹을 선택하세요");
+            return "teacher/group/accept";
+        }
+
+
         //가입 승인 처리
         joinSTGSaveService.accept(chks);
 
@@ -496,6 +556,8 @@ public class TeacherController {
             addScript.add("homework/" + mode);
         } else if (mode.equals("accept")) {
             pageTitle = "회원 그룹 가입 승인::" + pageTitle;
+        }else if (mode.equals("detail")) {
+            pageTitle = "스터디그룹 상세::" + pageTitle;
         }
 
         model.addAttribute("addCss", addCss);

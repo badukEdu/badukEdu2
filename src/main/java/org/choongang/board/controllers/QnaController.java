@@ -25,6 +25,7 @@ public class QnaController implements ExceptionProcessor  {
     /* QnA 게시글 목록 조회 S */
     @GetMapping("/qnaList")
     public String list(@ModelAttribute QnaSearch search, Model model) {
+        commonProcess("list", model);
 
         ListData<Qna> qnaList = qnaService.getList(search);
 
@@ -35,7 +36,8 @@ public class QnaController implements ExceptionProcessor  {
     }
 
     @PostMapping("/qnaList")
-    public String qnaList() {
+    public String qnaList(Model model) {
+        commonProcess("list", model);
 
         return "board/qnaList";
     }
@@ -44,14 +46,16 @@ public class QnaController implements ExceptionProcessor  {
 
     /* QnA 게시글 등록(이용자, 관리자 권한) S */
     @GetMapping("/add")
-    public String qnaAdd(Model model) {
-        model.addAttribute("RequestQnaAdd", new RequestQnaAdd());
+    public String qnaAdd(@ModelAttribute  RequestQnaAdd form, Model model) {
+        commonProcess("add", model);
+
 
         return "board/qnaAdd";
     }
 
     @PostMapping("/add")
     public String qnaList(RequestQnaAdd form, Model model) {
+        commonProcess("add", model);
 
         qnaService.save(form);
 
@@ -66,6 +70,7 @@ public class QnaController implements ExceptionProcessor  {
 
     @GetMapping("/qnaDetail/{num}")
     public String detail(@PathVariable("num") Long num, Model model) {
+        commonProcess("detail", model);
 
         // 경로 변수 num이 null이거나 음수인 경우에는 /guide/qnaList로 리다이렉션
         if (num <= 0) {
@@ -92,7 +97,7 @@ public class QnaController implements ExceptionProcessor  {
 
     @GetMapping("/qnaEdit/{num}")
     public String editForm(@PathVariable("num") Long num, Model model) {
-
+        commonProcess("edit", model);
         // 게시글 번호를 사용하여 해당 게시글 정보를 가져온다.
         Optional<Qna> qnaDetail = qnaService.qnaFindByNum(num);
 
@@ -109,7 +114,7 @@ public class QnaController implements ExceptionProcessor  {
 
     @PostMapping("/qnaEdit")
     public String editqna(RequestQnaAdd form, Model model) {
-
+        commonProcess("edit", model);
         // 기존 게시물 정보 가져오기
         Optional<Qna> existingQna = qnaService.qnaFindByNum(form.getNum());
 
@@ -138,8 +143,8 @@ public class QnaController implements ExceptionProcessor  {
     /* QnA 게시글 삭제 S */
 
     @GetMapping("/qnaDelete/{num}")
-    public String deleteQna(@PathVariable("num") Long num) {
-
+    public String deleteQna(@PathVariable("num") Long num, Model model) {
+        commonProcess("delete", model);
         qnaService.deleteById(num);
 
         return "redirect:/guide/qnaList";
@@ -150,11 +155,17 @@ public class QnaController implements ExceptionProcessor  {
     private void commonProcess(String mode, Model model) {
         mode = StringUtils.hasText(mode) ? mode : "add";
         List<String> addCss = new ArrayList<>();
+        List<String> addScript = new ArrayList<>();
+
         addCss.add("guide/" + mode);
         String pageTitle = "이용안내";
-        if (mode.equals("qnaList")) pageTitle = "QnA::" + pageTitle;
+        if (mode.equals("list")) pageTitle = "QnA::" + pageTitle;
+        else if (mode.equals("add") || mode.equals("edit")) {
+            addScript.add("fileManager");
+        }
 
         model.addAttribute("addCss", addCss);
+        model.addAttribute("addScript", addScript);
         model.addAttribute("subMenuCode", mode);
         model.addAttribute("pageTitle", pageTitle);
     }

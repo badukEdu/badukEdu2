@@ -17,16 +17,16 @@
     </tr>
     <tr>
         <th>작성자</th>
-        <td></td>
+        <td th:text="${qnaDetail.member != null ? qnaDetail.member.userId : '작성자 정보 없음'}"></td>
     </tr>
     <tr>
         <th>제목</th>
         <td th:text="${qnaDetail.title}"></td>
     </tr>
-    <tr>
-        <th>내용</th>
-        <td th:textarea="${qnaDetail.content}"></td>
-    </tr>
+<!--    <tr>-->
+<!--        <th>내용</th>-->
+<!--        <td th:textarea="${qnaDetail.content}"></td>-->
+<!--    </tr>-->
     <tr>
         <th></th>
         <td></td>

@@ -10,6 +10,8 @@
 
         <section class="btn_area">
             <th:block sec:authorize="isAuthenticated()">
+                <p>권한: <span th:text="${session.member.authority}"></span> </p>
+                <p>이름: <span th:text="${session.member.name}"></span> </p>
                 <a th:href="@{/member/member_edit}">회원정보 수정</a>
                 <a th:href="@{/member/logout}">로그아웃</a>
             </th:block>

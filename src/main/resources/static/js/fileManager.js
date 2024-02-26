@@ -111,4 +111,23 @@ window.addEventListener("DOMContentLoaded", function() {
             fileEl.click();
         });
     }
+
+    const dragUploads = document.getElementsByClassName("dragFileUploads");
+    for (const el of dragUploads) {
+        el.addEventListener("dragover", function(e) {
+                e.preventDefault();
+        });
+
+
+        el.addEventListener("drop", function(e) {
+            e.preventDefault();
+            const files = e.dataTransfer.files;
+
+            const dataset = this.dataset;
+            const location = dataset.location;
+            const imageOnly = dataset.imageOnly === 'true';
+            const singleFile = dataset.singleFile === 'true';
+            commonLib.fileManager.upload(files, location, imageOnly, singleFile);
+        });
+    }
 });

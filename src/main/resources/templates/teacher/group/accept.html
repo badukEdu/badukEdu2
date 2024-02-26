@@ -61,6 +61,9 @@
             </tr>
             </tbody>
         </table>
+    <div th:if="${emsg != null}">
+        <div th:text="${emsg}" class="error"></div>
+    </div>
             <tr >
                 <td colspan="6">
                     <button type="submit">가입 승인</button>
