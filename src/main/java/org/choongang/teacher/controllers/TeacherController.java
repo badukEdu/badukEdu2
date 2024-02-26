@@ -113,7 +113,8 @@ public class TeacherController {
     }
 
     /**
-     * 스터디그룹 상세 (detail -> detail)
+     * 스터디그룹 상세 (detail -> detail /
+     * 서브메뉴에서 바로 detail 접근 시 등록된 스터디 그룹이 없다면 목록으로, 있다면 첫 번재 스터디 그룹 보여줌)
      * @param num
      * @param model
      * @param search
