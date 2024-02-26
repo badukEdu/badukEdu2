@@ -16,6 +16,7 @@ import org.choongang.commons.Pagination;
 import org.choongang.commons.Utils;
 import org.choongang.file.entities.FileInfo;
 import org.choongang.file.service.FileInfoService;
+import org.choongang.member.MemberUtil;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -36,6 +37,7 @@ public class QnaService {
     private final HttpServletRequest request;
     private final FileInfoService fileInfoService;
     private final QnaRepository qnaRepository;
+    private final MemberUtil memberUtil;
 
 
     /* QnA 등록, 수정 서비스 S */
@@ -59,6 +61,7 @@ public class QnaService {
         qna.setContent(form.getContent());
         qna.setFileName(form.getFileName());
         qna.setFileAddress(form.getFileAddress());
+        qna.setMember(memberUtil.getMember());
 
         qnaRepository.saveAndFlush(qna);
     }
@@ -85,14 +88,18 @@ public class QnaService {
             skey = skey.trim();
             BooleanExpression titleConds = qna.title.contains(skey);
             BooleanExpression contentConds = qna.content.contains(skey);
+            BooleanExpression typeConds = qna.type.contains(skey);
+
             if (sopt.equals("ALL")) {
                 BooleanBuilder orBuilder = new BooleanBuilder();
-                andBuilder.and(orBuilder.or(titleConds).or(contentConds));
+                andBuilder.and(orBuilder.or(titleConds).or(contentConds).or(typeConds));
 
             } else if (sopt.equals("title")) {
                 andBuilder.and(titleConds);
             } else if (sopt.equals("content")) {
                 andBuilder.and(contentConds);
+            } else if (sopt.equals("type")) {
+                andBuilder.and(typeConds);
             }
         }
 

@@ -17,6 +17,7 @@ import org.choongang.commons.Pagination;
 import org.choongang.commons.Utils;
 import org.choongang.file.entities.FileInfo;
 import org.choongang.file.service.FileInfoService;
+import org.choongang.member.MemberUtil;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -25,6 +26,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,6 +39,7 @@ public class BoardService {
     private final HttpServletRequest request;
     private final FileInfoService fileInfoService;
     private final BoardRepository boardRepository;
+    private final MemberUtil memberUtil;
 
     /* 게시글(Notice, FaQ) 등록 및 수정 서비스 S */
 
@@ -63,6 +66,7 @@ public class BoardService {
         notice.setQuestion(form.getQuestion());
         notice.setAnswer(form.getAnswer());
         notice.setContent(form.getContent());
+        notice.setMember(memberUtil.getMember());
 
         boardRepository.saveAndFlush(notice);
     }
@@ -96,38 +100,53 @@ public class BoardService {
         QNotice_ notice = QNotice_.notice_;
 
         /* 검색 조건 처리 S */
+
+        // 삭제된 데이터 제외
         BooleanBuilder andBuilder = new BooleanBuilder();
+
         if (StringUtils.hasText(skey)) {
             skey = skey.trim();
             BooleanExpression titleConds = notice.title.contains(skey);
             BooleanExpression contentConds = notice.content.contains(skey);
+            BooleanExpression typeConds = notice.type.contains(skey);
+
             if (sopt.equals("ALL")) {
                 BooleanBuilder orBuilder = new BooleanBuilder();
-                andBuilder.and(orBuilder.or(titleConds).or(contentConds));
+                andBuilder.and(orBuilder.or(titleConds).or(contentConds).or(typeConds));
 
             } else if (sopt.equals("title")) {
                 andBuilder.and(titleConds);
             } else if (sopt.equals("content")) {
                 andBuilder.and(contentConds);
+            } else if (sopt.equals("type")) {
+                andBuilder.and(typeConds);
             }
         }
 
-        /* 검색 조건 처리 E */
-
-        Pageable pageable = PageRequest.of(page - 1, limit, Sort.by(desc("createdAt")));
-
+        Pageable pageable;
+        if (StringUtils.hasText(search.getOnTop()) && search.getOnTop().equals("O")) {
+            // onTop이 'O'인 경우, 가장 최근 게시물을 제일 위에 출력하도록 설정
+            pageable = PageRequest.of(page - 1, limit, Sort.by(Sort.Direction.DESC, "createdAt"));
+        } else {
+            // onTop이 'O'가 아닌 경우, 일반적인 등록일 기준으로 정렬
+            pageable = PageRequest.of(page - 1, limit, Sort.by(Sort.Direction.DESC, "onTop", "createdAt"));
+        }
         Page<Notice_> data = boardRepository.findAll(andBuilder, pageable);
-        int total = (int)boardRepository.count(andBuilder);
+        int total = (int) boardRepository.count(andBuilder);
 
         data.getContent().forEach(this::addInfo);
 
-        Pagination pagination = new Pagination(page, total, 10, limit ,request);
+        // 결과 반환
+
+        Pagination pagination = new Pagination(page, total, 10, limit, request);
 
         return new ListData<>(data.getContent(), pagination);
     }
 
-    /* 등록된 게시글 조회(정렬 기준 X, 등록 순) S */
+    /* 노출 여부를 기준으로 게시물 조회 E */
 
+
+    /* 게시 예정인 게시물을 가져오는 메소드 S */
 
 
     /* 게시글 번호로 상세 페이지 조회 S */

@@ -96,6 +96,9 @@ public class Member extends Base {
   private List<Notice_> notices;
 
   @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
+  private List<Qna> qnas;
+
+  @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
   private List<Homework> homeworks;
 
   @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)

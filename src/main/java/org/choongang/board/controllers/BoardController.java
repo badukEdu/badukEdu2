@@ -38,9 +38,9 @@ public class BoardController implements ExceptionProcessor  {
         model.addAttribute("noticeList", noticeList.getItems());
         model.addAttribute("pagination", noticeList.getPagination());
 
+
         return "board/noticeFaqList";
     }
-
 
     @GetMapping("list/qna")
     public String qnaList(Model model) {
