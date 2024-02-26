@@ -43,9 +43,6 @@ public class JoinSTGInfoService {
     }
 
 
-
-
-
     /**
      * 교육자일 경우 본인이 개설한 스터디그룹 신청 명단만 보이도록
      * 관리자는 전체 열람 가능
