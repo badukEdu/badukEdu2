@@ -45,8 +45,6 @@ public class EducationController implements ExceptionProcessor  {
 
         search.setType("wait");
 
-        memberUtil.hasJoinStudyGroup();
-        model.addAttribute("ddd" , memberUtil.hasJoinStudyGroup());
         ListData<JoinStudyGroup> data = joinSTGInfoService.getList(search);
         model.addAttribute("list" , data.getItems());
         model.addAttribute("pagination" , data.getPagination());
