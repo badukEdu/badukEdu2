@@ -46,7 +46,7 @@ public class MemberUtil {
         List<JoinStudyGroup> list = joinSTGInfoService.getAll();
         boolean result_ = false;
         for(JoinStudyGroup j : list){
-            if(j.getMember().getNum().equals(((Member)session.getAttribute("member")).getNum())){
+            if(j.getMember().getNum().equals((getMember()).getNum())){
                 result_ = true;
                 break;
             }
