@@ -27,6 +27,7 @@ import org.choongang.teacher.homework.controllers.RequestHomework;
 import org.choongang.teacher.homework.entities.Homework;
 import org.choongang.teacher.homework.entities.TrainingData;
 import org.choongang.teacher.homework.repositories.HomeworkRepository;
+import org.choongang.teacher.homework.repositories.TrainingDataRepository;
 import org.choongang.teacher.homework.service.HomeworkDeleteService;
 import org.choongang.teacher.homework.service.HomeworkInfoService;
 import org.choongang.teacher.homework.service.HomeworkSaveService;
@@ -68,6 +69,7 @@ public class TeacherController {
     private final TrainingDataSaveService trainingDataSaveService;
     private final HomeworkRepository homeworkRepository;
     private final MemberRepository memberRepository;
+    private final TrainingDataRepository trainingDataRepository;
     ////////////////////////////
 
     private final MemberUtil memberUtil;
@@ -90,6 +92,12 @@ public class TeacherController {
         commonProcess("list", model);
 
         ListData<StudyGroup> data = sgInfoService.getList(search);
+
+        for(StudyGroup s : data.getItems()){
+            int c = sgInfoService.getJoinMember(s.getNum()).size();
+            s.setCount(c);
+        }
+
         model.addAttribute("list" , data.getItems());
         model.addAttribute("pagination", data.getPagination());
 
@@ -105,10 +113,50 @@ public class TeacherController {
      */
     @GetMapping("/group/detail/{num}")
     public String detail(@PathVariable("num") Long num, Model model, @ModelAttribute StGroupSearch search){
-
+        commonProcess("detail", model);
         model.addAttribute("list" , sgInfoService.getList(search).getItems());
         model.addAttribute("item" , sgInfoService.getForm(num));
         model.addAttribute("members" , sgInfoService.getJoinMember(num));
+        model.addAttribute("jlist" , joinSTGInfoService.getJoin(num));
+        return "teacher/group/detail";
+    }
+
+    /**
+     * 스터디그룹 상세 (detail -> detail /
+     * 서브메뉴에서 바로 detail 접근 시 등록된 스터디 그룹이 없다면 목록으로, 있다면 첫 번재 스터디 그룹 보여줌)
+     * @param num
+     * @param model
+     * @param search
+     * @return
+     */
+    @GetMapping("/group/detail")
+    public String detail2(@RequestParam(value = "num" ,required = false) Long num, Model model, @ModelAttribute StGroupSearch search){
+
+        if(num == null || num == 0){
+            if(sgInfoService.getList(search).getItems().isEmpty()){
+                commonProcess("list", model);
+                ListData<StudyGroup> data = sgInfoService.getList(search);
+                model.addAttribute("list" , data.getItems());
+                model.addAttribute("pagination", data.getPagination());
+                model.addAttribute("emsg" , "학습 그룹을 등록해야 상세보기가 가능합니다.");
+                return "teacher/group/list";
+            } else if (!sgInfoService.getList(search).getItems().isEmpty()) {
+
+                num = sgInfoService.getList(search).getItems().get(0).getNum();
+                commonProcess("detail", model);
+                model.addAttribute("list" , sgInfoService.getList(search).getItems());
+                model.addAttribute("item" , sgInfoService.getForm(num));
+                model.addAttribute("members" , sgInfoService.getJoinMember(num));
+                model.addAttribute("jlist" , joinSTGInfoService.getJoin(num));
+                return "teacher/group/detail";
+            }
+        }
+
+        commonProcess("detail", model);
+        model.addAttribute("list" , sgInfoService.getList(search).getItems());
+        model.addAttribute("item" , sgInfoService.getForm(num));
+        model.addAttribute("members" , sgInfoService.getJoinMember(num));
+        model.addAttribute("jlist" , joinSTGInfoService.getJoin(num));
         return "teacher/group/detail";
     }
 
@@ -148,14 +196,15 @@ public class TeacherController {
      */
     @PostMapping("/group/add2")
     public String addGroup2(Model model , @ModelAttribute RequestStGroup form
-            , @RequestParam(name = "num" , required = false) Long num,@ModelAttribute GameContentSearch search) {
+            , @RequestParam(name = "num" , required = false) Long num,@ModelAttribute OrderSearch search) {
         commonProcess("add", model);
 
         //스터디그룹 등록 1. 게임 컨텐츠 설정에서 게임 선택하지 않을경우
         if(num == null){
             model.addAttribute("mode_" , "add1");
-            model.addAttribute("items" ,  gameContentInfoService.getList(search).getItems());
-            model.addAttribute("pagination" , gameContentInfoService.getList(search).getPagination());
+            ListData<OrderItem> data = orderInfoService.getList(search);
+            model.addAttribute("items", data.getItems());
+            model.addAttribute("pagination", data.getPagination());
             model.addAttribute("emsg" , "게임 컨텐츠를 선택하세요");
             return "teacher/group/add";
         }
@@ -268,8 +317,21 @@ public class TeacherController {
      */
 
     @PostMapping("/group/accept")
-    public String acceptGroupPs(Model model ,  @RequestParam(name = "chk" ) List<Long> chks) {
+    public String acceptGroupPs(Model model ,  @RequestParam(name = "chk" , required = false) List<Long> chks,
+     @ModelAttribute JoinStGroupSearch search) {
         commonProcess("accept", model);
+
+        if(chks == null || chks.isEmpty()){
+            commonProcess("accept", model);
+            //가입 승인 대기 / 완료 목록
+            ListData<JoinStudyGroup> data = joinSTGInfoService.getList(search);
+            model.addAttribute("list" , data.getItems());
+            model.addAttribute("pagination" , data.getPagination());
+            model.addAttribute("emsg" , "승인할 스터디그룹을 선택하세요");
+            return "teacher/group/accept";
+        }
+
+
         //가입 승인 처리
         joinSTGSaveService.accept(chks);
 
@@ -278,25 +340,6 @@ public class TeacherController {
 
     ////////////////////////////////////////////////////////////////////////////////////////////
 
-    /** 숙제 배포 페이지
-     *
-     * @param model
-     * @return
-     */
-    @GetMapping("/homework")
-    public String homeworkList(Model model) {
-        commonProcess("homework_list", model);
-
-        Member member = memberUtil.getMember();
-        if (member == null) {
-            return "redirect:/member/login";
-        }
-        List<Homework> items = homeworkInfoService.getList(member.getNum()); // 교육자가 작성한 숙제
-
-        model.addAttribute("items", items);
-
-        return "teacher/homework/list";
-    }
 
     /** 숙제 생성/조회
      *
@@ -375,7 +418,7 @@ public class TeacherController {
 
         homeworkDeleteService.delete(num);
 
-        return "redirect:/teacher/homework";
+        return "redirect:/teacher/homework/add";
     }
 
     /** 숙제 배포
@@ -405,11 +448,10 @@ public class TeacherController {
     }
 
 
-    /** 숙제 배포 처리 (예정)
+    /** 숙제 배포 처리
      *
      * @param checkedHomeworks -> 체크된 학습그룹 숙제
      * @param checkedMembers -> 체크된 학습그룹 멤버
-     * @param num -> 학습그룹 num
      * @param model
      * @return
      */
@@ -434,11 +476,31 @@ public class TeacherController {
             }
         }
 
+        return "redirect:/teacher/homework/distribute";
+    }
 
 
+    /** 숙제 평가 페이지
+     *
+     * @param model
+     * @return
+     */
+    @GetMapping("/homework/assess")
+    public String homeworkList(Model model) {
+        commonProcess("assess", model);
 
+        Member member = memberUtil.getMember();
+        if (member == null) {
+            return "redirect:/member/login";
+        }
+        List<Homework> items = homeworkInfoService.getList(member.getNum()); // 교육자가 작성한 숙제
 
-        return "redirect:/teacher/homework";
+        model.addAttribute("items", items);
+
+        List<TrainingData> trainingDataList = trainingDataRepository.findAll();
+        model.addAttribute("trainingDataList", trainingDataList);
+
+        return "teacher/homework/assess";
     }
 
     private void commonProcess(String mode, Model model) {
@@ -454,16 +516,19 @@ public class TeacherController {
         } else if (mode.equals("list")) {
             pageTitle = "학습 그룹 조회::" + pageTitle;
         } else if (mode.equals("homework_add")) {
-            pageTitle = "숙제 생성::" + pageTitle;
+            pageTitle = "숙제 생성/조회::" + pageTitle;
         } else if (mode.equals("homework_edit")) {
             pageTitle = "숙제 수정::" + pageTitle;
         } else if (mode.equals("distribute")) {
             pageTitle = "숙제 배포::" + pageTitle;
             addScript.add("homework/" + mode);
-        } else if (mode.equals("homework_list")) {
+        } else if (mode.equals("assess")) {
             pageTitle = "숙제 학습 진도 조회::" + pageTitle;
+            addScript.add("homework/" + mode);
         } else if (mode.equals("accept")) {
             pageTitle = "회원 그룹 가입 승인::" + pageTitle;
+        }else if (mode.equals("detail")) {
+            pageTitle = "스터디그룹 상세::" + pageTitle;
         }
 
         model.addAttribute("addCss", addCss);

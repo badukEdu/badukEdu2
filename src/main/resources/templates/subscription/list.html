@@ -46,7 +46,7 @@
                     <th:block th:text="*{startDate + '~' + endDate + '(' + subscriptionMonths + '개월)'}"></th:block>
                 </td>
                 <td th:text="*{startDate}">구매일자</td>
-                <td>학습그룹 등록내역</td>
+                <td th:text="*{getGameContent().getStgroupCount()}"></td>
             </tr>
         </tbody>
     </table>

@@ -1,10 +1,14 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<th:block th:fragment="homeworkList">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/main}">
+
+<section layout:fragment="content">
+    <h1>학습자 숙제 목록</h1>
     <table class="table_rows mb30">
         <thead>
         <tr>
-<!--            <th width="180">번호</th>-->
+            <!--            <th width="180">번호</th>-->
             <th width="40"><input type="checkbox" id="checkAll"></th>
             <th>숙제명</th>
             <th>내용</th>
@@ -18,24 +22,25 @@
         <tr th:if="${items == null || items.isEmpty()}">
             <td colspan="6">숙제 정보가 없습니다.</td>
         </tr>
+
         <tr th:unless="${items == null || items.isEmpty()}" th:each="item : ${items}" th:object="${item}">
-<!--            <td th:text="*{num}"></td>-->
+            <!--            <td th:text="*{num}"></td>-->
             <td><input type="checkbox" name="check"></td>
-            <td th:text="*{name}"></td>
-            <td th:text="*{content}"></td>
-            <td th:text="*{studyGroup.name}"></td>
-            <td th:text="*{studyLevel}"></td>
-            <td th:text="*{deadLine}"></td>
-            <td th:if="${@memberUtil.isTeacher() || @memberUtil.isAdmin()}">
+            <td th:text="*{homework.name}"></td>
+            <td th:text="*{homework.content}"></td>
+            <td th:text="*{homework.studyGroup.name}"></td>
+            <td th:text="*{homework.studyLevel}"></td>
+            <td th:text="*{homework.deadLine}"></td>
+            <td th:if="${@memberUtil.isTeacher()}">
                 <a th:href="@{/teacher/homework/edit/{num}(num=*{num})}" class="sbtn">수정하기</a>
                 <a th:href="@{/teacher/homework/delete/{num}(num=*{num})}" class="sbtn" onclick="return confirm('정말 삭제하시겠습니까?');">삭제하기</a>
             </td>
-            <td th:if="${@memberUtil.isStudent()}">
+            <td>
                 <a th:href="@{/education/homework/submit/{num}(num=*{num})}" class="sbtn">작성/수정하기</a>
 
             </td>
         </tr>
         </tbody>
     </table>
-</th:block>
+</section>
 </html>
