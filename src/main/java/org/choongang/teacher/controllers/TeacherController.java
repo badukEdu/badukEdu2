@@ -6,6 +6,9 @@ import lombok.RequiredArgsConstructor;
 import org.choongang.admin.gamecontent.controllers.GameContentSearch;
 import org.choongang.admin.gamecontent.entities.GameContent;
 import org.choongang.admin.gamecontent.service.GameContentInfoService;
+import org.choongang.admin.order.controllers.OrderSearch;
+import org.choongang.admin.order.entities.OrderItem;
+import org.choongang.admin.order.service.OrderInfoService;
 import org.choongang.commons.ListData;
 import org.choongang.education.group.controllers.JoinStGroupSearch;
 import org.choongang.education.group.entities.JoinStudyGroup;
@@ -53,6 +56,7 @@ public class TeacherController {
     private final GameContentInfoService gameContentInfoService;
     private final JoinSTGInfoService joinSTGInfoService;
     private final JoinSTGSaveService joinSTGSaveService;
+    private final OrderInfoService orderInfoService;
     //group DI SSS
 
 
@@ -115,18 +119,24 @@ public class TeacherController {
     /**
      * 스터디그룹 등록 1. 게임 컨텐츠 설정
      * @param model
-     * @param form
      * @return
      */
     @GetMapping("/group/add")
-    public String addGroup1(Model model , @ModelAttribute RequestStGroup form , @ModelAttribute GameContentSearch search) {
+    public String addGroup1(/*Model model , @ModelAttribute RequestStGroup form , @ModelAttribute GameContentSearch search*/
+            @ModelAttribute OrderSearch search,
+            Model model) {
         commonProcess("add", model);
 
         model.addAttribute("mode_" , "add1");
 
-        ListData<GameContent> data = gameContentInfoService.getList(search);
+        /*
+        ListData<GameContent> data = gameContentInfoService.getList(search , true);
         model.addAttribute("items" , data.getItems());
         model.addAttribute("pagination" , data.getPagination());
+        */
+        ListData<OrderItem> data = orderInfoService.getList(search);
+        model.addAttribute("items", data.getItems());
+        model.addAttribute("pagination", data.getPagination());
 
         return "teacher/group/add";
     }

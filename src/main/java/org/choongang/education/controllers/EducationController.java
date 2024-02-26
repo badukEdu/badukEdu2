@@ -1,7 +1,6 @@
 package org.choongang.education.controllers;
 
 import jakarta.servlet.http.HttpSession;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.choongang.commons.ExceptionProcessor;
 import org.choongang.commons.ListData;
@@ -9,18 +8,13 @@ import org.choongang.education.group.controllers.JoinStGroupSearch;
 import org.choongang.education.group.entities.JoinStudyGroup;
 import org.choongang.education.group.services.joinStG.JoinSTGInfoService;
 import org.choongang.education.group.services.joinStG.JoinSTGSaveService;
-import org.choongang.education.homework.service.EduTrainingDataInfoService;
-import org.choongang.education.homework.service.EduTrainingDataSaveService;
 import org.choongang.member.entities.Member;
 import org.choongang.teacher.group.controllers.StGroupSearch;
 import org.choongang.teacher.group.entities.StudyGroup;
 import org.choongang.teacher.group.services.stGroup.SGInfoService;
-import org.choongang.teacher.homework.controllers.RequestTrainingData;
-import org.choongang.teacher.homework.entities.TrainingData;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
-import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -40,7 +34,7 @@ public class EducationController implements ExceptionProcessor  {
 
     private final EduTrainingDataInfoService eduTrainingDataInfoService;
     private final EduTrainingDataSaveService trainingDataSaveService;
-    
+
     // 현재 신청중인 목록
     /**
      *
@@ -115,48 +109,6 @@ public class EducationController implements ExceptionProcessor  {
         return "education/view";
     }
 
-
-    /////////////////////////////////////////homework
-
-    /** 학습자에게 할당된 trainingData 리스트 출력
-     *
-     * @param model
-     * @return
-     */
-    @GetMapping("/homework")
-    public String homeworkList(Model model) {
-        commonProcess("homeworkList", model);
-
-        ListData<TrainingData> data = eduTrainingDataInfoService.getlist();;
-
-        model.addAttribute("items", data.getItems());
-
-        return "/education/homework/list";
-    }
-
-    @GetMapping("/homework/submit/{num}")
-    public String homeworkSubmit(@PathVariable("num") Long num, @ModelAttribute RequestTrainingData form, Model model) {
-        commonProcess("homeworkSubmit", model);
-
-        // 내 trainingdata(num으로 등록된)와 homework정보를 가지고 넘어간다
-        TrainingData trainingData = eduTrainingDataInfoService.getOne(num);
-        model.addAttribute("trainingData", trainingData);
-
-        return "/education/homework/submit";
-    }
-
-    @PostMapping("homework/submit")
-    public String homeworkSubmitPs(@Valid RequestTrainingData form, Errors errors, Model model) {
-        if (errors.hasErrors()) {
-            return "education/homework/submit";
-        }
-
-        // 저장 처리
-        trainingDataSaveService.save(form);
-
-        return "redirect:/education/homework";
-    }
-
     private void commonProcess(String mode, Model model) {
         mode = StringUtils.hasText(mode) ? mode : "list";
         String pageTitle = "학습서비스";
@@ -170,10 +122,6 @@ public class EducationController implements ExceptionProcessor  {
             pageTitle = "신청취소::" + pageTitle;
         } else if (mode.equals("view")) {
             pageTitle = "신청내용::" + pageTitle;
-        } else if (mode.equals("homeworkList")) {
-            pageTitle = "숙제 목록::" + pageTitle;
-        } else if (mode.equals("homeworkSubmit")) {
-            pageTitle = "숙제 제출" + pageTitle;
         }
 
         model.addAttribute("pageTitle", pageTitle);
