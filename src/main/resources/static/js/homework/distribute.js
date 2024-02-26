@@ -1,5 +1,21 @@
 window.addEventListener("DOMContentLoaded", function() {
-    checkDeadLine();
+/*
+    const checkHomeworks = document.getElementsByName("checkHomework");
+    for (const checkHomework of checkHomeworks) {
+        checkHomework.addEventListener("change", function() {
+            console.log(checkHomework);
+            // 변화한 숙제의 학습레벨을 아래 출력된 멤버들 전부와 비교하여 멤버의 레벨이 높다면 멤버 check disabled 처리
+            const homeworkLevel = checkHomework.getAttribute('data-homeworkLevel');
+            const checkMembers = document.getElementsByName("checkMember");
+            for (const checkMember of checkMembers) {
+                const studyLevel = checkMember.getAttribute("data-studyLevel");
+                if (studyLevel < homeworkLevel) {
+                    checkMember.disabled = true;
+                }
+            }
+        });
+    }
+*/
 
     /* Member 전체 선택 기능 S */
     const checkAllMember = document.getElementById("checkAllMember");
@@ -35,7 +51,7 @@ window.addEventListener("DOMContentLoaded", function() {
         e.preventDefault();
         // 숙제 선택 항목 체크
         const checkedHomeworks = document.querySelectorAll("input[name='checkHomework']:checked")
-        console.log(checkedHomeworks.length);
+//        console.log(checkedHomeworks.length);
         if (checkedHomeworks.length == 0) {
             alert("학습자에게 전송할 숙제를 선택하세요.");
             return;
@@ -58,8 +74,8 @@ function updateMember() {
     const selectedOption = document.getElementById("options").value;
 
     let selectedIndex = document.getElementById("options").getAttribute("data-index");
-    console.log("Selected Option Value: " + selectedOption);
-    console.log("Selected Option Index: " + selectedIndex);
+//    console.log("Selected Option Value: " + selectedOption);
+//    console.log("Selected Option Index: " + selectedIndex);
 
     // 선택 옵션이 없으면
     if (selectedOption == "") {
@@ -85,8 +101,8 @@ function updateHomework() {
     const selectedOption = document.getElementById("options").value;
 
     let selectedIndex = document.getElementById("options").getAttribute("data-index");
-    console.log("Selected Option Value: " + selectedOption);
-    console.log("Selected Option Index: " + selectedIndex);
+//    console.log("Selected Option Value: " + selectedOption);
+//    console.log("Selected Option Index: " + selectedIndex);
 
     // 선택 옵션이 없으면
     if (selectedOption == "") {
@@ -111,12 +127,12 @@ function updateHomework() {
 }
 
 
-/* 숙제 체크된 상태 -> 멤버 레벨에 따라 disabled S */
+/* 마감일(deadLine)이 오늘 이전일 때 disabled */
 function checkDeadLine() {
     const checkHomeworks = document.getElementsByName("checkHomework");
-    console.log(checkHomeworks);
+//    console.log(checkHomeworks);
     for (const checkHomework of checkHomeworks) {
-        console.log(checkHomework);
+//        console.log(checkHomework);
         const deadLine = checkHomework.getAttribute('data-deadLine');
 
         if (new Date(deadLine) < new Date()) {
