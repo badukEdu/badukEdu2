@@ -115,6 +115,7 @@ public class TeacherController {
         model.addAttribute("list" , sgInfoService.getList(search).getItems());
         model.addAttribute("item" , sgInfoService.getForm(num));
         model.addAttribute("members" , sgInfoService.getJoinMember(num));
+        model.addAttribute("jlist" , joinSTGInfoService.getJoin(num));
         return "teacher/group/detail";
     }
 
@@ -144,6 +145,7 @@ public class TeacherController {
                 model.addAttribute("list" , sgInfoService.getList(search).getItems());
                 model.addAttribute("item" , sgInfoService.getForm(num));
                 model.addAttribute("members" , sgInfoService.getJoinMember(num));
+                model.addAttribute("jlist" , joinSTGInfoService.getJoin(num));
                 return "teacher/group/detail";
             }
         }
@@ -152,6 +154,7 @@ public class TeacherController {
         model.addAttribute("list" , sgInfoService.getList(search).getItems());
         model.addAttribute("item" , sgInfoService.getForm(num));
         model.addAttribute("members" , sgInfoService.getJoinMember(num));
+        model.addAttribute("jlist" , joinSTGInfoService.getJoin(num));
         return "teacher/group/detail";
     }
 

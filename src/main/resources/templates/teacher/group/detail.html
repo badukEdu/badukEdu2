@@ -29,11 +29,11 @@
     </tr>
     </thead>
     <tbody>
-    <tr th:each="member : ${members}" th:object="${member}">
-        <td th:text="*{num}"></td>
-        <td th:text="*{name}"></td>
-        <td th:text="*{email}"></td>
-        <td > 000 </td>
+    <tr th:each="j : ${jlist}" th:object="${j}">
+        <td th:text="*{member.num}"></td>
+        <td th:text="*{member.name}"></td>
+        <td th:text="*{member.email}"></td>
+        <td th:text="*{JoinDate}"></td>
     </tr>
     </tbody>
 </table>
