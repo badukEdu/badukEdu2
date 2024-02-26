@@ -4,6 +4,43 @@
       layout:decorate="~{layouts/main}">
 
 <section layout:fragment="content">
-    내 숙제 목록
+    <h1>학습자 숙제 목록</h1>
+    <table class="table_rows mb30">
+        <thead>
+        <tr>
+            <!--            <th width="180">번호</th>-->
+            <th width="40"><input type="checkbox" id="checkAll"></th>
+            <th>숙제명</th>
+            <th>내용</th>
+            <th>그룹명</th>
+            <th>숙제레벨</th>
+            <th>제출마감</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:if="${items == null || items.isEmpty()}">
+            <td colspan="6">숙제 정보가 없습니다.</td>
+        </tr>
+
+        <tr th:unless="${items == null || items.isEmpty()}" th:each="item : ${items}" th:object="${item}">
+            <!--            <td th:text="*{num}"></td>-->
+            <td><input type="checkbox" name="check"></td>
+            <td th:text="*{homework.name}"></td>
+            <td th:text="*{homework.content}"></td>
+            <td th:text="*{homework.studyGroup.name}"></td>
+            <td th:text="*{homework.studyLevel}"></td>
+            <td th:text="*{homework.deadLine}"></td>
+            <td th:if="${@memberUtil.isTeacher()}">
+                <a th:href="@{/teacher/homework/edit/{num}(num=*{num})}" class="sbtn">수정하기</a>
+                <a th:href="@{/teacher/homework/delete/{num}(num=*{num})}" class="sbtn" onclick="return confirm('정말 삭제하시겠습니까?');">삭제하기</a>
+            </td>
+            <td>
+                <a th:href="@{/education/homework/submit/{num}(num=*{num})}" class="sbtn">작성/수정하기</a>
+
+            </td>
+        </tr>
+        </tbody>
+    </table>
 </section>
 </html>
