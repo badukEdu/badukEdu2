@@ -33,7 +33,8 @@ public class Menu {
         // 학습서비스 / 권한 - STUDENT , ADMIN
         menus.put("education", Arrays.asList(
                 new MenuDetail("join", "학습그룹 가입 신청", "/education/join"),
-                new MenuDetail("list", "가입 승인 대기 목록", "/education")
+                new MenuDetail("list", "가입 승인 대기 목록", "/education"),
+                new MenuDetail("homeworkList", "숙제 목록", "/education/homework")
         ));
 
         // 교육자마당 / 권한 - TEACHER , ADMIN
@@ -42,9 +43,9 @@ public class Menu {
                 new MenuDetail("list", "학습 그룹 조회", "/teacher/group"),//
                 new MenuDetail("detail", "학습 그룹 상세", "/teacher/group/detail"),
                 new MenuDetail("accept", "학습 그룹 가입 승인", "/teacher/group/accept"),
-                new MenuDetail("homework_add", "숙제 생성", "/teacher/homework/add"),
+                new MenuDetail("homework_add", "숙제 생성/조회", "/teacher/homework/add"),
                 new MenuDetail("distribute", "숙제 배포", "/teacher/homework/distribute"),
-                new MenuDetail("homework_list", "숙제 학습 진도 조회", "/teacher/homework")
+                new MenuDetail("assess", "숙제 학습 진도 조회", "/teacher/homework/assess")
         ));
 
         // 운영마당 / 권한 - ADMIN

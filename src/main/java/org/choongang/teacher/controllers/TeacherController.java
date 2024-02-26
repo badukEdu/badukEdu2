@@ -27,6 +27,7 @@ import org.choongang.teacher.homework.controllers.RequestHomework;
 import org.choongang.teacher.homework.entities.Homework;
 import org.choongang.teacher.homework.entities.TrainingData;
 import org.choongang.teacher.homework.repositories.HomeworkRepository;
+import org.choongang.teacher.homework.repositories.TrainingDataRepository;
 import org.choongang.teacher.homework.service.HomeworkDeleteService;
 import org.choongang.teacher.homework.service.HomeworkInfoService;
 import org.choongang.teacher.homework.service.HomeworkSaveService;
@@ -68,6 +69,7 @@ public class TeacherController {
     private final TrainingDataSaveService trainingDataSaveService;
     private final HomeworkRepository homeworkRepository;
     private final MemberRepository memberRepository;
+    private final TrainingDataRepository trainingDataRepository;
     ////////////////////////////
 
     private final MemberUtil memberUtil;
@@ -338,25 +340,6 @@ public class TeacherController {
 
     ////////////////////////////////////////////////////////////////////////////////////////////
 
-    /** 숙제 배포 페이지
-     *
-     * @param model
-     * @return
-     */
-    @GetMapping("/homework")
-    public String homeworkList(Model model) {
-        commonProcess("homework_list", model);
-
-        Member member = memberUtil.getMember();
-        if (member == null) {
-            return "redirect:/member/login";
-        }
-        List<Homework> items = homeworkInfoService.getList(member.getNum()); // 교육자가 작성한 숙제
-
-        model.addAttribute("items", items);
-
-        return "teacher/homework/list";
-    }
 
     /** 숙제 생성/조회
      *
@@ -435,7 +418,7 @@ public class TeacherController {
 
         homeworkDeleteService.delete(num);
 
-        return "redirect:/teacher/homework";
+        return "redirect:/teacher/homework/add";
     }
 
     /** 숙제 배포
@@ -465,11 +448,10 @@ public class TeacherController {
     }
 
 
-    /** 숙제 배포 처리 (예정)
+    /** 숙제 배포 처리
      *
      * @param checkedHomeworks -> 체크된 학습그룹 숙제
      * @param checkedMembers -> 체크된 학습그룹 멤버
-     * @param num -> 학습그룹 num
      * @param model
      * @return
      */
@@ -494,11 +476,31 @@ public class TeacherController {
             }
         }
 
+        return "redirect:/teacher/homework/distribute";
+    }
 
 
+    /** 숙제 평가 페이지
+     *
+     * @param model
+     * @return
+     */
+    @GetMapping("/homework/assess")
+    public String homeworkList(Model model) {
+        commonProcess("assess", model);
 
+        Member member = memberUtil.getMember();
+        if (member == null) {
+            return "redirect:/member/login";
+        }
+        List<Homework> items = homeworkInfoService.getList(member.getNum()); // 교육자가 작성한 숙제
 
-        return "redirect:/teacher/homework";
+        model.addAttribute("items", items);
+
+        List<TrainingData> trainingDataList = trainingDataRepository.findAll();
+        model.addAttribute("trainingDataList", trainingDataList);
+
+        return "teacher/homework/assess";
     }
 
     private void commonProcess(String mode, Model model) {
@@ -514,14 +516,15 @@ public class TeacherController {
         } else if (mode.equals("list")) {
             pageTitle = "학습 그룹 조회::" + pageTitle;
         } else if (mode.equals("homework_add")) {
-            pageTitle = "숙제 생성::" + pageTitle;
+            pageTitle = "숙제 생성/조회::" + pageTitle;
         } else if (mode.equals("homework_edit")) {
             pageTitle = "숙제 수정::" + pageTitle;
         } else if (mode.equals("distribute")) {
             pageTitle = "숙제 배포::" + pageTitle;
             addScript.add("homework/" + mode);
-        } else if (mode.equals("homework_list")) {
+        } else if (mode.equals("assess")) {
             pageTitle = "숙제 학습 진도 조회::" + pageTitle;
+            addScript.add("homework/" + mode);
         } else if (mode.equals("accept")) {
             pageTitle = "회원 그룹 가입 승인::" + pageTitle;
         }else if (mode.equals("detail")) {
