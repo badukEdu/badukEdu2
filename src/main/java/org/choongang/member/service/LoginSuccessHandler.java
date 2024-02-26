@@ -13,6 +13,13 @@ import org.springframework.util.StringUtils;
 import java.io.IOException;
 
 public class LoginSuccessHandler implements AuthenticationSuccessHandler {
+
+    private final MemberUtil memberUtil;
+
+    public LoginSuccessHandler(MemberUtil memberUtil) {
+        this.memberUtil = memberUtil;
+    }
+
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         HttpSession session = request.getSession();
@@ -23,8 +30,19 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
         Member member = memberInfo.getMember();
         session.setAttribute("member", member);
 
-        String redirectURL = request.getParameter("redirectURL");
-        redirectURL = StringUtils.hasText(redirectURL) ? redirectURL : "/";
+        String redirectURL;
+        if (memberUtil.isStudent()) {
+            if (memberUtil.hasJoinStudyGroup()) {
+                redirectURL = "/";
+            } else {
+                redirectURL = "/education/join";
+            }
+        } else {
+            redirectURL = "/";
+        }
+
+        String redirectURLParam = request.getParameter("redirectURL");
+        redirectURL = StringUtils.hasText(redirectURLParam) ? redirectURLParam : redirectURL;
 
         response.sendRedirect(request.getContextPath() + redirectURL);
     }
