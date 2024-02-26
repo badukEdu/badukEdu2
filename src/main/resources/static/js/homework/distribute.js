@@ -1,4 +1,6 @@
 window.addEventListener("DOMContentLoaded", function() {
+    checkDeadLine();
+
     /* Member 전체 선택 기능 S */
     const checkAllMember = document.getElementById("checkAllMember");
     checkAllMember.addEventListener("change", function() {
@@ -50,7 +52,6 @@ window.addEventListener("DOMContentLoaded", function() {
         distributeFrm.submit();
     });
     /* 배포 버튼 클릭시 E */
-
 });
 
 function updateMember() {
@@ -79,6 +80,7 @@ function updateMember() {
     xhr.open("GET", "/get_table_data/member?option=" + selectedOption, true);
     xhr.send();
 }
+
 function updateHomework() {
     const selectedOption = document.getElementById("options").value;
 
@@ -97,6 +99,8 @@ function updateHomework() {
             // 서버로부터 응답을 받으면 테이블 업데이트
 
             document.getElementById("group_homework").innerHTML = this.responseText;
+            updateMember();
+            checkDeadLine();
         }
     };
 
@@ -104,4 +108,19 @@ function updateHomework() {
     // 서버로 요청 보내기
     xhr.open("GET", "/get_table_data/homework?option=" + selectedOption, true);
     xhr.send();
+}
+
+
+/* 숙제 체크된 상태 -> 멤버 레벨에 따라 disabled S */
+function checkDeadLine() {
+    const checkHomeworks = document.getElementsByName("checkHomework");
+    console.log(checkHomeworks);
+    for (const checkHomework of checkHomeworks) {
+        console.log(checkHomework);
+        const deadLine = checkHomework.getAttribute('data-deadLine');
+
+        if (new Date(deadLine) < new Date()) {
+            checkHomework.disabled = true;
+        }
+    }
 }

@@ -9,7 +9,6 @@ import org.choongang.teacher.homework.service.HomeworkInfoService;
 import org.choongang.teacher.homework.service.TrainingDataInfoService;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -67,12 +66,7 @@ public class RestHomeworkController {
 
         for (Homework homework : homeworks) {
             tableData.append("<tr>");
-            boolean isAfterToday = homework.getDeadLine().compareTo(LocalDate.now()) > 0;
-            if (isAfterToday) {
-                tableData.append("<td><input type='checkbox' name='checkHomework' value='").append(homework.getNum()).append("' disabled></td>"); // 체크박스
-            } else {
-                tableData.append("<td><input type='checkbox' name='checkHomework' value='").append(homework.getNum()).append("'></td>"); // 체크박스
-            }
+            tableData.append("<td><input type='checkbox' name='checkHomework' value='").append(homework.getNum()).append("' data-deadLine='").append(homework.getDeadLine()).append("'></td>"); // 체크박스
             tableData.append("<td>").append(homework.getName()).append("</td>"); // 숙제명
             tableData.append("<td>").append(homework.getContent()).append("</td>"); // 내용
             tableData.append("<td>").append(homework.getStudyGroup().getName()).append("</td>"); // 학습그룹
