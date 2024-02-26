@@ -30,9 +30,7 @@
 
     <div class="flex sb mt20 mb20">
         <h2>스터디 그룹목록</h2>
-        <a th:href="@{/teacher/group/add}" class="sbtn">
-            <i class="xi-plus"></i> 생성
-        </a>
+
     </div>
     <form name="frmList" method="post" th:action="@{/teacher}" autocomplete="off">
         <input type="hidden" name="_method" value="delete">
@@ -64,18 +62,32 @@
                 </td>
             </tr>
         <tr>
+            <td>
+                <button type="button" class="sbtn blue form_action" data-mode='delete' data-form-name="frmList">선택 스터디 그룹 삭제</button>
 
+            </td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>
+                <a th:href="@{/teacher/group/add}" class="sbtn on">
+                    <i class="xi-plus"></i> 생성
+                </a>
+            </td>
         </tr>
 
         </tbody>
     </table>
+<!--
 
         <div class="table_actions">
             <button type="button" class="sbtn blue form_action" data-mode='delete' data-form-name="frmList">선택 스터디 그룹 삭제</button>
         </div>
-        <a th:href="@{/teacher/group/add}" class="sbtn">
-            <i class="xi-plus"></i> 생성
-        </a>
+-->
+
         <th:block th:replace="~{common/_pagination::pagination}"></th:block>
     </form>
 
