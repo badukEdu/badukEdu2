@@ -8,6 +8,8 @@ import org.choongang.education.group.controllers.JoinStGroupSearch;
 import org.choongang.education.group.entities.JoinStudyGroup;
 import org.choongang.education.group.services.joinStG.JoinSTGInfoService;
 import org.choongang.education.group.services.joinStG.JoinSTGSaveService;
+import org.choongang.education.homework.service.EduTrainingDataInfoService;
+import org.choongang.education.homework.service.EduTrainingDataSaveService;
 import org.choongang.member.entities.Member;
 import org.choongang.teacher.group.controllers.StGroupSearch;
 import org.choongang.teacher.group.entities.StudyGroup;
