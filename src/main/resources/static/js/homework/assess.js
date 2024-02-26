@@ -1,6 +1,5 @@
 function updateTrainingData(el) {
     var num = el.getAttribute('value');
-    alert(num);
 
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function() {

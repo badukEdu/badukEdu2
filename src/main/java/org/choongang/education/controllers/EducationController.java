@@ -1,6 +1,7 @@
 package org.choongang.education.controllers;
 
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.choongang.commons.ExceptionProcessor;
 import org.choongang.commons.ListData;
@@ -14,9 +15,12 @@ import org.choongang.member.entities.Member;
 import org.choongang.teacher.group.controllers.StGroupSearch;
 import org.choongang.teacher.group.entities.StudyGroup;
 import org.choongang.teacher.group.services.stGroup.SGInfoService;
+import org.choongang.teacher.homework.controllers.RequestTrainingData;
+import org.choongang.teacher.homework.entities.TrainingData;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -35,7 +39,7 @@ public class EducationController implements ExceptionProcessor  {
     ////////////////////////////homework
 
     private final EduTrainingDataInfoService eduTrainingDataInfoService;
-    private final EduTrainingDataSaveService trainingDataSaveService;
+    private final EduTrainingDataSaveService eduTrainingDataSaveService;
 
     // 현재 신청중인 목록
     /**
@@ -121,6 +125,40 @@ public class EducationController implements ExceptionProcessor  {
         return "education/view";
     }
 
+    /////////////////////////////////////////homework
+
+    @GetMapping("/homework")
+    public String homeworkList(Model model) {
+        commonProcess("homeworkList", model);
+        ListData<TrainingData> data = eduTrainingDataInfoService.getlist();
+        System.out.println("++++++++++++++"+data.getItems());
+        model.addAttribute("items", data.getItems());
+
+        return "/education/homework/list";
+    }
+
+    @GetMapping("/homework/submit/{num}")
+    public String homeworkSubmit(@PathVariable("num") Long num, @ModelAttribute RequestTrainingData form, Model model) {
+        commonProcess("homeworkSubmit", model);
+
+        // 내 trainingdata(num으로 등록된)와 homework정보를 가지고 넘어간다
+        TrainingData trainingData = eduTrainingDataInfoService.getOne(num);
+        model.addAttribute("trainingData", trainingData);
+
+        return "/education/homework/submit";
+    }
+
+    @PostMapping("homework/submit")
+    public String homeworkSubmitPs(@Valid RequestTrainingData form, Errors errors, Model model) {
+        if (errors.hasErrors()) {
+            return "education/homework/submit";
+        }
+
+        // 저장 처리
+        eduTrainingDataSaveService.save(form);
+
+        return "redirect:/education/homework";
+    }
 
 
     /**
