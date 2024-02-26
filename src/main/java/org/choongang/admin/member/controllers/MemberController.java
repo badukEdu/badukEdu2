@@ -2,6 +2,11 @@ package org.choongang.admin.member.controllers;
 
 import lombok.RequiredArgsConstructor;
 import org.choongang.commons.ExceptionProcessor;
+import org.choongang.commons.ListData;
+import org.choongang.member.entities.Member;
+import org.choongang.member.service.MemberInfoService;
+import org.choongang.menus.Menu;
+import org.choongang.menus.MenuDetail;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -17,9 +22,28 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MemberController implements ExceptionProcessor {
 
+    private final MemberInfoService infoService;
+
+    @ModelAttribute("menuCode")
+    public String getMenuCode() {
+        return "member";
+    }
+
+    @ModelAttribute("subMenus")
+    public List<MenuDetail> getSubMenus() {
+
+        return Menu.getMenus("member");
+    }
+
+
     @GetMapping
     public String list(@ModelAttribute  MemberSearch search, Model model) {
         commonProcess("list", model);
+
+        ListData<Member> data = infoService.getList(search);
+
+        model.addAttribute("items", data.getItems()); // 목록
+        model.addAttribute("pagination", data.getPagination()); // 페이징
 
         return "admin/member/list";
     }
