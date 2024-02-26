@@ -40,7 +40,7 @@
         <tr>
             <th>제출마감일</th>
             <td>
-                <input type="date" name="deadLine" th:field="*{deadLine}">
+                <input type="date" id="deadLine" name="deadLine" th:field="*{deadLine}" onchange="checkDeadLine();">
                 <div class="error" th:each="err : ${#fields.errors('deadLine')}" th:text="${err}"></div>
             </td>
         </tr>

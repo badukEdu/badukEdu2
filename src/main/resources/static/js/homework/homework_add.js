@@ -12,3 +12,14 @@ window.addEventListener("DOMContentLoaded", function () {
         studyLevel.max = maxLevel;
     });
 });
+
+function checkDeadLine() {
+
+    const deadLine = document.getElementById("deadLine");
+
+    if (new Date(deadLine.value) <= new Date()) {
+
+        alert("마감일자를 확인해주세요.");
+        deadLine.value = "";
+    }
+};
