@@ -1,8 +1,11 @@
 package org.choongang;
 
+import jakarta.servlet.http.HttpSession;
 import org.choongang.member.Authority;
+import org.choongang.member.MemberUtil;
 import org.choongang.member.entities.Member;
 import org.choongang.member.service.JoinService;
+import org.choongang.member.service.MemberInfo;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
