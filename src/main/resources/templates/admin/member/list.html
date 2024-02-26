@@ -16,8 +16,10 @@
                     <div class="input_grp">
                         <select name="sopt" th:field="*{sopt}">
                             <option value="ALL">통합검색</option>
-                            <option value="userId">회원 ID</option>
-                            <option value="name">회원명</option>
+                            <option value="userId">아이디</option>
+                            <option value="name">이름</option>
+                            <option value="email">이메일</option>
+                            <option value="tel">전화번호</option>
                         </select>
                         <input type="text" name="skey" th:field="*{skey}">
                     </div>
@@ -44,13 +46,13 @@
                 <th>회원번호</th>
                 <th>아이디</th>
                 <th>이름</th>
-                <th>닉네임</th>
+                <th>성별</th>
+                <th>레벨</th>
+                <th>권한</th>
                 <th>생년월일</th>
                 <th>이메일</th>
-                <!--                    <th>주소</th>-->
-                <!--                    <th>주소상세</th>-->
                 <th>전화번호</th>
-                <th>계정상태</th>
+                <th>탈퇴여부</th>
             </tr>
             </thead>
 
@@ -60,23 +62,29 @@
             </tr>
             <tr th:unless="${items == null && items.isEmpty()}" th:each="item, status : ${items}" th:object="${item}">
                 <td align="center">
-                    <input type="hidden" th:name="${'seq_' + status.index}" th:value="*{seq}">
+                    <input type="hidden" th:name="${'seq_' + status.index}" th:value="*{num}">
                     <input type="checkbox" name="chk" th:value="${status.index}" th:id="${'chk_' + status.index}" checked>
                     <label th:for="${'chk_' + status.index}"></label>
                 </td>
-                <td th:text="*{seq}"></td>
+                <td th:text="*{num}"></td>
                 <td th:text="*{userId}"></td>
                 <td th:text="*{name}"></td>
-                <td th:text="*{userName}"></td>
-                <td th:text="*{bDay}"></td>
+                <td th:text="*{gender}"></td>
+                <td th:text="*{levels}"></td>
+                <td th:text="*{authority}"></td>
+                <td th:text="*{birth}"></td>
                 <td th:text="*{email}"></td>
-                <!--                    <td th:text="*{address}"></td>-->
-                <!--                    <td th:text="*{addressSub}"></td>-->
                 <td th:text="*{tel}"></td>
                 <td th:text="*{enable}"></td>
             </tr>
             </tbody>
         </table>
+
+        <div class="table_actions">
+            <button type="button" class="sbtn form_action" data-mode="delete" data-form-name="frmList">선택 회원 삭제</button>
+            <button type="button" class="sbtn on form_action" data-mode="edit" data-form-name="frmList">선택 수정 수정</button>
+        </div>
+
     </form>
 
     <th:block th:replace="~{common/_pagination::pagination}"></th:block>
