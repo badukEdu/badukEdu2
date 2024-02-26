@@ -90,6 +90,12 @@ public class TeacherController {
         commonProcess("list", model);
 
         ListData<StudyGroup> data = sgInfoService.getList(search);
+
+        for(StudyGroup s : data.getItems()){
+            int c = sgInfoService.getJoinMember(s.getNum()).size();
+            s.setCount(c);
+        }
+
         model.addAttribute("list" , data.getItems());
         model.addAttribute("pagination", data.getPagination());
 

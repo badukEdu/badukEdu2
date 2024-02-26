@@ -46,6 +46,8 @@ public class StudyGroup {
     @Column
     private String teacherName;   //선생님명
 
+    @Transient
+    private int count=0; // 스터디그룹 가입 학생 수
 
     ////////////////////////////////
 

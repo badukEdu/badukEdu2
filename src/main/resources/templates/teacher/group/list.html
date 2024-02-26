@@ -55,7 +55,7 @@
                 <td th:text="*{maxSubscriber}"></td>
                 <td th:text="*{startDate+' ~ '+endDate}"></td>
                 <td th:text="*{maxLevel}"></td>
-                <td >member 완성되면</td>
+                <td th:text="*{count}"></td>
                 <td>
                     <a th:href="@{/teacher/group/edit/{num}(num=*{num})}" class="sbtn on">수정</a>
                     <a th:href="@{/teacher/group/delete/{num}(num=*{num})}" class="sbtn">삭제</a>
