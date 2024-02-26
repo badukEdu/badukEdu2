@@ -9,7 +9,7 @@ import org.choongang.education.group.controllers.JoinStGroupSearch;
 import org.choongang.education.group.entities.JoinStudyGroup;
 import org.choongang.education.group.services.joinStG.JoinSTGInfoService;
 import org.choongang.education.group.services.joinStG.JoinSTGSaveService;
-import org.choongang.education.homework.service.TrainingDataInfoService;
+import org.choongang.education.homework.service.EduTrainingDataInfoService;
 import org.choongang.education.homework.service.EduTrainingDataSaveService;
 import org.choongang.member.entities.Member;
 import org.choongang.teacher.group.controllers.StGroupSearch;
@@ -38,7 +38,7 @@ public class EducationController implements ExceptionProcessor  {
 
     ////////////////////////////homework
 
-    private final TrainingDataInfoService trainingDataInfoService;
+    private final EduTrainingDataInfoService eduTrainingDataInfoService;
     private final EduTrainingDataSaveService trainingDataSaveService;
     
     // 현재 신청중인 목록
@@ -118,11 +118,17 @@ public class EducationController implements ExceptionProcessor  {
 
     /////////////////////////////////////////homework
 
+    /** 학습자에게 할당된 trainingData 리스트 출력
+     *
+     * @param model
+     * @return
+     */
     @GetMapping("/homework")
     public String homeworkList(Model model) {
         commonProcess("homeworkList", model);
-        ListData<TrainingData> data = trainingDataInfoService.getlist();
-        System.out.println("++++++++++++++"+data.getItems());
+
+        ListData<TrainingData> data = eduTrainingDataInfoService.getlist();;
+
         model.addAttribute("items", data.getItems());
 
         return "/education/homework/list";
@@ -133,7 +139,7 @@ public class EducationController implements ExceptionProcessor  {
         commonProcess("homeworkSubmit", model);
 
         // 내 trainingdata(num으로 등록된)와 homework정보를 가지고 넘어간다
-        TrainingData trainingData = trainingDataInfoService.getOne(num);
+        TrainingData trainingData = eduTrainingDataInfoService.getOne(num);
         model.addAttribute("trainingData", trainingData);
 
         return "/education/homework/submit";

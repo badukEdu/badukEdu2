@@ -44,7 +44,7 @@ public class Menu {
                 new MenuDetail("accept", "학습 그룹 가입 승인", "/teacher/group/accept"),
                 new MenuDetail("homework_add", "숙제 생성/조회", "/teacher/homework/add"),
                 new MenuDetail("distribute", "숙제 배포", "/teacher/homework/distribute"),
-                new MenuDetail("homework_list", "숙제 학습 진도 조회", "/teacher/homework/assess")
+                new MenuDetail("assess", "숙제 학습 진도 조회", "/teacher/homework/assess")
         ));
 
         // 운영마당 / 권한 - ADMIN

@@ -23,12 +23,16 @@ import static org.springframework.data.domain.Sort.Order.desc;
 
 @Service
 @RequiredArgsConstructor
-public class TrainingDataInfoService {
+public class EduTrainingDataInfoService {
     private final TrainingDataRepository trainingDataRepository;
     private final HomeworkRepository homeworkRepository;
     private final MemberUtil memberUtil;
     private final HttpServletRequest request;
 
+    /** 학습자에게 할당된 trainingData 리스트
+     *
+     * @return
+     */
         public ListData<TrainingData> getlist() {
 
         // int page = Utils.onlyPositiveNumber(search.getP, 1)

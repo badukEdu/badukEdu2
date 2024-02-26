@@ -417,7 +417,7 @@ public class TeacherController {
      */
     @GetMapping("/homework/assess")
     public String homeworkList(Model model) {
-        commonProcess("homework_list", model);
+        commonProcess("assess", model);
 
         Member member = memberUtil.getMember();
         if (member == null) {
@@ -452,8 +452,9 @@ public class TeacherController {
         } else if (mode.equals("distribute")) {
             pageTitle = "숙제 배포::" + pageTitle;
             addScript.add("homework/" + mode);
-        } else if (mode.equals("homework_list")) {
+        } else if (mode.equals("assess")) {
             pageTitle = "숙제 학습 진도 조회::" + pageTitle;
+            addScript.add("homework/" + mode);
         } else if (mode.equals("accept")) {
             pageTitle = "회원 그룹 가입 승인::" + pageTitle;
         }
