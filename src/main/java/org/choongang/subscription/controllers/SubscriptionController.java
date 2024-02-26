@@ -47,7 +47,7 @@ public class SubscriptionController {
 
         ListData<OrderItem> data = orderInfoService.getList(search);
         model.addAttribute("items", data.getItems());
-        model.addAttribute("pagination", data.getPagination());;
+        model.addAttribute("pagination", data.getPagination());
 
         return "subscription/list";
     }
