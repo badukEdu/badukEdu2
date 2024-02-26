@@ -94,22 +94,37 @@ public class RestHomeworkController {
         StringBuilder tableData = new StringBuilder();
 
         for (TrainingData trainingData : trainingDataList) {
+            tableData.append("<input type='hidden' name='chk' value='").append(trainingData.getNum()).append("'>");
             tableData.append("<tr>");
             tableData.append("<td>").append(trainingData.getMember().getName()).append("</td>"); // 학습자명
             tableData.append("<td>").append(trainingData.getCreatedAt()).append("</td>"); // 숙제 배포일자
             tableData.append("<td>").append(trainingData.getHomeworkAnswer()).append("</td>"); // 학습자 작성 정답
             tableData.append("<td>").append(trainingData.getQuestion()).append("</td>"); // 질문사항
             tableData.append("<td>").append(trainingData.getSendDate()).append("</td>"); // 학습자 제출일자
-//            tableData.append("<td>").append(trainingData.getScore()).append("</td>"); // 제출마감
-            tableData.append("<td width=\"100\">\n" +
-                    "             <label for=\"score\">\n" +
-                    "                 <select id=\"score\" name=\"score\">\n" +
-                    "                     <option value=\"0\">우수</option>\n" +
-                    "                     <option value=\"1\" selected>보통</option>\n" +
-                    "                     <option value=\"2\">미흡</option>\n" +
-                    "                 </select>\n" +
-                    "             </label>\n" +
-                    "         </td>");
+//            tableData.append("<td>").append(trainingData.getScore()).append("</td>"); // 평가
+            tableData.append("<td width='100'><label><select name='score'>");
+            if (trainingData.getScore() == null) {
+                tableData.append("<option value='-1' selected>선택</option>" +
+                        "         <option value='0'>미흡</option>" +
+                        "         <option value='1'>보통</option>" +
+                        "         <option value='2'>우수</option>");
+            } else if (trainingData.getScore() == 0) {
+                tableData.append("<option value='-1'>선택</option>" +
+                        "         <option value='0' selected>미흡</option>" +
+                        "         <option value='1'>보통</option>" +
+                        "         <option value='2'>우수</option>");
+            } else if (trainingData.getScore() == 1) {
+                tableData.append("<option value='-1'>선택</option>" +
+                        "         <option value='0'>미흡</option>" +
+                        "         <option value='1' selected>보통</option>" +
+                        "         <option value='2'>우수</option>");
+            } else if (trainingData.getScore() == 2) {
+                tableData.append("<option value='-1'>선택</option>" +
+                        "         <option value='0'>미흡</option>" +
+                        "         <option value='1'>보통</option>" +
+                        "         <option value='2' selected>우수</option>");
+            }
+            tableData.append("</select></label></td>");
             tableData.append("</tr>");
         }
 

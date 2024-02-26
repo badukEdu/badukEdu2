@@ -4,7 +4,6 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.choongang.admin.gamecontent.controllers.GameContentSearch;
-import org.choongang.admin.gamecontent.entities.GameContent;
 import org.choongang.admin.gamecontent.service.GameContentInfoService;
 import org.choongang.admin.order.controllers.OrderSearch;
 import org.choongang.admin.order.entities.OrderItem;
@@ -426,7 +425,7 @@ public class TeacherController {
      * @return
      */
     @GetMapping("/homework/assess")
-    public String homeworkList(Model model) {
+    public String homeworkAssess(Model model) {
         commonProcess("assess", model);
 
         Member member = memberUtil.getMember();
@@ -441,6 +440,34 @@ public class TeacherController {
         model.addAttribute("trainingDataList", trainingDataList);
 
         return "teacher/homework/assess";
+    }
+
+    /** 숙제 평가 처리
+     *
+     * @param chks -> 평가 대상
+     * @param scores -> 평가 점수 (0:미흡, 1:보통, 2:우수)
+     * @param model
+     * @return
+     */
+    @PostMapping("homework/assess")
+    public String homeworkAssessPs(@RequestParam("chk") List<Long> chks,
+                                   @RequestParam("score") List<Long> scores,
+                                   Model model) {
+
+        for (int i = 0; i < chks.size(); i++) {
+            trainingDataSaveService.saveScore(chks,scores);
+        }
+
+        return "redirect:/teacher/homework/assess";
+    }
+
+    /** 숙제 답변 처리 (미처리)
+     *
+     * @return
+     */
+    @PostMapping("homework/assessDetail")
+    public String homeworkAssessDetailPs() {
+        return "redirect:/teacher/homework/assess";
     }
 
     private void commonProcess(String mode, Model model) {
