@@ -8,7 +8,8 @@ import org.choongang.education.group.controllers.JoinStGroupSearch;
 import org.choongang.education.group.entities.JoinStudyGroup;
 import org.choongang.education.group.services.joinStG.JoinSTGInfoService;
 import org.choongang.education.group.services.joinStG.JoinSTGSaveService;
-import org.choongang.member.MemberUtil;
+import org.choongang.education.homework.service.EduTrainingDataInfoService;
+import org.choongang.education.homework.service.EduTrainingDataSaveService;
 import org.choongang.member.entities.Member;
 import org.choongang.teacher.group.controllers.StGroupSearch;
 import org.choongang.teacher.group.entities.StudyGroup;
@@ -30,8 +31,12 @@ public class EducationController implements ExceptionProcessor  {
     private final JoinSTGSaveService joinSTGSaveService;
     private final JoinSTGInfoService joinSTGInfoService;
     private final HttpSession session;
-    private final MemberUtil memberUtil;
-    
+
+    ////////////////////////////homework
+
+    private final EduTrainingDataInfoService eduTrainingDataInfoService;
+    private final EduTrainingDataSaveService trainingDataSaveService;
+
     // 현재 신청중인 목록
     /**
      *
