@@ -8,4 +8,5 @@ import java.util.List;
 
 public interface BoardRepository extends JpaRepository<Notice_, Long>, QuerydslPredicateExecutor<Notice_> {
     List<Notice_> findByOrderByOnTopDesc();
+
 }

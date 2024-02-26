@@ -45,11 +45,6 @@ public class Notice_ extends Base {
     @Column
     private String postingType; // 게시 타입(즉시, 예정)
 
-//    @Column(nullable = false)
-//    private boolean useReservation; // 예약게시 여부
-
-//    @Column // (insertable = false)
-//    private LocalDateTime reservationDateTime; // 예약 게시 일시 (useReservation true일 경우)
 
     @Column
     private String question; // 질의(FaQ일 경우에만 사용)
@@ -60,13 +55,14 @@ public class Notice_ extends Base {
     @Transient
     private FileInfo thumbnail; // 썸네일 (파일명)
 
+
 ////////////////////////////
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "memberNum")
-    private Member member; //작성자 회원번호
+    @JoinColumn(name = "userId")
+    private Member member; // 작성자 아이디
 
     @OneToMany(mappedBy = "notice", fetch = FetchType.LAZY)
-    private List<NoticeComent> noticeComments;
+    private List<NoticeComment> noticeComments;
 
 }

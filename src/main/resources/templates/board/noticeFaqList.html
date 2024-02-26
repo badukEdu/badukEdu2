@@ -2,7 +2,6 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/main}">
-
 <section layout:fragment="content">
     <h1>공지사항 및 FAQ 조회</h1>
     <form th:action="@{/admin/board/list/noticeFaq}" method="get" autocomplete="off" th:object="${noticeSearch}">
@@ -13,6 +12,7 @@
                 <td>
                     <select name="sopt">
                         <option value="ALL" th:field="*{sopt}">통합검색</option>
+                        <option value="type" th:field="*{sopt}">분류</option>
                         <option value="title" th:field="*{sopt}">제목</option>
                         <option value="content" th:field="*{sopt}">내용</option>
                     </select>
@@ -25,25 +25,21 @@
         </div>
     </form>
 
-    <h2>Notice & FaQ 목록</h2>
+    <h2>공지사항 & FAQ 목록</h2>
         <table class="table_rows">
             <thead>
             <tr>
                 <th>선택</th>
                 <th>게시글 번호</th>
                 <th>분류</th>
-<!--                <th>노출 여부</th>-->
                 <th>제목</th>
-                <th>내용</th>
-                <!--        <th>작성자</th>-->
+<!--                <th>내용</th>-->
+                <th>작성자</th>
                 <!--        <th>등록일시</th>-->
-                <th>조회수</th>
                 <!--        <th>댓글수</th>-->
-<!--                <th>첨부파일명</th>-->
-<!--                <th>첨부파일경로</th>-->
-<!--                <th>게시 타입</th>-->
                 <th>질의</th>
                 <th>답변</th>
+                <th>조회수</th>
             </tr>
             </thead>
 
@@ -52,29 +48,47 @@
                 <td><input type="checkbox" name="selectNotice" th:value="${noticeList}" /></td>
                 <td th:text="*{num}"></td>
                 <td th:text="*{type}"></td>
-<!--                <td>-->
-<!--                <span th:if="${#strings.isNull(noticeList.type)}">NULL</span>-->
-<!--                <span th:unless="${#strings.isNull(noticeList.type)}">-->
-<!--                <span th:if="${noticeList.onTop}">O</span>-->
-<!--                <span th:unless="${noticeList.onTop}">X</span>-->
-<!--                </span>-->
-<!--                </td>-->
                 <td><a th:href="@{'/admin/board/detail/' + ${noticeList.num}}" th:text="*{title}"></a></td>
-                <td th:text="*{content}"></td>
-                <!--        <td th:text="*{}"></td> &lt;!&ndash; 작성자 &ndash;&gt;-->
+<!--                <td th:text="*{content}"></td>-->
+                <td th:text="*{member != null ? member.userId : '작성자 정보 없음'}"></td>
                 <!--        <td th:text="*{}"></td> &lt;!&ndash; 등록일시 &ndash;&gt;-->
-                <td th:text="*{visit}"></td> <!-- 조회수 -->
                 <!--        <td th:text="*{}"></td> &lt;!&ndash; 댓글 수&ndash;&gt;-->
-<!--                <td th:text="*{fileName}"></td>-->
-<!--                <td th:text="*{fileAddress}"></td>-->
-<!--                <td th:text="*{postingType}"></td>-->
                 <td th:text="*{question}"></td>
                 <td th:text="*{answer}"></td>
+                <td th:text="*{visit}"></td> <!-- 조회수 -->
             </tr>
             </tbody>
         </table>
-        <div>
-        </div>
+    <br></br>
 
+
+    <!-- 대기중인 게시물 목록 -->
+    <h2>게시 예정 공지사항 목록</h2>
+        <table class="table_rows">
+            <thead>
+            <tr>
+                <th>선택</th>
+                <th>게시글 번호</th>
+                <th>분류</th>
+                <th>제목</th>
+                <th>내용</th>
+                <th>조회수</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr th:each="waitingPost : ${waitingPostList}">
+                <td><input type="checkbox" name="selectWaitingPost" th:value="${waitingPost}" /></td>
+                <td th:text="*{num}"></td>
+                <td th:text="*{type}"></td>
+                <td><a th:href="@{'/admin/board/detail/' + ${waitingPost.num}}" th:text="*{title}"></a></td>
+                <td th:text="*{content}"></td>
+                <td th:text="*{visit}"></td>
+            </tr>
+            </tbody>
+        </table>
+        <div class="submit_btns">
+            <button type="submit" class="btn">선택한 게시물 처리</button>
+        </div>
 </section>
 </html>

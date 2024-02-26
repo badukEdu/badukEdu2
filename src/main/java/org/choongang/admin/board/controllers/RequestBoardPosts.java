@@ -1,8 +1,12 @@
 package org.choongang.admin.board.controllers;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Lob;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Data
@@ -22,17 +26,19 @@ public class RequestBoardPosts {
 
     private String postingType; // 게시 타입
 
-//    @Column(insertable = false)
-//    private LocalDateTime reservationDateTime; // 예약 게시 일시
-
     private String question;
 
     private String answer;
 
-    @Lob
     private String content;
 
-    public boolean isOnTop() {
+   // @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+   // private LocalDateTime expectedPostingDate = LocalDateTime.now().plusDays(1);
+
+    public boolean isOnTop()
+    {
         return onTop;
     }
+
+
 }
