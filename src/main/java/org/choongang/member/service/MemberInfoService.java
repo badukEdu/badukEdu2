@@ -3,11 +3,11 @@ package org.choongang.member.service;
 import com.querydsl.core.BooleanBuilder;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.choongang.admin.member.controllers.MemberSearch;
 import org.choongang.commons.ListData;
 import org.choongang.commons.Pagination;
 import org.choongang.commons.Utils;
 import org.choongang.member.Authority;
-import org.choongang.member.controllers.MemberSearch;
 import org.choongang.member.entities.Member;
 import org.choongang.member.entities.QMember;
 import org.choongang.member.repositories.MemberRepository;
@@ -73,7 +73,7 @@ public class MemberInfoService implements UserDetailsService {
 
         int page = Utils.onlyPositiveNumber(search.getPage(), 1); // 페이지 번호
         int limit = Utils.onlyPositiveNumber(search.getLimit(), 20); // 1페이지당 레코드 갯수
-//        int offset = (page - 1) * limit; // 레코드 시작 위치 번호
+        int offset = (page - 1) * limit; // 레코드 시작 위치 번호
 
         BooleanBuilder andBuilder = new BooleanBuilder();
         QMember member = QMember.member;
