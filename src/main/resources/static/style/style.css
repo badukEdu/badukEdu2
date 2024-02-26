@@ -66,6 +66,7 @@ header > section:first-of-type { width: 208px; text-align: center; }
 header > section:last-of-type { flex-grow: 1; padding-right: 20px; text-align: right; }
 header .btn_area a { display: inline-block; width: 90px; height: 28px; border: 1px solid #596b99; color: #596b99; border-radius: 5px; line-height: 26px; text-align: center; font-weight: 500; }
 header .btn_area a:last-of-type { background: #596b99; color: #fff; }
+header .btn_area p { line-height: 26px; text-align: center; display: inline-block; width: 90px; height: 28px; font-weight: 500; }
 
 header nav {  height: 60px; background: #fff; border-radius: 5px;  display: flex; align-items: center; }
 header nav a { height: 60px; line-height: 60px; padding: 0 40px; font-size: 1.385rem; color: #222; }
