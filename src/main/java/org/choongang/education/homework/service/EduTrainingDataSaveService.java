@@ -6,11 +6,13 @@ import org.choongang.teacher.homework.entities.TrainingData;
 import org.choongang.teacher.homework.repositories.TrainingDataRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 @Service
 @RequiredArgsConstructor
 public class EduTrainingDataSaveService {
 
-    private final TrainingDataInfoService trainingDataInfoService;
+    private final EduTrainingDataInfoService eduTrainingDataInfoService;
     private final TrainingDataRepository trainingDataRepository;
 
 
@@ -18,6 +20,7 @@ public class EduTrainingDataSaveService {
         TrainingData trainingData = (TrainingData) trainingDataRepository.findById(form.getNum()).orElseThrow();
         trainingData.setHomeworkAnswer(form.getHomeworkAnswer());
         trainingData.setQuestion(form.getQuestion());
+        trainingData.setSendDate(LocalDateTime.now());
 
         trainingDataRepository.saveAndFlush(trainingData);
     }
