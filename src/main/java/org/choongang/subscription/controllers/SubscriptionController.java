@@ -15,6 +15,7 @@ import org.choongang.admin.order.service.OrderInfoService;
 import org.choongang.commons.ListData;
 import org.choongang.member.MemberUtil;
 import org.choongang.member.entities.Member;
+import org.choongang.teacher.group.services.stGroup.SGInfoService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -38,6 +39,7 @@ public class SubscriptionController {
     private final OrderValidator orderValidator;
     private final OrderInfoService orderInfoService;
     private final MemberUtil memberUtil;
+    private final SGInfoService sgInfoService;
 
     /* 구매한 게임콘텐츠 목록 */
     @GetMapping
@@ -46,8 +48,12 @@ public class SubscriptionController {
         commonProcess("list", model);
 
         ListData<OrderItem> data = orderInfoService.getList(search);
+        for(OrderItem o : data.getItems()){
+            o.getGameContent().setStgroupCount(sgInfoService.count(o.getGameContent().getNum()));
+        }
+
         model.addAttribute("items", data.getItems());
-        model.addAttribute("pagination", data.getPagination());;
+        model.addAttribute("pagination", data.getPagination());
 
         return "subscription/list";
     }

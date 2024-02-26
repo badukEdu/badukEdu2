@@ -8,7 +8,7 @@
     <section layout:fragment="content">
         <h1>스터디그룹 가입 승인 대기 목록  </h1>
 
-        <form method="get" th:action="@{/#}" th:object="${joinStGroupSearch}" >
+        <form method="get" th:action="@{/education}" th:object="${joinStGroupSearch}" >
             <table class="table_cols">
                 <tr>
                     <th>키워드</th>
@@ -17,7 +17,7 @@
                             <select name="sopt">
                                 <option value="ALL" th:field="*{sopt}">통합검색</option>
                                 <option value="groupName" th:field="*{sopt}">스터디그룹명</option>
-                                <option value="memberName" th:field="*{sopt}">회원명</option>
+                                <option value="teacherName" th:field="*{sopt}">선생님명</option>
                             </select>
                             <input type="text" name="skey" th:field="*{skey}">
                         </div>
@@ -35,8 +35,7 @@
             <tr>
                 <th>승인여부</th>
                 <th>스터디그룹명</th>
-                <th>학생이름</th>
-                <th>연락처</th>
+                <th>담당 선생님</th>
                 <th>승인요청일자</th>
 
             </tr>
@@ -55,13 +54,11 @@
                         </div>
                     </td>
                     <td th:text="*{studyGroup.name}" ></td>
-                    <td th:text="*{member.name}"></td>
-                    <td th:text="*{member.tel}"></td>
+                    <td th:text="*{studyGroup.teacherName}"></td>
                     <td th:text="*{SDate}"></td>
                 </tr>
                 </tbody>
         </table>
-
 
 
         <th:block th:replace="~{common/_pagination::pagination}"></th:block>

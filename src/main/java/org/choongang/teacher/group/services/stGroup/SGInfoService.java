@@ -8,6 +8,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.choongang.admin.gamecontent.entities.GameContent;
 import org.choongang.admin.gamecontent.service.GameContentInfoService;
 import org.choongang.commons.ListData;
 import org.choongang.commons.Pagination;
@@ -55,7 +56,6 @@ public class SGInfoService {
         /*페이지 블럭 수*/
         int limit = Utils.onlyPositiveNumber(search.getLimit(), 4);
         int offset = (page - 1) * limit; // 레코드 시작 위치
-
 
         QStudyGroup studyGroup = QStudyGroup.studyGroup;
         // QGameContent gameTitle = QGameContent.gameTitle;
@@ -105,26 +105,10 @@ public class SGInfoService {
                 }
             }
 
-
-
-
             /////////
 
-
         }
-/*
-
-        String type = search.getType();
-        if (StringUtils.hasText(type) && type.equals("joinstg") && memberUtil.isLogin()) {
-            Member member = memberUtil.getMember();
-            List<JoinStudyGroup> groups = member.getJoinStudyGroups();
-            if (groups != null) {
-                groups.forEach(group ->  andBuilder.andNot(studyGroup.joinStudyGroups.contains(group)));
-            }
-        }
-*/
-
-        PathBuilder<StudyGroup> pathBuilder = new PathBuilder<>(StudyGroup.class, "stGroup");
+    PathBuilder<StudyGroup> pathBuilder = new PathBuilder<>(StudyGroup.class, "stGroup");
 
         List<StudyGroup> items = new JPAQueryFactory(em)
                 .selectFrom(studyGroup)
@@ -172,6 +156,24 @@ public class SGInfoService {
         RequestStGroup form = new ModelMapper().map(data, RequestStGroup.class);
         form.setNum(data.getNum());
         return form;
+    }
+
+    /**
+     * 게임 컨텐츠 num -> 해당 게임 컨텐츠로 개설한 스터디 그룹 개수 리턴
+     * @param num
+     * @return
+     */
+    public int count(Long num){
+        int count =0;
+        List<StudyGroup> list = stGroupRepository.findAll();
+        GameContent g = gameContentInfoService.getById(num);
+
+        for(StudyGroup s : list){
+            if(s.getGameContent().equals(g)){
+                count++;
+            }
+        }
+        return count;
     }
 
 }

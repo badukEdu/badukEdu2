@@ -2,32 +2,71 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/main}">
+<section layout:fragment="content">
 <h2>숙제 평가 페이지</h2>
-<table>
-    <thead>
-        <tr>
-            <th>숙제 이름</th>
-            <th>숙제 내용</th>
-            <th>마감일</th>
-        </tr>
-        <tr>
-            <td>(ex) 바둑의 기초</td>
-            <td>(ex) 축</td>
-            <td>2024-02-28</td>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <th>이름</th>
-            <th>제출 내용</th>
-            <th>점수</th>
+    <table class="table_rows mb30">
+        <thead class="table_cols">
+            <tr>
+                <th>숙제명</th>
+                <th>내용</th>
+                <th>그룹명</th>
+                <th>숙제레벨</th>
+                <th>제출마감</th>
+            </tr>
+            <tr th:if="${items == null || items.isEmpty()}">
+                <td colspan="6">숙제 정보가 없습니다.</td>
+            </tr>
+            <tr th:unless="${items == null || items.isEmpty()}" th:each="item : ${items}" th:object="${item}" th:id="*{'homework_' + num}" th:value="*{num}" ondblclick="updateTrainingData(this);">
+                <td th:text="*{name}"></td>
+                <td th:text="*{content}"></td>
+                <td th:text="*{studyGroup.name}"></td>
+                <td th:text="*{studyLevel}"></td>
+                <td th:text="*{deadLine}"></td>
+            </tr>
+            <tr>
+                <th colspan="6">숙제를 더블클릭하세요.</th>
+            </tr>
+        </thead>
 
-        </tr>
-        <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>
-    </tbody>
-</table>
+    </table>
+    <form method="post" th:action="@{/teacher/homework/assess}">
+        <table class="table_rows mb30">
+            <thead class="table_cols">
+                <tr>
+                    <th>학습자명</th>
+                    <th>전송 일자</th>
+                    <th>숙제 정답</th>
+                    <th>질문 사항</th>
+                    <th>제출 시간</th>
+                    <th>평가</th>
+                </tr>
+            </thead>
+            <tbody  id="homework_trainingData">
+
+                <tr th:each="trainingData: ${trainingDataList}" th:object="${trainingData}">
+                    <td th:text="*{member.name}"></td>
+                    <td th:text="*{createdAt}"></td>
+                    <td th:text="*{homeworkAnswer}"></td>
+                    <td th:text="*{question}"></td>
+                    <td th:text="*{sendDate}"></td>
+                    <td width="100">
+                        <label for="score" th:field="*{score}">
+                            <select id="score" name="score">
+                                <option value="0">우수</option>
+                                <option value="1" selected>보통</option>
+                                <option value="2">미흡</option>
+                            </select>
+                        </label>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="submit_btns">
+            <button type="reset" class="sbtn">다시하기</button>
+            <button type="submit" class="sbtn on">저장하기</button>
+        </div>
+    </form>
+
+
+</section>
 </html>
