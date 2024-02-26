@@ -161,7 +161,7 @@ public class EducationController implements ExceptionProcessor  {
 
         model.addAttribute("pageTitle", pageTitle);
         model.addAttribute("addScript", addScript);
-        model.addAttribute("subMenuCode", "education_" + mode);
+        model.addAttribute("subMenuCode", mode);
     }
 
 

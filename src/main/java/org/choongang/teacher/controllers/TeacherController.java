@@ -105,7 +105,23 @@ public class TeacherController {
      */
     @GetMapping("/group/detail/{num}")
     public String detail(@PathVariable("num") Long num, Model model, @ModelAttribute StGroupSearch search){
+        commonProcess("detail", model);
+        model.addAttribute("list" , sgInfoService.getList(search).getItems());
+        model.addAttribute("item" , sgInfoService.getForm(num));
+        model.addAttribute("members" , sgInfoService.getJoinMember(num));
+        return "teacher/group/detail";
+    }
 
+    /**
+     * 스터디그룹 상세 (detail -> detail)
+     * @param num
+     * @param model
+     * @param search
+     * @return
+     */
+    @GetMapping("/group/detail")
+    public String detail2(@RequestParam("num") Long num, Model model, @ModelAttribute StGroupSearch search){
+        commonProcess("detail", model);
         model.addAttribute("list" , sgInfoService.getList(search).getItems());
         model.addAttribute("item" , sgInfoService.getForm(num));
         model.addAttribute("members" , sgInfoService.getJoinMember(num));
@@ -478,6 +494,8 @@ public class TeacherController {
             pageTitle = "숙제 학습 진도 조회::" + pageTitle;
         } else if (mode.equals("accept")) {
             pageTitle = "회원 그룹 가입 승인::" + pageTitle;
+        }else if (mode.equals("detail")) {
+            pageTitle = "스터디그룹 상세::" + pageTitle;
         }
 
         model.addAttribute("addCss", addCss);

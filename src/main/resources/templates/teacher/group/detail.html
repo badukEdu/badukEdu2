@@ -1,22 +1,25 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/main}">
 
+<section layout:fragment="content">
 <h1>스터디 그룹 상세</h1>
-<!--
 
-<form th:action="@{/teacher/studyGroup/detail}" th:object="${item}">
+
+<form th:action="@{/teacher/group/detail}" th:object="${item}">
     <select name="num" th:field="*{num}">
         <option th:each="stGroup : ${list}"  th:value="${stGroup.num}" th:text="${stGroup.name}" ></option>
     </select>
     <button type="submit">상세 조회</button>
 </form>
 
-<div th:replace="~{front/teacher/studyGroup/_detail::detail}"></div>
+<div th:replace="~{teacher/group/_detail::detail}"></div>
 <hr>
 
-<h2>해당 스터디그룹 가입 학생 목록</h2>
-<table border="1">
+<h2>가입 학생 목록</h2>
+<table class="table_rows">
+    <thead>
     <tr>
 
         <th>NO</th>
@@ -24,13 +27,16 @@
         <th>이메일</th>
         <th>가입일자</th>
     </tr>
+    </thead>
+    <tbody>
     <tr th:each="member : ${members}" th:object="${member}">
         <td th:text="*{num}"></td>
         <td th:text="*{name}"></td>
         <td th:text="*{email}"></td>
         <td > 000 </td>
     </tr>
+    </tbody>
 </table>
--->
 
+</section>
 </html>
