@@ -56,7 +56,6 @@ public class SGInfoService {
         int limit = Utils.onlyPositiveNumber(search.getLimit(), 4);
         int offset = (page - 1) * limit; // 레코드 시작 위치
 
-
         QStudyGroup studyGroup = QStudyGroup.studyGroup;
         // QGameContent gameTitle = QGameContent.gameTitle;
         BooleanBuilder andBuilder = new BooleanBuilder();
@@ -105,26 +104,10 @@ public class SGInfoService {
                 }
             }
 
-
-
-
             /////////
 
-
         }
-/*
-
-        String type = search.getType();
-        if (StringUtils.hasText(type) && type.equals("joinstg") && memberUtil.isLogin()) {
-            Member member = memberUtil.getMember();
-            List<JoinStudyGroup> groups = member.getJoinStudyGroups();
-            if (groups != null) {
-                groups.forEach(group ->  andBuilder.andNot(studyGroup.joinStudyGroups.contains(group)));
-            }
-        }
-*/
-
-        PathBuilder<StudyGroup> pathBuilder = new PathBuilder<>(StudyGroup.class, "stGroup");
+    PathBuilder<StudyGroup> pathBuilder = new PathBuilder<>(StudyGroup.class, "stGroup");
 
         List<StudyGroup> items = new JPAQueryFactory(em)
                 .selectFrom(studyGroup)
