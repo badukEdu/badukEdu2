@@ -120,7 +120,27 @@ public class TeacherController {
      * @return
      */
     @GetMapping("/group/detail")
-    public String detail2(@RequestParam("num") Long num, Model model, @ModelAttribute StGroupSearch search){
+    public String detail2(@RequestParam(value = "num" ,required = false) Long num, Model model, @ModelAttribute StGroupSearch search){
+
+        if(num == null || num == 0){
+            if(sgInfoService.getList(search).getItems().isEmpty()){
+                commonProcess("list", model);
+                ListData<StudyGroup> data = sgInfoService.getList(search);
+                model.addAttribute("list" , data.getItems());
+                model.addAttribute("pagination", data.getPagination());
+                model.addAttribute("emsg" , "학습 그룹을 등록해야 상세보기가 가능합니다.");
+                return "teacher/group/list";
+            } else if (!sgInfoService.getList(search).getItems().isEmpty()) {
+
+                num = sgInfoService.getList(search).getItems().get(0).getNum();
+                commonProcess("detail", model);
+                model.addAttribute("list" , sgInfoService.getList(search).getItems());
+                model.addAttribute("item" , sgInfoService.getForm(num));
+                model.addAttribute("members" , sgInfoService.getJoinMember(num));
+                return "teacher/group/detail";
+            }
+        }
+
         commonProcess("detail", model);
         model.addAttribute("list" , sgInfoService.getList(search).getItems());
         model.addAttribute("item" , sgInfoService.getForm(num));

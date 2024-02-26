@@ -80,6 +80,9 @@
         </tr>
 
         </tbody>
+        <div th:if="${emsg != null}">
+            <div th:text="${emsg}" class="error"></div>
+        </div>
     </table>
 <!--
 

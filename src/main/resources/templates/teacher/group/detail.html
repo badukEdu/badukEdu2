@@ -11,7 +11,7 @@
     <select name="num" th:field="*{num}">
         <option th:each="stGroup : ${list}"  th:value="${stGroup.num}" th:text="${stGroup.name}" ></option>
     </select>
-    <button type="submit">상세 조회</button>
+    <button type="submit" class="sbtn">상세 조회</button>
 </form>
 
 <div th:replace="~{teacher/group/_detail::detail}"></div>

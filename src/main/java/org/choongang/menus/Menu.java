@@ -40,7 +40,7 @@ public class Menu {
         menus.put("teacher", Arrays.asList(
                 new MenuDetail("add", "학습 그룹 등록", "/teacher/group/add"),//
                 new MenuDetail("list", "학습 그룹 조회", "/teacher/group"),//
-                //new MenuDetail("detail", "학습 그룹 상세", "/teacher/group/detail"),
+                new MenuDetail("detail", "학습 그룹 상세", "/teacher/group/detail"),
                 new MenuDetail("accept", "학습 그룹 가입 승인", "/teacher/group/accept"),
                 new MenuDetail("homework_add", "숙제 생성", "/teacher/homework/add"),
                 new MenuDetail("distribute", "숙제 배포", "/teacher/homework/distribute"),
