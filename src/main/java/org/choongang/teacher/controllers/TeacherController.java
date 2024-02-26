@@ -403,8 +403,9 @@ public class TeacherController {
         TrainingData form = null;
         Homework homework = null;
         Member member = null;
+        // 체크된 숙제를
         for (Long chkHW : checkedHomeworks) {
-            // 각 숙제 당
+            // 각 체크된 그룹 멤버에게 배포
             homework = homeworkRepository.findById(chkHW).orElseThrow();
             for (Long chkMB : checkedMembers) {
                 form = new TrainingData();

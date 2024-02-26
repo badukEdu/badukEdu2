@@ -54,15 +54,18 @@ public class TrainingDataSaveService {
 
             if (scores.get(i) >= 1) { // 보통 이상의 평가를 받았을 때
                 Member member = memberRepository.findById(trainingData.getMember().getNum()).orElseThrow();
-                // 학습자의 레벨 <= 숙제의 레벨
-                member.setLevels(trainingData.getHomework().getStudyLevel());
-                memberRepository.save(member);
+                // 학습자의 레벨 < 숙제레벨일 때
+                if (member.getLevels() < trainingData.getHomework().getStudyLevel()) {
+                    // 학습자의 레벨 = 숙제의 레벨 입력
+                    member.setLevels(trainingData.getHomework().getStudyLevel());
+                    memberRepository.save(member);
+                }
             }
 
             trainingDataRepository.save(trainingData);
         }
         trainingDataRepository.flush();
-        memberRepository.flush();;
+        memberRepository.flush();
     }
 
     public void saveQuestionAnswer(RequestQuestionAnswer form) {
