@@ -77,11 +77,14 @@ public class JoinSTGInfoService {
 
         if(StringUtils.hasText(skey)){
             BooleanExpression groupNameCond = joinStudyGroup.studyGroup.name.contains(skey);
+            BooleanExpression teacherNameCond = joinStudyGroup.studyGroup.teacherName.contains(skey);
             BooleanExpression memberNameCond = joinStudyGroup.member.name.contains(skey);
             if(sopt.equals("groupName")){
                 andBuilder.and(groupNameCond);
             } else if (sopt.equals("memberName")) {
                 andBuilder.and(memberNameCond);
+            }else if (sopt.equals("teacherName")) {
+                andBuilder.and(teacherNameCond);
             }else if (sopt.equals("ALL")) {
                 BooleanBuilder orBuilder = new BooleanBuilder();
                 orBuilder.or(groupNameCond)
