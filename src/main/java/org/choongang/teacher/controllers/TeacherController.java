@@ -485,6 +485,7 @@ public class TeacherController {
             pageTitle = "학습 그룹 조회::" + pageTitle;
         } else if (mode.equals("homework_add")) {
             pageTitle = "숙제 생성/조회::" + pageTitle;
+            addScript.add("homework/" + mode);
         } else if (mode.equals("homework_edit")) {
             pageTitle = "숙제 수정::" + pageTitle;
         } else if (mode.equals("distribute")) {

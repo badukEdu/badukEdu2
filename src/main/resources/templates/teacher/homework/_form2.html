@@ -20,19 +20,20 @@
         <tr>
             <th>학습그룹</th>
             <td>
+                <select datatype="number" id="studyGroup" name="studyGroupNum" th:field="*{studyGroupNum}">
+                    <option value="">선택</option>
+                    <option th:each="item : ${list}" th:value="${item.num}" th:text="${item.name}" th:data-maxLevel="${item.maxLevel}">
 
-                    <select datatype="number" name="studyGroupNum" th:field="*{studyGroupNum}">
-                        <option value="">선택</option>
-                        <option th:each="item : ${list}" th:value="${item.num}" th:text="${item.name}">
-                        </option>
-                    </select>
-
+                    </option>
+                </select>
+                <span>목표레벨: </span>
+                <span id="viewLevel"></span>
                 <div class="error" th:each="err : ${#fields.errors('studyGroupNum')}" th:text="${err}"></div>
             </td>
         </tr>
         <th>학습레벨</th>
         <td>
-            <input type="number" name="studyLevel" th:field="*{studyLevel}" min="1" max="100">
+            <input type="number" id="studyLevel" name="studyLevel" th:field="*{studyLevel}" min="1" max="100">
             <div class="error" th:each="err : ${#fields.errors('studyLevel')}" th:text="${err}"></div>
         </td>
         </tr>
