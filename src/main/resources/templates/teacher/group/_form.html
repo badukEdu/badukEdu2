@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
-<th:div th:fragment="form" th:if="${requestStGroup != null}" th:object="${requestStGroup}">
+<th:div th:fragment="form"><!-- th:if="${requestStGroup != null}" th:object="${requestStGroup}"-->
 
     <h2>스터디 그룹 등록 / 게임 선택</h2>
 
@@ -24,18 +24,18 @@
         <tbody>
         <tr th:each="game : ${items}" th:object="${game}">
             <td>
-                <input type="radio" name="num" th:value="*{num}">
+                <input type="radio" name="num" th:value="*{gameContent.num}">
             </td>
-            <th th:text="*{gameTitle}"></th>
+            <th th:text="*{gameContent.gameTitle}"></th>
             <td>
-                <th:block th:if="*{thumbnail != null}" th:utext="*{@utils.printThumb(thumbnail.seq, 100, 100, 'image')}"></th:block>
+                <th:block th:if="*{gameContent != null && gameContent.thumbnail != null}" th:utext="*{@utils.printThumb(gameContent.thumbnail.seq, 100, 100, 'image')}"></th:block>
 
             </td>
-            <th th:text="*{startDate+ '~' +endDate}"></th>
-            <th th:text="*{subscriptionMonths}"></th>
-            <th th:text="*{maxSubscriber}"></th>
-            <th >???</th>
-            <th >???</th>
+            <td th:text="*{gameContent.startDate+ '~' +gameContent.endDate}"></td>
+            <td th:text="*{gameContent.subscriptionMonths}"></td>
+            <td th:text="*{gameContent.maxSubscriber}"></td>
+            <td >???</td>
+            <td >???</td>
         </tr>
         </tbody>
     </table>
