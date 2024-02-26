@@ -8,6 +8,7 @@ import org.choongang.education.group.controllers.JoinStGroupSearch;
 import org.choongang.education.group.entities.JoinStudyGroup;
 import org.choongang.education.group.services.joinStG.JoinSTGInfoService;
 import org.choongang.education.group.services.joinStG.JoinSTGSaveService;
+import org.choongang.member.MemberUtil;
 import org.choongang.member.entities.Member;
 import org.choongang.teacher.group.controllers.StGroupSearch;
 import org.choongang.teacher.group.entities.StudyGroup;
@@ -29,6 +30,7 @@ public class EducationController implements ExceptionProcessor  {
     private final JoinSTGSaveService joinSTGSaveService;
     private final JoinSTGInfoService joinSTGInfoService;
     private final HttpSession session;
+    private final MemberUtil memberUtil;
     
     // 현재 신청중인 목록
     /**
@@ -43,6 +45,8 @@ public class EducationController implements ExceptionProcessor  {
 
         search.setType("wait");
 
+        memberUtil.hasJoinStudyGroup();
+        model.addAttribute("ddd" , memberUtil.hasJoinStudyGroup());
         ListData<JoinStudyGroup> data = joinSTGInfoService.getList(search);
         model.addAttribute("list" , data.getItems());
         model.addAttribute("pagination" , data.getPagination());
