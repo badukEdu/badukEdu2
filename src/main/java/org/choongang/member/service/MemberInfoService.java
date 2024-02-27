@@ -91,6 +91,7 @@ public class MemberInfoService implements UserDetailsService {
         String name = search.getName();
         String tel = search.getTel();
         String email = search.getEmail();
+        Authority authority = search.getAuthority();
 
         String sopt = search.getSopt();
         sopt = StringUtils.hasText(sopt) ? sopt.trim() : "ALL"; // 검색 항목
@@ -108,6 +109,10 @@ public class MemberInfoService implements UserDetailsService {
         if (StringUtils.hasText(email)) {
             andBuilder.and(member.email.contains(email.trim()));
         }
+        if (authority != null) {
+            andBuilder.and(member.authority.stringValue().eq(authority.toString()));
+        }
+
 
         // 조건별 키워드 검색
         if (StringUtils.hasText(skey)) {
@@ -117,6 +122,7 @@ public class MemberInfoService implements UserDetailsService {
             BooleanExpression cond2 = member.name.contains(skey);
             BooleanExpression cond3 = member.tel.contains(skey);
             BooleanExpression cond4 = member.email.contains(skey);
+            BooleanExpression cond5 = member.authority.stringValue().contains(skey);
 
             if (sopt.equals("userId")) {
                 andBuilder.and(cond1);
@@ -126,13 +132,17 @@ public class MemberInfoService implements UserDetailsService {
                 andBuilder.and(cond3);
             } else if (sopt.equals("email")) {
                 andBuilder.and(cond4);
+            } else if (sopt.equals("authority")) {
+                andBuilder.and(cond5);
             } else { // 통합검색
                 BooleanBuilder orBuilder = new BooleanBuilder();
                 orBuilder
                     .or(cond1)
                     .or(cond2)
                     .or(cond3)
-                    .or(cond4);
+                    .or(cond4)
+                    .or(cond5);
+
                 andBuilder.and(orBuilder);
             }
         }
