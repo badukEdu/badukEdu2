@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.choongang.admin.gamecontent.controllers.GameContentSearch;
+import org.choongang.admin.gamecontent.entities.GameContent;
 import org.choongang.admin.gamecontent.service.GameContentInfoService;
 import org.choongang.admin.order.controllers.OrderSearch;
 import org.choongang.admin.order.entities.OrderItem;
@@ -183,6 +184,8 @@ public class TeacherController {
     public String addGroup2(Model model , @ModelAttribute RequestStGroup form
             , @RequestParam(name = "num" , required = false) Long num,@ModelAttribute OrderSearch search) {
         commonProcess("add", model);
+        GameContent gameContent = gameContentInfoService.getById(num);
+        Long stgroupCount2 = gameContent.getMaxSubscriber() - gameContentInfoService.stgroupCount(gameContent.getNum());
 
         //스터디그룹 등록 1. 게임 컨텐츠 설정에서 게임 선택하지 않을경우
         if(num == null){
@@ -193,8 +196,9 @@ public class TeacherController {
         //게임 선택 정상적으로 한 경우
         model.addAttribute("mode_" , "add2");
         model.addAttribute("acceptChange" , true);
+        model.addAttribute("stgroupCount2" , stgroupCount2);
         //폼을 두 번 이동 해야 해서 session에 저장
-        session.setAttribute("game" , gameContentInfoService.getById(num));
+        session.setAttribute("game" , gameContent);
 
         return "teacher/group/add";
     }
