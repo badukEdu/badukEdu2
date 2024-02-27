@@ -6,9 +6,10 @@
 <section layout:fragment="content">
 
 <!--[[${trainingData}]]-->
-    <form method="post" th:action="@{/teacher/answer}" th:object="${trainingData}">
+    <form method="post" th:action="@{/teacher/homework/answerPopup}" th:object="${trainingData}">
         <table>
             <thead>
+            <input type="hidden" th:field="*{num}">
                 <tr>
                     <th>숙제명</th>
                     <td th:text="*{homework.name}"></td>
@@ -51,7 +52,6 @@
                     <th>질문 답변</th>
                     <td><textarea th:field="*{questionAnswer}" placeholder="질문에 답변해주세요."></textarea></td>
                 </tr>
-               <input type="text" th:field="${num}">
                 <tr>
                     <th>평가</th>
                     <td>

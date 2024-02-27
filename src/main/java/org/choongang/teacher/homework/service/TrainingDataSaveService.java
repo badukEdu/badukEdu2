@@ -5,7 +5,6 @@ import lombok.RequiredArgsConstructor;
 import org.choongang.member.MemberUtil;
 import org.choongang.member.entities.Member;
 import org.choongang.member.repositories.MemberRepository;
-import org.choongang.teacher.homework.controllers.RequestAnswer;
 import org.choongang.teacher.homework.entities.Homework;
 import org.choongang.teacher.homework.entities.QTrainingData;
 import org.choongang.teacher.homework.entities.TrainingData;
@@ -103,11 +102,12 @@ public class TrainingDataSaveService {
      *
      * @param form : 숙제에 대한 답변, 점수 담고 있는 form
      */
-    public void saveQuestionAnswer(RequestAnswer form) {
+    public void saveQuestionAnswer(TrainingData form) {
 
         TrainingData trainingData = trainingDataRepository.findById(form.getNum()).orElseThrow();
 
         trainingData.setQuestionAnswer(form.getQuestionAnswer());
+        trainingData.setScore(form.getScore());
 
         trainingDataRepository.saveAndFlush(trainingData);
     }

@@ -527,12 +527,12 @@ public class TeacherController {
     }
 
     @PostMapping("homework/answerPopup")
-    public String homeworkAnswerPs(@Valid RequestAnswer form,
+    public String homeworkAnswerPs(TrainingData form,
                                    Model model) {
 
         trainingDataSaveService.saveQuestionAnswer(form);
 
-        return "redirect:/homework/assess";
+        return "redirect:/teacher/homework/assess";
     }
 
     private void commonProcess(String mode, Model model) {
