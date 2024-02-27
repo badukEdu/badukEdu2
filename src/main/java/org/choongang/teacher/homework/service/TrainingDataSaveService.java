@@ -47,7 +47,7 @@ public class TrainingDataSaveService {
 
         for (int i = 0; i < chks.size(); i++) {
             TrainingData trainingData = trainingDataRepository.findById(chks.get(i)).orElseThrow();
-            if (scores.get(i) instanceof Long) {
+            if (scores.get(i) < 0) {
                 continue;
             }
             trainingData.setScore(scores.get(i));
