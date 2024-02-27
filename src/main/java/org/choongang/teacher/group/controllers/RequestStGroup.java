@@ -44,4 +44,6 @@ public class RequestStGroup {
     private String gameTitle;
     private Long memberNum;
 
+    private int count=0;
+
 }

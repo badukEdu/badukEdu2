@@ -171,10 +171,14 @@ public class SGInfoService {
 
     public RequestStGroup getForm(Long num) {
         StudyGroup data = getById(num);
+
+            data.setCount(getJoinMember(data.getNum()).size());
+
         RequestStGroup form = new ModelMapper().map(data, RequestStGroup.class);
         form.setGameEndDate(data.getGameContent().getEndDate());
         form.setGameStartDate(data.getGameContent().getStartDate());
         form.setNum(data.getNum());
+
         return form;
     }
 
