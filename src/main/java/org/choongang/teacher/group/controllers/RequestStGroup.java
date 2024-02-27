@@ -19,6 +19,11 @@ public class RequestStGroup {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate startDate; //시작일
 
+    private LocalDate now = LocalDate.now();
+
+    private LocalDate gameEndDate ;
+    private LocalDate gameStartDate ;
+
     @NotNull
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate endDate; //종료일
@@ -38,5 +43,7 @@ public class RequestStGroup {
 
     private String gameTitle;
     private Long memberNum;
+
+    private int count=0;
 
 }
