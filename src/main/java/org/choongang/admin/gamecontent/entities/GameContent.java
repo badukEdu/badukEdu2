@@ -59,7 +59,10 @@ public class GameContent extends BaseMember {
     private FileInfo thumbnail;
 
     @Transient
-    private int stgroupCount=0;
+    private int stgroupCount = 0;
+
+    @Transient
+    private Long stgroupCount2 = 0L; //사용중-표찬
 ///////////////////////
 
     @ManyToOne(fetch = FetchType.LAZY)

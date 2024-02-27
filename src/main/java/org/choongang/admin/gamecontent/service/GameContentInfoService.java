@@ -156,7 +156,7 @@ public class GameContentInfoService {
         return data;
     }
 
-    /**
+    /** [표찬]
      * 해당 게임 컨텐츠로 개설한 스터디 그룹의 최대 구독자 수의 합 리턴
      * @param num - 게임 컨텐츠 num
      * @return

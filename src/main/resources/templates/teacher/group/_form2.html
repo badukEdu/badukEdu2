@@ -70,10 +70,10 @@
             </td>
         </tr>
         <tr>
-            <th>그룹제한인원 / [[${stgroupCount2}]] 남은 인원</th>
+            <th>그룹제한인원 / [[${session.game.stgroupCount2}]] 남은 인원</th>
             <td>
                 <input type="number" name="maxSubscriber" th:field="*{maxSubscriber}"
-                       th:readonly="${acceptChange ? false: 'readonly'}" th:max="${stgroupCount2}">
+                       th:readonly="${acceptChange ? false: 'readonly'}" th:max="${session.game.stgroupCount2}">
                 <div class="error" th:each="err : ${#fields.errors('maxSubscriber')}" th:text="${err}"></div>
             </td>
         </tr>
