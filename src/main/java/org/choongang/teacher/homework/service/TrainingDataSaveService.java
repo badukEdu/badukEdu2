@@ -12,6 +12,7 @@ import org.choongang.teacher.homework.repositories.HomeworkRepository;
 import org.choongang.teacher.homework.repositories.TrainingDataRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -81,6 +82,7 @@ public class TrainingDataSaveService {
                 continue;
             }
             trainingData.setScore(scores.get(i));
+            trainingData.setADate(LocalDateTime.now());
 
             if (scores.get(i) >= 1) { // 보통 이상의 평가를 받았을 때
                 Member member = memberRepository.findById(trainingData.getMember().getNum()).orElseThrow();
