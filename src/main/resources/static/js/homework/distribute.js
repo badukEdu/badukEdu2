@@ -16,6 +16,29 @@ window.addEventListener("DOMContentLoaded", function() {
         });
     }
 */
+    const checkHomeworks = document.getElementsByName("checkHomework");
+    const checkMembers = document.getElementsByName("checkMember");
+
+    checkHomeworks.forEach(function(checkHomework) {
+        checkHomework.addEventListener('change', function () {
+            if (this.checked) {
+                const homeworkLevel = parseInt(this.getAttribute('data-homeworkLevel'));
+                checkMembers.forEach(function(checkMember) {
+                    const studyLevel = parseInt(checkMember.getAttribute('data-studyLevel'));
+                    if (homeworkLevel < studyLevel) {
+                        checkMember.disabled = true;
+                    } else {
+                        checkMember.disabled = false;
+                    }
+                });
+            } else {
+                checkMembers.forEach(function(checkMember) {
+                    checkMembers.disabled = true;
+                });
+            }
+        });
+    });
+
 
     /* Member 전체 선택 기능 S */
     const checkAllMember = document.getElementById("checkAllMember");
@@ -23,9 +46,11 @@ window.addEventListener("DOMContentLoaded", function() {
         const checkMembers = document.getElementsByName("checkMember");
         const checkedMembers = [];
         for (const chk of checkMembers) {
+            if (chk.disabled == true){
+                continue;
+            }
             chk.checked = checkAllMember.checked;
             const num = chk.value;
-//            console.log(num);
             checkedMembers.push(num);
         }
     });
@@ -37,9 +62,11 @@ window.addEventListener("DOMContentLoaded", function() {
         const checkHomeworks = document.getElementsByName("checkHomework");
         const checkedHomeworks = [];
         for (const chk of checkHomeworks) {
+            if (chk.disabled == true){
+                continue;
+            }
             chk.checked = checkAllHomework.checked;
             const num = chk.value;
-//            console.log(num);
             checkedHomeworks.push(num);
         }
     });
@@ -140,3 +167,48 @@ function checkDeadLine() {
         }
     }
 }
+/* 마감일(deadLine)이 오늘 이전일 때 disabled */
+
+
+function checkLevels() {
+    const checkHomeworks = document.getElementsByName("checkHomework");
+    const checkMembers = document.getElementsByName("checkMember");
+
+    checkHomeworks.forEach(function(checkHomework) {
+        checkHomework.addEventListener('change', function () {
+            if (this.checked) {
+                const homeworkLevel = parseInt(this.getAttribute('data-homeworkLevel'));
+                checkMembers.forEach(function(checkMember) {
+                    const studyLevel = parseInt(checkMember.getAttribute('data-studyLevel'));
+                    if (homeworkLevel <= studyLevel) {
+                        checkMember.disabled = true;
+                    } else {
+                        checkMember.disabled = false;
+                    }
+                });
+            } else {
+                checkMembers.forEach(function(checkMember) {
+                    checkMember.disabled = false;
+                });
+            }
+        });
+    });
+}
+/*
+function checkLevels() {
+    const checkHomeworks = document.querySelectorAll('input[name="checkHomework"]:checked');
+    const checkMembers = document.getElementsByName("checkMember");
+
+    checkMembers.forEach(function(checkMember) {
+        let shouldBeDisabled = false;
+        checkHomeworks.forEach(function(checkHomework) {
+            const homeworkLevel = parseInt(checkHomework.getAttribute('data-homeworkLevel'));
+            const studyLevel = parseInt(checkMember.getAttribute('data-studyLevel'));
+            if (homeworkLevel > studyLevel) {
+                shouldBeDisabled = true;
+                return; // 중단하여 다음 체크홈워크를 검사하지 않음
+            }
+        });
+        checkMember.disabled = shouldBeDisabled;
+    });
+}*/
