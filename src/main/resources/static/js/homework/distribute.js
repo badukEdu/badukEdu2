@@ -142,6 +142,8 @@ function checkLevels() {
             }
         });
         checkMember.disabled = shouldBeDisabled;
-        checkMember.checked = shouldBeDisabled;
+        if ( shouldBeDisabled ) {
+            checkMember.checked = false;
+        }
     });
 }
