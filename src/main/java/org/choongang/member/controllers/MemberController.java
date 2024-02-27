@@ -6,12 +6,9 @@ import org.choongang.commons.ExceptionProcessor;
 import org.choongang.commons.Utils;
 import org.choongang.member.MemberUtil;
 import org.choongang.member.entities.Member;
-import org.choongang.member.service.FindIdService;
-import org.choongang.member.service.FindPwService;
-import org.choongang.member.service.JoinService;
+import org.choongang.member.service.*;
 import org.choongang.menus.Menu;
 import org.choongang.menus.MenuDetail;
-import org.choongang.member.service.MemberEditService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -36,6 +33,7 @@ public class MemberController implements ExceptionProcessor {
     private final MemberUtil memberUtil;
     private final MemberEditValidator memberEditValidator;
     private final MemberEditService memberEditService;
+    private final MemberDeleteService memberDeleteService;
 
     @ModelAttribute("subMenus")
     public List<MenuDetail> subMenus() {
@@ -51,6 +49,13 @@ public class MemberController implements ExceptionProcessor {
     public String join() {
         return "redirect:/member/join";
     }
+
+    /**
+     * 회원가입
+     * @param form
+     * @param model
+     * @return
+     */
 
     @GetMapping("/join/step1")
     public String joinStep1(@ModelAttribute RequestJoin form, Model model) {
@@ -97,6 +102,13 @@ public class MemberController implements ExceptionProcessor {
 
         return "redirect:/member/login";
     }
+
+    /**
+     * 로그인
+     * @param form
+     * @param model
+     * @return
+     */
 
     @GetMapping("/login")
     public String login(@ModelAttribute RequestJoin form, Model model) {
@@ -204,8 +216,6 @@ public class MemberController implements ExceptionProcessor {
         return "member/find_id_done";
     }
 
-    /* 아이디 찾기 E */
-
     /**
      * 비밀번호 찾기 양식
      *
@@ -250,6 +260,23 @@ public class MemberController implements ExceptionProcessor {
         commonProcess("find_pw", model);
 
         return "member/find_pw_done";
+    }
+
+    /**
+     * 회원탈퇴
+     * @param model
+     * @return
+     */
+    @GetMapping("/delete")
+    public String deleteMember(Model model) {
+        commonProcess("deleteMember", model);
+
+        memberDeleteService.deleteMember();
+
+        String script = String.format("alert('%s'); location.href='/member/logout';", Utils.getMessage("탈퇴처리되었습니다.", "commons"));
+        model.addAttribute("script", script) ;
+
+        return "/common/_execute_script" ;
     }
 
 

@@ -218,4 +218,16 @@ function MaxMinDate() {
         alert('해당 날짜 이후로만 선택할 수 있습니다.');
         document.getElementsByName('birth')[0].value = '';
     }
-}
+};
+
+window.addEventListener("DOMContentLoaded", function() {
+    const deleteBtn = document.querySelector('#deleteBtn');
+    deleteBtn.addEventListener('click', function () {
+        const yes = confirm('정말 탈퇴하시겠습니까?');
+        if (yes) {
+            location.href = '/member/delete';
+        } else {
+
+        }
+    });
+});
