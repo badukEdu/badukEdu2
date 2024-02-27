@@ -66,7 +66,7 @@ public class RestHomeworkController {
 
         for (Homework homework : homeworks) {
             tableData.append("<tr>");
-            tableData.append("<td><input type='checkbox' name='checkHomework' value='").append(homework.getNum()).append("' data-deadLine='").append(homework.getDeadLine()).append("' data-homeworkLevel='").append(homework.getStudyLevel()).append("'></td>"); // 체크박스
+            tableData.append("<td><input type='checkbox' name='checkHomework' value='").append(homework.getNum()).append("' data-deadLine='").append(homework.getDeadLine()).append("' data-homeworkLevel='").append(homework.getStudyLevel()).append("' onchange='checkLevels();'></td>"); // 체크박스
             tableData.append("<td>").append(homework.getName()).append("</td>"); // 숙제명
             tableData.append("<td>").append(homework.getContent()).append("</td>"); // 내용
             tableData.append("<td>").append(homework.getStudyGroup().getName()).append("</td>"); // 학습그룹
@@ -99,7 +99,7 @@ public class RestHomeworkController {
             tableData.append("<td>").append(trainingData.getMember().getName()).append("</td>"); // 학습자명
             tableData.append("<td>").append(trainingData.getCreatedAt()).append("</td>"); // 숙제 배포일자
             tableData.append("<td>").append(trainingData.getHomeworkAnswer()).append("</td>"); // 학습자 작성 정답
-            tableData.append("<td>").append(trainingData.getQuestion()).append("</td>"); // 질문사항
+            tableData.append("<td onclick='answerPopup(").append(trainingData.getNum()).append(")'>").append(trainingData.getQuestion()).append("</td>"); // 질문사항
             tableData.append("<td>").append(trainingData.getSendDate()).append("</td>"); // 학습자 제출일자
 //            tableData.append("<td>").append(trainingData.getScore()).append("</td>"); // 평가
             tableData.append("<td width='100'><label><select name='score'>");

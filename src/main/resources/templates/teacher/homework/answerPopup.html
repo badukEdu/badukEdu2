@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/popup}">
+
+<section layout:fragment="content">
+
+<!--[[${trainingData}]]-->
+    <form method="post" th:action="@{/teacher/homework/answerPopup}" th:object="${trainingData}">
+        <table>
+            <thead>
+            <input type="hidden" th:field="*{num}">
+                <tr>
+                    <th>숙제명</th>
+                    <td th:text="*{homework.name}"></td>
+                </tr>
+                <tr>
+                    <th>숙제내용</th>
+                    <td th:text="*{homework.content}"></td>
+                </tr>
+                <tr>
+                    <th>학습그룹</th>
+                    <td th:text="*{homework.studyGroup.name}"></td>
+                </tr>
+                <tr>
+                    <th>숙제레벨</th>
+                    <td th:text="*{homework.studyLevel}"></td>
+                </tr>
+                <tr>
+                    <th>제출마감</th>
+                    <td th:text="*{homework.deadLine}"></td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th>학습자명</th>
+                    <td th:text="*{member.name}"></td>
+                </tr>
+                <tr>
+                    <th>전송일자</th>
+                    <td th:text="*{sendDate}"></td>
+                </tr>
+                <tr>
+                    <th>숙제 정답</th>
+                    <td><textarea th:text="*{homeworkAnswer}" readonly></textarea></td>
+                </tr>
+                <tr>
+                    <th>추가 질문</th>
+                    <td><textarea th:text="*{question}" readonly></textarea></td>
+                </tr>
+                <tr>
+                    <th>질문 답변</th>
+                    <td><textarea th:field="*{questionAnswer}" placeholder="질문에 답변해주세요."></textarea></td>
+                </tr>
+                <tr>
+                    <th>평가</th>
+                    <td>
+                        <label>
+                            <select name='score' th:field="*{score}">
+                                <option value='-1'>선택</option>
+                                <option value='0'>미흡</option>
+                                <option value='1'>보통</option>
+                                <option value='2'>우수</option>
+                            </select>
+                        </label>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div>
+            <button type="reset">다시하기</button>
+            <button type="submit">저장하기</button>
+        </div>
+    </form>
+
+</section>
+</html>
