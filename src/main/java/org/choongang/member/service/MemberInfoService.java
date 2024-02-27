@@ -166,4 +166,18 @@ public class MemberInfoService implements UserDetailsService {
     public void addMemberInfo(Member member) {
     }
 
+    /**
+     * 회원 조회
+     * @param num
+     * @return
+     */
+    public Member get(Long num) {
+        Member member = memberRepository.findById(num).orElseThrow(MemberNotFoundException::new);
+
+        addMemberInfo(member);
+
+        return member;
+
+    }
+
 }
