@@ -532,7 +532,9 @@ public class TeacherController {
 
         trainingDataSaveService.saveQuestionAnswer(form);
 
-        return "redirect:/teacher/homework/assess";
+        model.addAttribute("script", "self.close(); parent.location.reload();");
+
+        return "common/_execute_script";
     }
 
     private void commonProcess(String mode, Model model) {
