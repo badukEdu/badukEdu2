@@ -258,12 +258,17 @@ public class TeacherController {
      * @return
      */
     @DeleteMapping
-    public String deletes(@RequestParam(name = "chk" ) List<Long> chks ,Model model){
+    public String deletes(@RequestParam(name = "chk" ) List<Long> chks ,Model model, @ModelAttribute StGroupSearch search){
 
     //가입 학생 있을 경우 삭제 불가
         for(Long n : chks){
             if(sgInfoService.hasMember(n)){
-                return "redirect:/teacher/group";
+                commonProcess("list", model);
+                ListData<StudyGroup> data = sgInfoService.getList(search);
+                model.addAttribute("list" , data.getItems());
+                model.addAttribute("pagination", data.getPagination());
+                model.addAttribute("dems", "가입(가입 대기) 학생이 있어 삭제가 불가합니다.");
+                return "teacher/group/list";
             }
         }
     //선택 항목 삭제 처리
@@ -280,11 +285,16 @@ public class TeacherController {
      * @return
      */
     @GetMapping("/group/delete/{num}")
-    public String delete(@PathVariable("num") Long num , Model model){
+    public String delete(@PathVariable("num") Long num , Model model, @ModelAttribute StGroupSearch search){
 
     //가입 학생 있을 경우 삭제 불가
         if(sgInfoService.hasMember(num)){
-            return "redirect:/teacher/group";
+            commonProcess("list", model);
+            ListData<StudyGroup> data = sgInfoService.getList(search);
+            model.addAttribute("list" , data.getItems());
+            model.addAttribute("pagination", data.getPagination());
+            model.addAttribute("dems", "가입(가입 대기) 학생이 있어 삭제가 불가합니다.");
+            return "teacher/group/list";
         }
     //삭제 처리
         sgDeleteService.delete(num);
