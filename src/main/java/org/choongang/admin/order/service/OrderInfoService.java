@@ -89,6 +89,14 @@ public class OrderInfoService {
 
         Pagination pagination = new Pagination(page, total, 10, limit ,request);
 
+        //////표찬-사용중//////
+        for(OrderItem o : data.getContent()){
+            gameContentInfoService.stgroupCount(o.getGameContent().getNum());
+            GameContent gameContent = o.getGameContent();
+            gameContent.setStgroupCount2(gameContent.getMaxSubscriber() - gameContentInfoService.stgroupCount(gameContent.getNum()));
+        }
+        //////표찬-사용중//////
+
         return new ListData<>(data.getContent(), pagination);
     }
 
