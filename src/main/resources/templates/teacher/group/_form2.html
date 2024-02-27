@@ -86,9 +86,16 @@
         <tr>
             <th>학습기간</th>
             <td>
-                <input type="date" name="startDate" th:field="*{startDate}">
+                <div th:if="${mode_ != 'edit'}">
+                <input type="date" name="startDate" th:field="*{startDate}" th:max="${session.game.endDate}"
+                       th:min="*{now}">
+                </div>
+                <div th:if="${mode_ == 'edit'}">
+                    <input type="date" name="startDate" th:field="*{startDate}" th:max="*{gameEndDate}"
+                           th:min="*{startDate}">
+                </div>
                 <div class="error" th:each="err : ${#fields.errors('startDate')}" th:text="${err}"></div>
-                <input type="date" name="endDate" th:field="*{endDate}">
+                <input type="date" name="endDate" th:field="*{endDate}" th:max="${session.game.endDate}">
                 <div class="error" th:each="err : ${#fields.errors('endDate')}" th:text="${err}"></div>
             </td>
         </tr>
