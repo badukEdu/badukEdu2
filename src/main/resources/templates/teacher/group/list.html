@@ -40,7 +40,7 @@
             <th>선택</th>
             <th>스터디그룹명</th>
             <th>게임컨텐츠명</th>
-            <th>그룹 T/O(등록 가능 인원?)</th>
+            <th>그룹 T/O(현재원/총원)</th>
             <th>구독기간</th>
             <th>달성레벨</th>
             <th>가입학생수</th>
@@ -52,7 +52,7 @@
                 <td><input type="checkbox" name="chk" th:value="*{num}"></td>
                 <td > <a th:href="@{/teacher/group/detail/{num}(num=*{num})}" th:text="*{name}"></a></td>
                 <td th:text="*{gameTitle}"></td>
-                <td th:text="*{maxSubscriber}"></td>
+                <td th:text="*{count +'/'+ maxSubscriber}"></td>
                 <td th:text="*{startDate+' ~ '+endDate}"></td>
                 <td th:text="*{maxLevel}"></td>
                 <td th:text="*{count}"></td>
