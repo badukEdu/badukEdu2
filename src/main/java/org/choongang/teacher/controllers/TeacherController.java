@@ -3,7 +3,6 @@ package org.choongang.teacher.controllers;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.choongang.admin.gamecontent.controllers.GameContentSearch;
 import org.choongang.admin.gamecontent.service.GameContentInfoService;
 import org.choongang.admin.order.controllers.OrderSearch;
 import org.choongang.admin.order.entities.OrderItem;
@@ -22,6 +21,7 @@ import org.choongang.teacher.group.entities.StudyGroup;
 import org.choongang.teacher.group.services.stGroup.SGDeleteService;
 import org.choongang.teacher.group.services.stGroup.SGInfoService;
 import org.choongang.teacher.group.services.stGroup.SGSaveService;
+import org.choongang.teacher.homework.controllers.RequestAnswer;
 import org.choongang.teacher.homework.controllers.RequestHomework;
 import org.choongang.teacher.homework.entities.Homework;
 import org.choongang.teacher.homework.entities.TrainingData;
@@ -364,7 +364,6 @@ public class TeacherController {
 
         model.addAttribute("items", items);
 
-
         return "teacher/homework/add";
     }
 
@@ -460,21 +459,8 @@ public class TeacherController {
                                        Model model) {
         commonProcess("distribute", model);
 
-        TrainingData form = null;
-        Homework homework = null;
-        Member member = null;
-        // 체크된 숙제를
-        for (Long chkHW : checkedHomeworks) {
-            // 각 체크된 그룹 멤버에게 배포
-            homework = homeworkRepository.findById(chkHW).orElseThrow();
-            for (Long chkMB : checkedMembers) {
-                form = new TrainingData();
-                member = memberRepository.findById(chkMB).orElseThrow();
-                form.setHomework(homework);
-                form.setMember(member);
-                trainingDataSaveService.save(form);
-            }
-        }
+        trainingDataSaveService.distribute(checkedHomeworks, checkedMembers);
+
 
         return "redirect:/teacher/homework/distribute";
     }
@@ -522,13 +508,32 @@ public class TeacherController {
         return "redirect:/teacher/homework/assess";
     }
 
-    /** 숙제 답변 처리 (미처리)
+    /** 숙제 답변 팝업 페이지
      *
      * @return
      */
-    @PostMapping("homework/assessDetail")
-    public String homeworkAssessDetailPs() {
-        return "redirect:/teacher/homework/assess";
+    @GetMapping("homework/answerPopup/{num}")
+    public String homeworkAnswer(@PathVariable("num") Long num,
+                                 @ModelAttribute RequestAnswer form,
+                                 Model model) {
+
+        TrainingData trainingData = trainingDataRepository.findById(num).orElseThrow();
+
+        model.addAttribute("form", form);
+        model.addAttribute("trainingData", trainingData);
+
+        return "teacher/homework/answerPopup";
+    }
+
+    @PostMapping("homework/answerPopup")
+    public String homeworkAnswerPs(TrainingData form,
+                                   Model model) {
+
+        trainingDataSaveService.saveQuestionAnswer(form);
+
+        model.addAttribute("script", "self.close(); parent.location.reload();");
+
+        return "common/_execute_script";
     }
 
     private void commonProcess(String mode, Model model) {
