@@ -35,30 +35,24 @@
                     <th>문의 유형</th>
                     <th>작성자</th>
                     <th>제목</th>
-<!--                    <th>내용</th>-->
-                    <th>답변 알림 신청 여부</th>
-    <!--                <th>첨부파일명</th>-->
-    <!--                <th>첨부파일경로</th>-->
                 </tr>
             </thead>
 
             <tbody>
             <tr th:each="qnaList : ${qnaList}" th:object="${qnaList}">
                 <td><input type="checkbox" name="selectQna" th:value="${qnaList}" /></td>
-                <td th:text="*{num}"></td>
-                <td th:text="*{type}"></td>
-                <td th:text="*{member != null ? member.userId : '작성자 정보 없음'}"></td>
+                <td><a th:href="@{'/guide/qnaDetail/' + ${qnaList.num}}" th:text="*{num}"></a></td>
+                <td><a th:href="@{'/guide/qnaDetail/' + ${qnaList.num}}" th:text="*{type}"></a></td>
+                <td><a th:href="@{'/guide/qnaDetail/' + ${qnaList.num}}" th:text="*{member != null ? member.userId : '작성자 정보 없음'}"></a></td>
                 <td><a th:href="@{'/guide/qnaDetail/' + ${qnaList.num}}" th:text="*{title}"></a></td>
-<!--                <td th:text="*{content}"></td>-->
-                <td th:text="*{answerAlert}"></td>
-<!--                <td th:text="*{fileName}"></td>-->
-<!--                <td th:text="*{fileAddress}"></td>-->
             </tr>
             </tbody>
         </table>
 
+    <div class="submit_btns">
     <form th:action="@{/guide/add}" method="get" autocomplete="off">
-        <button type="submit">등록하기</button>
+        <button class="btn" type="submit">등록하기</button>
     </form>
+    </div>
 </section>
 </html>

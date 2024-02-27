@@ -26,6 +26,8 @@ public class RequestBoardPosts {
 
     private String postingType; // 게시 타입
 
+    private LocalDate scheduledDate; // 예약 게시 일자
+
     private String question;
 
     private String answer;
@@ -35,10 +37,10 @@ public class RequestBoardPosts {
    // @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
    // private LocalDateTime expectedPostingDate = LocalDateTime.now().plusDays(1);
 
-    public boolean isOnTop()
-    {
-        return onTop;
-    }
+//    public boolean isOnTop()
+//    {
+//        return onTop;
+//    }
 
 
 }
