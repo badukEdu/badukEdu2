@@ -75,7 +75,10 @@ public class EducationController implements ExceptionProcessor  {
 
         search.setType("joinstg");
         ListData<StudyGroup> data = sgInfoService.getList(search);
-
+        for(StudyGroup s : data.getItems()){
+            int c = sgInfoService.getJoinMember(s.getNum()).size();
+            s.setCount(c);
+        }
         //validstg -> 이미 가입 한 스터디그룹은 목록에서 제외 / andBuilder로 처리한 것이 아니라 pagination 사용 불가
         model.addAttribute("list" , validstg(data.getItems()) );
         //model.addAttribute("pagination", data.getPagination());

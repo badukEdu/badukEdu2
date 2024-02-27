@@ -35,7 +35,7 @@
                 <th>스터디그룹명</th>
                 <th>교육자명</th>
                 <th>기간</th>
-                <th>잔여 T/O</th>
+                <th>잔여 T/O(현재원/총원)</th>
             </tr>
             </thead>
             <tbody>
@@ -47,7 +47,7 @@
                     <td th:text="*{name}"></td>
                     <td th:text="*{teacherName}"></td>
                     <td th:text="*{startDate+' ~ '+endDate}"></td>
-                    <td >구독 부분 완료되면 -> 총 인원 - 현재인원 </td>
+                    <td th:text="*{count +'/'+ maxSubscriber}"></td>
                 </tr>
             </tbody>
         </table>
