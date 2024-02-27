@@ -4,7 +4,6 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.choongang.admin.gamecontent.controllers.GameContentSearch;
-import org.choongang.admin.gamecontent.entities.GameContent;
 import org.choongang.admin.gamecontent.service.GameContentInfoService;
 import org.choongang.admin.order.controllers.OrderSearch;
 import org.choongang.admin.order.entities.OrderItem;
@@ -464,8 +463,9 @@ public class TeacherController {
         TrainingData form = null;
         Homework homework = null;
         Member member = null;
+        // 체크된 숙제를
         for (Long chkHW : checkedHomeworks) {
-            // 각 숙제 당
+            // 각 체크된 그룹 멤버에게 배포
             homework = homeworkRepository.findById(chkHW).orElseThrow();
             for (Long chkMB : checkedMembers) {
                 form = new TrainingData();
@@ -486,7 +486,7 @@ public class TeacherController {
      * @return
      */
     @GetMapping("/homework/assess")
-    public String homeworkList(Model model) {
+    public String homeworkAssess(Model model) {
         commonProcess("assess", model);
 
         Member member = memberUtil.getMember();
@@ -503,6 +503,34 @@ public class TeacherController {
         return "teacher/homework/assess";
     }
 
+    /** 숙제 평가 처리
+     *
+     * @param chks -> 평가 대상
+     * @param scores -> 평가 점수 (0:미흡, 1:보통, 2:우수)
+     * @param model
+     * @return
+     */
+    @PostMapping("homework/assess")
+    public String homeworkAssessPs(@RequestParam("chk") List<Long> chks,
+                                   @RequestParam("score") List<Long> scores,
+                                   Model model) {
+
+        for (int i = 0; i < chks.size(); i++) {
+            trainingDataSaveService.saveScore(chks,scores);
+        }
+
+        return "redirect:/teacher/homework/assess";
+    }
+
+    /** 숙제 답변 처리 (미처리)
+     *
+     * @return
+     */
+    @PostMapping("homework/assessDetail")
+    public String homeworkAssessDetailPs() {
+        return "redirect:/teacher/homework/assess";
+    }
+
     private void commonProcess(String mode, Model model) {
         mode = StringUtils.hasText(mode) ? mode : "list";
         String pageTitle = "교육자마당";
@@ -517,6 +545,7 @@ public class TeacherController {
             pageTitle = "학습 그룹 조회::" + pageTitle;
         } else if (mode.equals("homework_add")) {
             pageTitle = "숙제 생성/조회::" + pageTitle;
+            addScript.add("homework/" + mode);
         } else if (mode.equals("homework_edit")) {
             pageTitle = "숙제 수정::" + pageTitle;
         } else if (mode.equals("distribute")) {

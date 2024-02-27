@@ -7,14 +7,14 @@ import org.choongang.member.entities.Member;
 
 @Entity
 @Data
-public class NoticeComent extends Base {
+public class NoticeComment extends Base {
 
     @Id
     @GeneratedValue
     private Long num; // 댓글 번호
 
     @ManyToOne
-    @JoinColumn(name = "notice_Num") // 공지사항 번호 (FK)
+    @JoinColumn(name = "notice_num") // 공지사항 번호 (FK)
     private Notice_ notice; // 댓글이 속한 공지사항
 
     @Lob

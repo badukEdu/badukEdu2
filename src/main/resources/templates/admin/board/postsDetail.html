@@ -12,12 +12,9 @@
             <td>게시글 번호:</td>
             <td><span th:text="${noticeDetail.num}"></span></td>
         </tr>
-        <tr th:if="${noticeDetail.member != null}">
+        <tr>
             <td>작성자:</td>
-            <td><span th:text="${noticeDetail.member.userId}"></span></td>
-        </tr>
-        <tr th:unless="${noticeDetail.member != null}">
-            <td>작성자 정보 없음</td>
+            <td th:text="${noticeDetail.member != null ? noticeDetail.member.userId : '작성자 정보 없음'}"></td>
         </tr>
         <tr>
             <td>공지 분류:</td>
@@ -31,10 +28,10 @@
             <td>제목:</td>
             <td><span th:text="${noticeDetail.title}"></span></td>
         </tr>
-        <tr>
-            <td>내용:</td>
-            <td><span th:text="${noticeDetail.content}"></span></td>
-        </tr>
+<!--        <tr>-->
+<!--            <td>내용:</td>-->
+<!--            <td><span th:text="${noticeDetail.content}"></span></td>-->
+<!--        </tr>-->
         <!-- 추가 필드가 있다면 추가 -->
     </table>
 </div>
@@ -255,6 +252,63 @@ immediately.addEventListener('change', function() {
 });
 });
 /* 게시 예정일 선택 시 달력 표출 E */
+
+
+/* 댓글 관련 js 코드 S */
+
+// 댓글 목록을 불러와서 화면에 표시하는 함수
+function loadComments() {
+    fetch('/api/comments')
+    .then(response => response.json())
+    .then(data => {
+        const commentList = document.getElementById('commentList');
+        // 기존 댓글 삭제
+        commentList.innerHTML = '';
+        // 받아온 댓글 데이터를 리스트로 변환하여 화면에 추가
+        data.forEach(comment => {
+            const listItem = document.createElement('li');
+            listItem.textContent = comment.content;
+            commentList.appendChild(listItem);
+        });
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
+
+// 페이지 로드 시 댓글 목록 불러오기
+document.addEventListener('DOMContentLoaded', function() {
+    loadComments();
+});
+
+// 댓글 입력 폼 submit 이벤트 리스너 추가
+document.getElementById('commentForm').addEventListener('submit', function(event) {
+    event.preventDefault(); // 기본 동작 방지
+
+    // 입력된 댓글 내용 가져오기
+    const content = document.getElementById('commentContent').value;
+
+    // AJAX를 사용하여 댓글 생성 API 호출
+    fetch('/api/comments', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ content: content })
+    })
+    .then(response => response.json())
+    .then(data => {
+        // 댓글 생성 성공 시 댓글 목록 다시 불러와서 화면 갱신
+        loadComments();
+        // 입력 폼 비우기
+        document.getElementById('commentContent').value = '';
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+});
+
+/* 댓글 관련 js 코드 E */
 </script>
 
 </section>
