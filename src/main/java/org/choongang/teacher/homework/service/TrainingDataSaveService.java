@@ -2,6 +2,8 @@ package org.choongang.teacher.homework.service;
 
 import com.querydsl.core.BooleanBuilder;
 import lombok.RequiredArgsConstructor;
+import org.choongang.email.service.EmailMessage;
+import org.choongang.email.service.EmailSendService;
 import org.choongang.member.MemberUtil;
 import org.choongang.member.entities.Member;
 import org.choongang.member.repositories.MemberRepository;
@@ -24,6 +26,7 @@ public class TrainingDataSaveService {
     private final MemberRepository memberRepository;
     private final MemberUtil memberUtil;
     private final HomeworkRepository homeworkRepository;
+    private final EmailSendService emailSendService;
 
 
     /** 다수의 숙제를 다수의 학습자에게 배포
@@ -56,12 +59,24 @@ public class TrainingDataSaveService {
             }
 
             homework = homeworkRepository.findById(chkHW).orElseThrow();
+            EmailMessage emailMessage;
             for (Long chkMB : checkedMembers) {
+                emailMessage = null;
+
                 form = new TrainingData();
+
                 member = memberRepository.findById(chkMB).orElseThrow();
+
                 form.setHomework(homework);
                 form.setMember(member);
+
                 trainingDataRepository.save(form);
+
+                // 숙제 배포되었다고 이메일 전송
+                String subject = "숙제 배포";
+                String message = homework.getName() + "  숙제가 배포되었습니다.";
+                emailMessage = new EmailMessage(member.getEmail(), subject, message);
+                emailSendService.sendMail(emailMessage);
             }
         }
 
