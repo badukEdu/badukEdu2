@@ -34,6 +34,8 @@ public class BoardController implements ExceptionProcessor  {
         return "admin/board/noticeFaqAdd";
     }
 
+
+
     @PostMapping("noticeFaqAdd")
     public String board_postsPs(RequestBoardPosts form, Model model) {
 
