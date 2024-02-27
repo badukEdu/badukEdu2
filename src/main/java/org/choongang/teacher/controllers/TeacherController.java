@@ -192,7 +192,7 @@ public class TeacherController {
             , @RequestParam(name = "num" , required = false) Long num,@ModelAttribute OrderSearch search) {
         commonProcess("add", model);
         GameContent gameContent = gameContentInfoService.getById(num);
-        Long stgroupCount2 = gameContent.getMaxSubscriber() - gameContentInfoService.stgroupCount(gameContent.getNum());
+        gameContent.setStgroupCount2(gameContent.getMaxSubscriber() - gameContentInfoService.stgroupCount(gameContent.getNum()));
 
         //스터디그룹 등록 1. 게임 컨텐츠 설정에서 게임 선택하지 않을경우
         if(num == null){
@@ -203,7 +203,7 @@ public class TeacherController {
         //게임 선택 정상적으로 한 경우
         model.addAttribute("mode_" , "add2");
         model.addAttribute("acceptChange" , true);
-        model.addAttribute("stgroupCount2" , stgroupCount2);
+        //model.addAttribute("stgroupCount2" , stgroupCount2);
         //폼을 두 번 이동 해야 해서 session에 저장
         session.setAttribute("game" , gameContent);
 
@@ -232,7 +232,10 @@ public class TeacherController {
         RequestStGroup stg = sgInfoService.getForm(num);
 
         model.addAttribute("requestStGroup" , stg);
-        session.setAttribute("game" , gameContentInfoService.getById(stg.getGameContentNum()));
+        GameContent gameContent = gameContentInfoService.getById(stg.getGameContentNum());
+        gameContent.setStgroupCount2(gameContent.getMaxSubscriber() - gameContentInfoService.stgroupCount(gameContent.getNum()) + stg.getMaxSubscriber());
+
+        session.setAttribute("game" , gameContent);
 
         return "teacher/group/edit";
     }

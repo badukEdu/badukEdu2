@@ -156,7 +156,7 @@ public class GameContentInfoService {
         return data;
     }
 
-    /**
+    /** [표찬]
      * 해당 게임 컨텐츠로 개설한 스터디 그룹의 최대 구독자 수의 합 리턴
      * @param num - 게임 컨텐츠 num
      * @return
@@ -166,13 +166,10 @@ public class GameContentInfoService {
         GameContent gameContent = getById(num);
         Long count = 0L;
         Member member = (Member)session.getAttribute("member");
-        System.out.println(member+"hhhhhhhhhhhhh");
         for(StudyGroup s : list){
-            System.out.println(s.getMember()+"kkkkkkkkk");
             if(member.getUserId().equals(s.getMember().getUserId())){
                 if(s.getGameContent().equals(gameContent)){
                     count = count + s.getMaxSubscriber();
-                    System.out.println(s.getMaxSubscriber()+"hhhhhhhhhhhhh");
                 }
             }
 
