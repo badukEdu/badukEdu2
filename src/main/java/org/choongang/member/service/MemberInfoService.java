@@ -1,6 +1,12 @@
 package org.choongang.member.service;
 
 import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.types.Order;
+import com.querydsl.core.types.OrderSpecifier;
+import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.PathBuilder;
+import com.querydsl.jpa.impl.JPAQueryFactory;
+import jakarta.persistence.EntityManager;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.choongang.admin.member.controllers.MemberSearch;
@@ -20,6 +26,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.Arrays;
 import java.util.List;
@@ -33,6 +40,7 @@ public class MemberInfoService implements UserDetailsService {
 
     private final MemberRepository memberRepository;
     private final HttpServletRequest request;
+    private final EntityManager em;
 
     /**
      * 아이디 조회읽기
@@ -78,14 +86,76 @@ public class MemberInfoService implements UserDetailsService {
         BooleanBuilder andBuilder = new BooleanBuilder();
         QMember member = QMember.member;
 
-        Pageable pageable = PageRequest.of(page - 1, limit, Sort.by(desc("createdAt")));
+        /* 검색 조건 처리 S */
+        String userId = search.getUserId();
+        String name = search.getName();
+        String tel = search.getTel();
+        String email = search.getEmail();
 
-        Page<Member> data = memberRepository.findAll(andBuilder, pageable);
+        String sopt = search.getSopt();
+        sopt = StringUtils.hasText(sopt) ? sopt.trim() : "ALL"; // 검색 항목
+        String skey = search.getSkey(); // 검색 키워드
 
-        Pagination pagination = new Pagination(page, (int)data.getTotalElements(), 10, limit, request);
+        if (StringUtils.hasText(userId)) {
+            andBuilder.and(member.userId.contains(userId.trim()));
+        }
+        if (StringUtils.hasText(name)) {
+            andBuilder.and(member.name.contains(name.trim()));
+        }
+        if (StringUtils.hasText(tel)) {
+            andBuilder.and(member.tel.contains(tel.trim()));
+        }
+        if (StringUtils.hasText(email)) {
+            andBuilder.and(member.email.contains(email.trim()));
+        }
+
+        // 조건별 키워드 검색
+        if (StringUtils.hasText(skey)) {
+            skey = skey.trim();
+
+            BooleanExpression cond1 = member.userId.contains(skey);
+            BooleanExpression cond2 = member.name.contains(skey);
+            BooleanExpression cond3 = member.tel.contains(skey);
+            BooleanExpression cond4 = member.email.contains(skey);
+
+            if (sopt.equals("userId")) {
+                andBuilder.and(cond1);
+            } else if (sopt.equals("name")) {
+                andBuilder.and(cond2);
+            } else if (sopt.equals("tel")) {
+                andBuilder.and(cond3);
+            } else if (sopt.equals("email")) {
+                andBuilder.and(cond4);
+            } else { // 통합검색
+                BooleanBuilder orBuilder = new BooleanBuilder();
+                orBuilder
+                    .or(cond1)
+                    .or(cond2)
+                    .or(cond3)
+                    .or(cond4);
+                andBuilder.and(orBuilder);
+            }
+        }
+
+        PathBuilder<Member> pathBuilder = new PathBuilder<>(Member.class, "member");
+
+        List<Member> items = new JPAQueryFactory(em)
+            .selectFrom(member)
+            .leftJoin(member)
+            .fetchJoin()
+            .where(andBuilder)
+            .limit(limit)
+            .offset(offset)
+            .fetch();
+
+
+        /* 페이징 처리 S */
+        int total = (int)memberRepository.count(andBuilder); // 총 레코드 갯수
+
+        Pagination pagination = new Pagination(page, total, 10, limit, request);
         /* 페이징 처리 E */
 
-        return new ListData<>(data.getContent(), pagination);
+        return new ListData<>(items, pagination);
     }
 
     /**
