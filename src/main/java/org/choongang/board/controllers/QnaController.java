@@ -64,8 +64,6 @@ public class QnaController implements ExceptionProcessor  {
     /* QnA 게시글 등록(이용자, 관리자 권한) E */
 
 
-
-
     /* QnA 게시글 상세 조회 S */
 
     @GetMapping("/qnaDetail/{num}")

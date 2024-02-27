@@ -29,7 +29,7 @@
         </thead>
 
     </table>
-    <form method="post" th:action="@{/teacher/homework/assess}">
+    <form method="post" id="assessFrm" name="assessFrm" th:action="@{/teacher/homework/assess}">
         <table class="table_rows mb30">
             <thead class="table_cols">
                 <tr>
@@ -42,7 +42,9 @@
                 </tr>
             </thead>
             <tbody  id="homework_trainingData">
-
+                <tr>
+                    <th colspan="6">예시용 뷰입니다. 숙제를 더블클릭하세요.</th>
+                </tr>
                 <tr th:each="trainingData: ${trainingDataList}" th:object="${trainingData}">
                     <input type="hidden" th:value="*{num}" name="chk">
                     <td th:text="*{member.name}"></td>
@@ -65,7 +67,7 @@
         </table>
         <div class="submit_btns">
             <button type="reset" class="sbtn">다시하기</button>
-            <button type="submit" class="sbtn on">저장하기</button>
+            <button type="submit" id="submit" class="sbtn on">저장하기</button>
         </div>
     </form>
 

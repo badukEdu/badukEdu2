@@ -17,13 +17,16 @@ public class NoticeComment extends Base {
     @JoinColumn(name = "notice_num") // 공지사항 번호 (FK)
     private Notice_ notice; // 댓글이 속한 공지사항
 
-    @Lob
+    @Column(nullable = false)
     private String content; // 댓글 내용
 
     ///////////////////////////
 
     @ManyToOne
-    @JoinColumn(name = "memberNum") // 작성자 (FK)
+    @JoinColumn(name = "userId") // 작성자 (FK)
     private Member member;
 
+    public void update(String content) {
+        this.content = content;
+    }
 }

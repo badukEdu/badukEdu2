@@ -70,39 +70,49 @@
             </td>
         </tr>
         <tr>
-            <th>그룹제한인원</th>
+            <th>그룹제한인원 / [[${stgroupCount2}]] 남은 인원</th>
             <td>
-                <input type="number" name="maxSubscriber" th:field="*{maxSubscriber}">
+                <input type="number" name="maxSubscriber" th:field="*{maxSubscriber}"
+                       th:readonly="${acceptChange ? false: 'readonly'}" th:max="${stgroupCount2}">
                 <div class="error" th:each="err : ${#fields.errors('maxSubscriber')}" th:text="${err}"></div>
             </td>
         </tr>
         <tr>
             <th>학습개월</th>
             <td>
-                <input type="number" name="month" th:field="*{month}" >
+                <input type="number" name="month" th:field="*{month}"
+                       th:readonly="${acceptChange ? false: 'readonly'}">
                 <div class="error" th:each="err : ${#fields.errors('month')}" th:text="${err}"></div>
             </td>
         </tr>
         <tr>
             <th>학습기간</th>
             <td>
-                <input type="date" name="startDate" th:field="*{startDate}">
+                <div th:if="${mode_ != 'edit'}">
+                <input type="date" name="startDate" th:field="*{startDate}" th:max="${session.game.endDate}"
+                       th:min="*{now}" th:readonly="${acceptChange ? false: 'readonly'}">
+                </div>
+                <div th:if="${mode_ == 'edit'}">
+                    <input type="date" name="startDate" th:field="*{startDate}" th:max="*{gameEndDate}"
+                           th:min="*{startDate}" th:readonly="${acceptChange ? false: 'readonly'}">
+                </div>
                 <div class="error" th:each="err : ${#fields.errors('startDate')}" th:text="${err}"></div>
-                <input type="date" name="endDate" th:field="*{endDate}">
+                <input type="date" name="endDate" th:field="*{endDate}" th:max="${session.game.endDate}"
+                       th:readonly="${acceptChange ? false: 'readonly'}">
                 <div class="error" th:each="err : ${#fields.errors('endDate')}" th:text="${err}"></div>
             </td>
         </tr>
         <tr>
             <th>달성 레벨</th>
             <td>
-                <input type="number" name="maxLevel" th:field="*{maxLevel}">
+                <input type="number" name="maxLevel" th:field="*{maxLevel}" th:readonly="${acceptChange ? false: 'readonly'}">
                 <div class="error" th:each="err : ${#fields.errors('maxLevel')}" th:text="${err}"></div>
             </td>
         </tr>
         <tr>
             <th>비고</th>
             <td>
-                <input type="text" name="text" th:field="*{text}">
+                <input type="text" name="text" th:field="*{text}" th:readonly="${acceptChange ? false: 'readonly'}">
             </td>
         </tr>
     </table>

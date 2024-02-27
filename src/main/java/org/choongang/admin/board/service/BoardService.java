@@ -41,7 +41,7 @@ public class BoardService {
     private final BoardRepository boardRepository;
     private final MemberUtil memberUtil;
 
-    /* 게시글(Notice, FaQ) 등록 및 수정 서비스 S */
+    /* 게시글(Notice, FaQ) 등록(등록 즉시 게시) 및 수정 서비스 S */
 
     public void save(RequestBoardPosts form) {
 
@@ -67,12 +67,34 @@ public class BoardService {
         notice.setAnswer(form.getAnswer());
         notice.setContent(form.getContent());
         notice.setMember(memberUtil.getMember());
+        notice.setScheduledDate(form.getScheduledDate());
+
+        // 게시글 저장 전에 조회수를 증가시킴
+        increaseVisitCount(notice);
 
         boardRepository.saveAndFlush(notice);
     }
 
+    private void increaseVisitCount(Notice_ notice) {
+        // 현재 조회수를 가져와서 1 증가시킴
+        Long currentVisit = notice.getVisit() != null ? notice.getVisit() : 0;
+        notice.setVisit(currentVisit + 1);
+    }
     /* 게시글(Notice, FaQ) 등록 및 수정 서비스 E */
 
+    /* 조회수 증가 서비스 S */
+    public void increaseVisitCount(Long num) {
+        Optional<Notice_> optionalNotice = boardRepository.findById(num);
+        if (optionalNotice.isPresent()) {
+            Notice_ notice = optionalNotice.get();
+            Long currentVisit = notice.getVisit() != null ? notice.getVisit() : 0;
+            notice.setVisit(currentVisit + 1);
+            boardRepository.saveAndFlush(notice);
+        } else {
+            throw new BoardNotFoundException();
+        }
+    }
+    /* 조회수 증가 서비스 S */
 
 
     /* 등록된 게시글 조회(정렬 기준 X, 등록 순) S */
@@ -101,7 +123,6 @@ public class BoardService {
 
         /* 검색 조건 처리 S */
 
-        // 삭제된 데이터 제외
         BooleanBuilder andBuilder = new BooleanBuilder();
 
         if (StringUtils.hasText(skey)) {
@@ -122,6 +143,9 @@ public class BoardService {
                 andBuilder.and(typeConds);
             }
         }
+
+        // 게시 타입이 immediately인 것만 출력
+        // andBuilder.and(notice.postingType.eq("immediately"));
 
         Pageable pageable;
         if (StringUtils.hasText(search.getOnTop()) && search.getOnTop().equals("O")) {
@@ -145,8 +169,6 @@ public class BoardService {
 
     /* 노출 여부를 기준으로 게시물 조회 E */
 
-
-    /* 게시 예정인 게시물을 가져오는 메소드 S */
 
 
     /* 게시글 번호로 상세 페이지 조회 S */

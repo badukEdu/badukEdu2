@@ -7,6 +7,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.aspectj.weaver.MemberUtils;
 import org.choongang.commons.ListData;
 import org.choongang.commons.Pagination;
 import org.choongang.commons.Utils;
@@ -15,6 +16,7 @@ import org.choongang.education.group.entities.JoinStudyGroup;
 import org.choongang.education.group.entities.QJoinStudyGroup;
 import org.choongang.education.group.repositories.JoinStGroupRepository;
 import org.choongang.member.Authority;
+import org.choongang.member.MemberUtil;
 import org.choongang.member.entities.Member;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -31,6 +33,7 @@ public class JoinSTGInfoService {
     private final HttpSession session;
     private final EntityManager em;
     private final HttpServletRequest request;
+
 
     public JoinStudyGroup findById(Long num){
 
@@ -60,7 +63,7 @@ public class JoinSTGInfoService {
 
         BooleanBuilder andBuilder = new BooleanBuilder();
 
-        //교육자는 본인 스터디그룹만 볼 수 있음
+        //교육자는 본인 스터디그룹만 볼 수 있음 -> 순환참조 발생해서 memberUtil 사용 안했음
         if(((Member)session.getAttribute("member")).getAuthority() == Authority.TEACHER){
             andBuilder.and(joinStudyGroup.studyGroup.member.eq((Member) session.getAttribute("member")));
         }
@@ -73,22 +76,43 @@ public class JoinSTGInfoService {
         String sopt = search.getSopt();
         String skey = search.getSkey().trim();
 
-        if(StringUtils.hasText(skey)){
-            BooleanExpression groupNameCond = joinStudyGroup.studyGroup.name.contains(skey);
-            BooleanExpression teacherNameCond = joinStudyGroup.studyGroup.teacherName.contains(skey);
-            BooleanExpression memberNameCond = joinStudyGroup.member.name.contains(skey);
-            if(sopt.equals("groupName")){
-                andBuilder.and(groupNameCond);
-            } else if (sopt.equals("memberName")) {
-                andBuilder.and(memberNameCond);
-            }else if (sopt.equals("teacherName")) {
-                andBuilder.and(teacherNameCond);
-            }else if (sopt.equals("ALL")) {
-                BooleanBuilder orBuilder = new BooleanBuilder();
-                orBuilder.or(groupNameCond)
-                        .or(memberNameCond);
+        if(((Member)session.getAttribute("member")).getAuthority() == Authority.TEACHER){
+            if(StringUtils.hasText(skey)){
+                BooleanExpression groupNameCond = joinStudyGroup.studyGroup.name.contains(skey);
+            //    BooleanExpression teacherNameCond = joinStudyGroup.studyGroup.teacherName.contains(skey);
+                BooleanExpression memberNameCond = joinStudyGroup.member.name.contains(skey);
+                if(sopt.equals("groupName")){
+                    andBuilder.and(groupNameCond);
+                } else if (sopt.equals("memberName")) {
+                    andBuilder.and(memberNameCond);
+                }/*else if (sopt.equals("teacherName")) {
+                    andBuilder.and(teacherNameCond);
+                }*/else if (sopt.equals("ALL")) {
+                    BooleanBuilder orBuilder = new BooleanBuilder();
+                    orBuilder.or(groupNameCond)
+                            .or(memberNameCond);
 
-                andBuilder.and(orBuilder);
+                    andBuilder.and(orBuilder);
+                }
+            }
+        } else if (search.getType().equals("wait")){
+            if(StringUtils.hasText(skey)){
+                BooleanExpression groupNameCond = joinStudyGroup.studyGroup.name.contains(skey);
+                BooleanExpression teacherNameCond = joinStudyGroup.studyGroup.teacherName.contains(skey);
+                //BooleanExpression memberNameCond = joinStudyGroup.member.name.contains(skey);
+                if(sopt.equals("groupName")){
+                    andBuilder.and(groupNameCond);
+                }/* else if (sopt.equals("memberName")) {
+                    andBuilder.and(memberNameCond);
+                }*/else if (sopt.equals("teacherName")) {
+                    andBuilder.and(teacherNameCond);
+                }else if (sopt.equals("ALL")) {
+                    BooleanBuilder orBuilder = new BooleanBuilder();
+                    orBuilder.or(groupNameCond)
+                            .or(teacherNameCond);
+
+                    andBuilder.and(orBuilder);
+                }
             }
         }
 
