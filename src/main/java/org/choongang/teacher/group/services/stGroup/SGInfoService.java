@@ -58,10 +58,10 @@ public class SGInfoService {
         int offset = (page - 1) * limit; // 레코드 시작 위치
 
         QStudyGroup studyGroup = QStudyGroup.studyGroup;
-        // QGameContent gameTitle = QGameContent.gameTitle;
         BooleanBuilder andBuilder = new BooleanBuilder();
 
-        //교육자는 본인 스터디그룹만 볼 수 있음
+        //교육자는 본인 스터디그룹만 볼 수 있도록 (스터디 그룹 목록에서 본인이 개설 한 스터디 그룹만 관리할 수 있도록)
+        //학생은 가입 신청을 해야 하기 때문에 전체 스터디 그룹 목록 조회가능
         if(memberUtil.isTeacher()){
             andBuilder.and(studyGroup.member.eq((Member) session.getAttribute("member")));
         }
@@ -73,6 +73,7 @@ public class SGInfoService {
             BooleanExpression groupNameCond = studyGroup.name.contains(skey);
             BooleanExpression gameNameCond = studyGroup.gameTitle.contains(skey);
 
+            //학생은 그룹명 , 게임명 , 교육자명으로 검색 가능
             if(memberUtil.isStudent()){
                 BooleanExpression teacherNameCond = studyGroup.teacherName.contains(skey);
 
@@ -87,11 +88,9 @@ public class SGInfoService {
                     orBuilder.or(groupNameCond)
                             .or(gameNameCond)
                             .or(teacherNameCond);
-
                     andBuilder.and(orBuilder);
                 }
-            } else {
-
+            } else { //교육자는 그룹명 , 게임명으로 검색 가능
                 if(sopt.equals("groupName")){
                     andBuilder.and(groupNameCond);
                 } else if (sopt.equals("gameName")) {
@@ -100,13 +99,9 @@ public class SGInfoService {
                     BooleanBuilder orBuilder = new BooleanBuilder();
                     orBuilder.or(groupNameCond)
                             .or(gameNameCond);
-
                     andBuilder.and(orBuilder);
                 }
             }
-
-            /////////
-
         }
     PathBuilder<StudyGroup> pathBuilder = new PathBuilder<>(StudyGroup.class, "stGroup");
 
@@ -119,10 +114,12 @@ public class SGInfoService {
         long total = stGroupRepository.count(andBuilder);
         Pagination pagination = new Pagination(page, (int)total, 5, limit, request);
 
+        //게임 썸네일 , 현재 가입 인원수 입력
         for(StudyGroup s : items){
             gameContentInfoService.addInfo(s.getGameContent());
+            int c = getJoinMember(s.getNum()).size();
+            s.setCount(c);
         }
-
 
         return new ListData <> (items , pagination);
     }
@@ -150,11 +147,38 @@ public class SGInfoService {
         return members;
     }
 
+    /**
+     * 해당 스터디그룹에 가입 신청 한 학생이 있는지 체크 (승인여부 상관없이)
+     * @param num
+     * @return
+     */
+    public boolean hasMember(Long num){
+
+        List<Member> members = new ArrayList<>();
+        List<JoinStudyGroup> jstgList = joinSTGInfoService.getAll();
+        StudyGroup stg = stGroupRepository.getById(num);
+        for(JoinStudyGroup j : jstgList){
+            if(stg.equals(j.getStudyGroup())){
+                members.add(j.getMember());
+            }
+        }
+        boolean result = false;
+        if(!members.isEmpty()){
+            result = true;
+        }
+        return result;
+    }
 
     public RequestStGroup getForm(Long num) {
         StudyGroup data = getById(num);
+
+            data.setCount(getJoinMember(data.getNum()).size());
+
         RequestStGroup form = new ModelMapper().map(data, RequestStGroup.class);
+        form.setGameEndDate(data.getGameContent().getEndDate());
+        form.setGameStartDate(data.getGameContent().getStartDate());
         form.setNum(data.getNum());
+
         return form;
     }
 
