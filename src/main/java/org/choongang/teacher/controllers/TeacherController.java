@@ -364,7 +364,6 @@ public class TeacherController {
 
         model.addAttribute("items", items);
 
-
         return "teacher/homework/add";
     }
 
