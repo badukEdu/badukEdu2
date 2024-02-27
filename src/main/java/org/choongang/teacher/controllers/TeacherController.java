@@ -187,13 +187,9 @@ public class TeacherController {
         //스터디그룹 등록 1. 게임 컨텐츠 설정에서 게임 선택하지 않을경우
         if(num == null){
             model.addAttribute("mode_" , "add1");
-            ListData<OrderItem> data = orderInfoService.getList(search);
-            model.addAttribute("items", data.getItems());
-            model.addAttribute("pagination", data.getPagination());
             model.addAttribute("emsg" , "게임 컨텐츠를 선택하세요");
             return "teacher/group/add";
         }
-
         //게임 선택 정상적으로 한 경우
         model.addAttribute("mode_" , "add2");
         model.addAttribute("acceptChange" , true);
@@ -214,8 +210,8 @@ public class TeacherController {
     public String editGroup(@PathVariable("num") Long num, Model model) {
         commonProcess("edit", model);
 
+        //스터디 그룹 가입 학생 있을 경우 스터디 그룹명만 수정 가능 하도록
         boolean acceptChange = true;
-
         if(!sgInfoService.getJoinMember(num).isEmpty()){
             acceptChange = false;
         }
