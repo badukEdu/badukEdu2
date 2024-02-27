@@ -4,8 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.choongang.admin.board.entities.NoticeSearch;
 import org.choongang.admin.board.entities.Notice_;
 import org.choongang.admin.board.service.BoardService;
-import org.choongang.commons.ListData;
 import org.choongang.commons.ExceptionProcessor;
+import org.choongang.commons.ListData;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Controller("adminBoardController")
 @RequestMapping("/admin/board")
@@ -25,21 +24,22 @@ public class BoardController implements ExceptionProcessor  {
 
     /* 공지사항 및 FAQ 게시글 등록 및 수정 S */
 
-    @GetMapping("noticeFaqAdd")
+    @GetMapping("posts")
     public String board_posts(Model model) {
 
         commonProcess("posts", model);
         model.addAttribute("RequestBoardPosts", new RequestBoardPosts());
 
-        return "admin/board/noticeFaqAdd";
+
+        return "admin/board/posts";
     }
 
-    @PostMapping("noticeFaqAdd")
+    @PostMapping("posts")
     public String board_postsPs(RequestBoardPosts form, Model model) {
 
         boardService.save(form);
 
-        return "redirect:/admin/board/noticeFaqList";
+        return "redirect:/admin/board/list/noticeFaq";
     }
 
     /* 공지사항 및 FAQ 게시글 등록 및 수정 E */
@@ -49,33 +49,24 @@ public class BoardController implements ExceptionProcessor  {
     /* 공지사항 및 FAQ 게시글 목록 조회 S */
 
 
-    @GetMapping("/noticeFaqList")
+    @GetMapping("/list/noticeFaq")
     public String adminnoticeFaqList(@ModelAttribute NoticeSearch search, Model model) {
-
 
         ListData<Notice_> noticeList = boardService.getListOrderByOnTop(search);
 
-        List<Notice_> immediatelyList = noticeList.getItems().stream()
-                .filter(notice -> notice.getPostingType().equals("immediately"))
-                .collect(Collectors.toList());
-
-        // 게시 대기 리스트 가져오기
-        List<Notice_> waitingList = noticeList.getItems().stream()
-                .filter(notice -> notice.getPostingType().equals("expectedPostingDate"))
-                .collect(Collectors.toList());
-
-        model.addAttribute("waitingList", waitingList);
         model.addAttribute("noticeList", noticeList.getItems());
         model.addAttribute("pagination", noticeList.getPagination());
 
+        // 게시 예정인 리스트 가져오기
+        NoticeSearch futureSearch = new NoticeSearch();
+        futureSearch.setOnTop("O"); // 게시 예정인 것은 onTop이 'O'인 것으로 검색
+        ListData<Notice_> futureNoticeList = boardService.getListOrderByOnTop(futureSearch);
+        model.addAttribute("futureNoticeList", futureNoticeList.getItems());
 
-        return "admin/board/noticeFaqList";
+        return "board/noticeFaqList";
     }
 
     /* 공지사항 및 FAQ 게시글 목록 조회 E */
-
-
-
 
 
     /* 공지 사항 및 FAQ 게시글 상세 조회 S */
@@ -84,9 +75,9 @@ public class BoardController implements ExceptionProcessor  {
     @GetMapping("/detail/{num}")
     public String detail(@PathVariable("num") Long num, Model model){
 
-        // 경로 변수 num이 null이거나 음수인 경우에는 admin/board/noticeFaqList로 리다이렉션
+        // 경로 변수 num이 null이거나 음수인 경우에는 admin/board/list/noticeQna로 리다이렉션
         if (num <= 0) {
-            return "redirect:/admin/board/noticeFaqList";
+            return "redirect:/admin/board/list/noticeQna";
         }
 
         // 게시글 번호를 사용하여 해당 게시글 정보를 가져온다.
@@ -94,16 +85,14 @@ public class BoardController implements ExceptionProcessor  {
 
         // 게시글이 존재하는 경우에는 모델에 추가하고 admin/board/noitceDetail 페이지를 반환
         if (noticeDetail.isPresent()) {
-            // 조회수 증가
-            boardService.increaseVisitCount(num);
             model.addAttribute("noticeDetail", noticeDetail.get());
             model.addAttribute("requestBoardPosts", new RequestBoardPosts());
 
-            return "admin/board/noticeFaqDetail";
+            return "admin/board/postsDetail";
         }
 
-        // 해당 게시글을 찾을 수 없는 경우에는 admin/board/noticeFaqList로 리다이렉션
-        return "redirect:/admin/board/noticeFaqList";
+        // 해당 게시글을 찾을 수 없는 경우에는 admin/board/list/noticeQna로 리다이렉션
+        return "redirect:/admin/board/list/noticeQna";
     }
 
 
@@ -121,11 +110,11 @@ public class BoardController implements ExceptionProcessor  {
         // 게시글이 존재하는 경우에는 모델에 추가하고 admin/board/noticeEdit 페이지를 반환
         if (noticeDetail.isPresent()) {
             model.addAttribute("requestBoardPosts", noticeDetail.get());
-            return "admin/board/noticeFaqEdit";
+            return "admin/board/postsEdit";
         }
 
-        // 해당 게시글을 찾을 수 없는 경우에는 admin/board/noticeFaqList로 리다이렉션
-        return "redirect:/admin/board/noticeFaqList";
+        // 해당 게시글을 찾을 수 없는 경우에는 front/board/list로 리다이렉션
+        return "redirect:/admin/board/list/noticeFaq";
     }
 
     @PostMapping("/edit")
@@ -148,7 +137,7 @@ public class BoardController implements ExceptionProcessor  {
             boardService.save(form);
         }
 
-        return "redirect:/admin/board/noticeFaqList";
+        return "redirect:/admin/board/list/noticeFaq";
     }
 
     /* 공지사항 및 FAQ 게시글 수정 E */
@@ -159,7 +148,7 @@ public class BoardController implements ExceptionProcessor  {
     @GetMapping("/delete/{num}")
     public String deleteBoard(@PathVariable("num") Long num) {
         boardService.deleteById(num);
-        return "redirect:/admin/board/noticeFaqList";
+        return "redirect:/admin/board/list/noticeFaq";
     }
     /* 공지사항 및 FAQ 게시글 삭제 E */
 
