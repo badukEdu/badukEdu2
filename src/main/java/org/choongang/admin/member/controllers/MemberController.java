@@ -35,7 +35,12 @@ public class MemberController implements ExceptionProcessor {
         return Menu.getMenus("member");
     }
 
-
+    /**
+     * 회원 목록 조회 검색
+     * @param search
+     * @param model
+     * @return
+     */
     @GetMapping
     public String list(@ModelAttribute  MemberSearch search, Model model) {
         commonProcess("list", model);
