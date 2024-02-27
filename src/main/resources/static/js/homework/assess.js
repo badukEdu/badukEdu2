@@ -1,6 +1,5 @@
 function updateTrainingData(el) {
     var num = el.getAttribute('value');
-    alert(num);
 
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function() {
@@ -15,4 +14,11 @@ function updateTrainingData(el) {
     // 서버로 요청 보내기
     xhr.open("GET", "/get_table_data/trainingData?option=" + num, true);
     xhr.send();
+}
+
+function answerPopup(num) {
+    const url = "/teacher/homework/answerPopup/" + num; // 컨트롤러로 연결
+    const { popup } = commonLib;
+
+    popup.open(url, 700, 700);
 }

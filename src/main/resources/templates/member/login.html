@@ -5,21 +5,21 @@
 
 <section layout:fragment="content">
 
-  <h3 th:text="#{회원}"></h3>
+  <h1 th:text="#{로그인}"></h1>
   <form name="frmLogin" method="post" th:action="@{/member/login}" autocomplete="off">
     <input type="hidden" name="redirectURL" th:if="${param.redirectURL != null}" th:value="${param.redirectURL}">
 
     <dl>
       <dt th:text="#{아이디}"></dt>
       <dd>
-        <input type="text" name="userId" th:value="${session.userId}">
+        <input type="text" name="userId" th:value="${session.userId}" placeholder="아이디 입력">
         <div class="error" th:if="${session.NotBlank_userId != null}" th:text="${session.NotBlank_userId}"></div>
       </dd>
     </dl>
     <dl>
       <dt th:text="#{비밀번호}"></dt>
       <dd>
-        <input type="password" name="password">
+        <input type="password" name="password" placeholder="비밀번호 입력">
       </dd>
     </dl>
     <button type="submit" th:text="#{한국기원_ID로그인}"></button>

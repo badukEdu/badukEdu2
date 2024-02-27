@@ -7,13 +7,12 @@ import org.choongang.member.repositories.MemberRepository;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
+import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
-
-import java.util.Set;
 
 @Component
 @RequiredArgsConstructor
-public class MemberEditValidator implements Validator, PasswordValidator {
+public class EditValidator implements Validator, PasswordValidator {
 
   private final MemberRepository memberRepository;
   private final HttpSession session;
@@ -32,6 +31,10 @@ public class MemberEditValidator implements Validator, PasswordValidator {
     String password = form.getPassword();
     String confirmPassword = form.getConfirmPassword();
 
+    ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "field.required", "Password is required.");
+    ValidationUtils.rejectIfEmptyOrWhitespace(errors, "confirmPassword", "field.required", "Confirm password is required.");
+    ValidationUtils.rejectIfEmptyOrWhitespace(errors, "tel", "field.required", "Telephone is required.");
+    ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "field.required", "Email is required.");
 
     if (StringUtils.hasText(password)) {
 

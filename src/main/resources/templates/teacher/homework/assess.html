@@ -44,6 +44,7 @@
             <tbody  id="homework_trainingData">
 
                 <tr th:each="trainingData: ${trainingDataList}" th:object="${trainingData}">
+                    <input type="hidden" th:value="*{num}" name="chk">
                     <td th:text="*{member.name}"></td>
                     <td th:text="*{createdAt}"></td>
                     <td th:text="*{homeworkAnswer}"></td>
@@ -52,9 +53,10 @@
                     <td width="100">
                         <label for="score" th:field="*{score}">
                             <select id="score" name="score">
-                                <option value="0">우수</option>
-                                <option value="1" selected>보통</option>
-                                <option value="2">미흡</option>
+                                <option value="-1" selected>선택</option>
+                                <option value="0">미흡</option>
+                                <option value="1">보통</option>
+                                <option value="2">우수</option>
                             </select>
                         </label>
                     </td>

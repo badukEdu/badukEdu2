@@ -4,6 +4,7 @@ import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Expressions;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.choongang.admin.gamecontent.controllers.GameContentSearch;
 import org.choongang.admin.gamecontent.controllers.RequestGameContentData;
@@ -15,6 +16,10 @@ import org.choongang.commons.Pagination;
 import org.choongang.commons.Utils;
 import org.choongang.file.entities.FileInfo;
 import org.choongang.file.service.FileInfoService;
+import org.choongang.member.entities.Member;
+import org.choongang.teacher.group.entities.StudyGroup;
+import org.choongang.teacher.group.repositories.StGroupRepository;
+import org.choongang.teacher.group.services.stGroup.SGInfoService;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -37,6 +42,8 @@ public class GameContentInfoService {
     private final FileInfoService fileInfoService;
     private final GameContentRepository gameContentRepository;
     private final HttpServletRequest request;
+    private final HttpSession session;//표찬-사용중
+    private final StGroupRepository stGroupRepository;//표찬-사용중
 
     /**
      * 게임 콘텐츠 검색
@@ -148,4 +155,30 @@ public class GameContentInfoService {
 
         return data;
     }
+
+    /**
+     * 해당 게임 컨텐츠로 개설한 스터디 그룹의 최대 구독자 수의 합 리턴
+     * @param num - 게임 컨텐츠 num
+     * @return
+     */
+    public Long stgroupCount(Long num){
+        List<StudyGroup> list = stGroupRepository.findAll();
+        GameContent gameContent = getById(num);
+        Long count = 0L;
+        Member member = (Member)session.getAttribute("member");
+        System.out.println(member+"hhhhhhhhhhhhh");
+        for(StudyGroup s : list){
+            System.out.println(s.getMember()+"kkkkkkkkk");
+            if(member.getUserId().equals(s.getMember().getUserId())){
+                if(s.getGameContent().equals(gameContent)){
+                    count = count + s.getMaxSubscriber();
+                    System.out.println(s.getMaxSubscriber()+"hhhhhhhhhhhhh");
+                }
+            }
+
+        }
+        return count;
+    }
+
+
 }
