@@ -159,21 +159,16 @@ document.addEventListener('DOMContentLoaded', function() {
     // 이전 선택 상태 추적을 위한 변수
     let previousRadio = null;
 
-    // 내일 날짜 및 시간 가져오기 (00:00:00)
-    const TOMORROW = new Date();
-    TOMORROW.setDate(TOMORROW.getDate() + 1);
-    TOMORROW.setHours(0, 0, 0, 0);
-    const TOMORROW_FORMATTED = TOMORROW.toISOString().split('T')[0];
+    // 내일 날짜 가져오기 (yyyy-MM-dd 형식)
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    const tomorrowFormatted = tomorrow.toISOString().split('T')[0];
 
     // 게시 예정일 선택 시 이벤트 리스너 추가
     expectedPostingDate.addEventListener('change', function() {
         if (this.checked) {
             calendar.style.display = "inline-block";
             // 내일부터 선택 가능하도록 min 속성 설정
-            const tomorrow = new Date();
-            tomorrow.setDate(tomorrow.getDate() + 1);
-            tomorrow.setHours(0, 0, 0, 0);
-            const tomorrowFormatted = tomorrow.toISOString().split('T')[0];
             calendar.setAttribute("min", tomorrowFormatted);
             calendar.value = tomorrowFormatted; // 내일로 달력 설정
         } else {

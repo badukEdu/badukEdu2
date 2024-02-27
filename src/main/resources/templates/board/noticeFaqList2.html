@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/main}">
+<section layout:fragment="content">
+
+    <h1>공지사항 및 FAQ 조회</h1>
+    <form th:action="@{/guide/list/noticeFaq}" method="get" autocomplete="off" th:object="${noticeSearch}">
+        <table class="table_cols">
+            <thead>
+            <tr>
+                <th>검색</th>
+                <td>
+                    <select name="sopt">
+                        <option value="ALL" th:field="*{sopt}">통합검색</option>
+                        <option value="type" th:field="*{sopt}">분류</option>
+                        <option value="title" th:field="*{sopt}">제목</option>
+                        <option value="content" th:field="*{sopt}">내용</option>
+                    </select>
+                    <input type="text" name="skey" th:field="*{skey}">
+                </td>
+            </tr>
+        </table>
+        <div class="submit_btns">
+            <button type="submit" class="btn">검색하기</button>
+        </div>
+    </form>
+
+    <h2>공지사항 & FAQ 목록</h2>
+    <table class="table_rows">
+        <thead>
+        <tr>
+            <th>선택</th>
+            <th>게시글 번호</th>
+            <th>분류</th>
+            <th>제목</th>
+            <th>작성자</th>
+            <th>등록일시</th>
+            <th>조회수</th>
+            <!-- <th>댓글수</th> -->
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:each="noticeList : ${noticeList}" th:object="${noticeList}">
+            <td><input type="checkbox" name="selectNotice" th:value="${noticeList}" /></td>
+            <td><a th:href="@{'/guide/detail/' + ${noticeList.num}}" th:text="*{num}"></a></td>
+            <td><a th:href="@{'/guide/detail/' + ${noticeList.num}}" th:text="*{type}"></a></td>
+            <td><a th:href="@{'/guide/detail/' + ${noticeList.num}}" th:text="*{title}"></a></td>
+            <td><a th:href="@{'/guide/detail/' + ${noticeList.num}}" th:text="*{member != null ? member.userId : '작성자 정보 없음'}"></a></td>
+            <td><a th:href="@{'/guide/detail/' + ${noticeList.num}}" th:text="*{createdAtFormatted}"></a></td>
+            <td><a th:href="@{'/guide/detail/' + ${noticeList.num}}" th:text="*{visit}"></a></td>
+            <!--        <td th:text="*{}"></td> &lt;!&ndash; 댓글 수&ndash;&gt;-->
+        </tr>
+        </tbody>
+    </table>
+</section>
+</html>

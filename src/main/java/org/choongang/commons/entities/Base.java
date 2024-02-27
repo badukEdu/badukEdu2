@@ -10,6 +10,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Getter
 @Setter
@@ -23,4 +24,9 @@ public abstract class Base {
     @LastModifiedDate
     @Column(insertable = false)
     private LocalDateTime modifiedAt;
+
+    public String getCreatedAtFormatted() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        return formatter.format(createdAt);
+    }
 }

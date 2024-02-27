@@ -5,7 +5,7 @@
         <thead>
         <tr>
 <!--            <th width="180">번호</th>-->
-            <th width="40"><input type="checkbox" id="checkAll"></th>
+            <th width="40"></th>
             <th>숙제명</th>
             <th>내용</th>
             <th>그룹명</th>
@@ -18,9 +18,9 @@
         <tr th:if="${items == null || items.isEmpty()}">
             <td colspan="6">숙제 정보가 없습니다.</td>
         </tr>
-        <tr th:unless="${items == null || items.isEmpty()}" th:each="item : ${items}" th:object="${item}">
+        <tr th:unless="${items == null || items.isEmpty()}" th:each="item, number : ${items}" th:object="${item}">
 <!--            <td th:text="*{num}"></td>-->
-            <td><input type="checkbox" name="check"></td>
+            <td th:text="${number.count}"></td>
             <td th:text="*{name}"></td>
             <td th:text="*{content}"></td>
             <td th:text="*{studyGroup.name}"></td>
