@@ -21,6 +21,7 @@ import org.choongang.teacher.group.entities.StudyGroup;
 import org.choongang.teacher.group.services.stGroup.SGDeleteService;
 import org.choongang.teacher.group.services.stGroup.SGInfoService;
 import org.choongang.teacher.group.services.stGroup.SGSaveService;
+import org.choongang.teacher.homework.controllers.RequestAnswer;
 import org.choongang.teacher.homework.controllers.RequestHomework;
 import org.choongang.teacher.homework.entities.Homework;
 import org.choongang.teacher.homework.entities.TrainingData;
@@ -459,7 +460,7 @@ public class TeacherController {
                                        Model model) {
         commonProcess("distribute", model);
 
-        trainingDataSaveService.save(checkedHomeworks, checkedMembers);
+        trainingDataSaveService.distribute(checkedHomeworks, checkedMembers);
 
 
         return "redirect:/teacher/homework/distribute";
@@ -508,13 +509,30 @@ public class TeacherController {
         return "redirect:/teacher/homework/assess";
     }
 
-    /** 숙제 답변 처리 (미처리)
+    /** 숙제 답변 팝업 페이지
      *
      * @return
      */
-    @PostMapping("homework/assessDetail")
-    public String homeworkAssessDetailPs() {
-        return "redirect:/teacher/homework/assess";
+    @GetMapping("homework/answerPopup/{num}")
+    public String homeworkAnswer(@PathVariable("num") Long num,
+                                 @ModelAttribute RequestAnswer form,
+                                 Model model) {
+
+        TrainingData trainingData = trainingDataRepository.findById(num).orElseThrow();
+
+        model.addAttribute("form", form);
+        model.addAttribute("trainingData", trainingData);
+
+        return "teacher/homework/answerPopup";
+    }
+
+    @PostMapping("homework/answerPopup")
+    public String homeworkAnswerPs(@Valid RequestAnswer form,
+                                   Model model) {
+
+        trainingDataSaveService.saveQuestionAnswer(form);
+
+        return "redirect:/homework/assess";
     }
 
     private void commonProcess(String mode, Model model) {

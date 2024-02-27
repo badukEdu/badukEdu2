@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.choongang.member.MemberUtil;
 import org.choongang.member.entities.Member;
 import org.choongang.member.repositories.MemberRepository;
-import org.choongang.teacher.homework.controllers.RequestQuestionAnswer;
+import org.choongang.teacher.homework.controllers.RequestAnswer;
 import org.choongang.teacher.homework.entities.Homework;
 import org.choongang.teacher.homework.entities.QTrainingData;
 import org.choongang.teacher.homework.entities.TrainingData;
@@ -25,11 +25,13 @@ public class TrainingDataSaveService {
     private final MemberUtil memberUtil;
     private final HomeworkRepository homeworkRepository;
 
-    /**
+
+    /** 다수의 숙제를 다수의 학습자에게 배포
      *
-     *
+     * @param checkedHomeworks -> 배포할 숙제 list
+     * @param checkedMembers -> 배포받을 학습자 list
      */
-    public void save(List<Long> checkedHomeworks, List<Long> checkedMembers) {
+    public void distribute(List<Long> checkedHomeworks, List<Long> checkedMembers) {
 
         QTrainingData trainingData = QTrainingData.trainingData;
         BooleanBuilder andBuilder = new BooleanBuilder();
@@ -66,6 +68,12 @@ public class TrainingDataSaveService {
         trainingDataRepository.flush();
     }
 
+
+    /** 다수의 학습자 trainingData 평가
+     *
+     * @param chks -> trainingData num
+     * @param scores -> 각각의 score
+     */
     public void saveScore(List<Long> chks, List<Long> scores) {
 
         for (int i = 0; i < chks.size(); i++) {
@@ -91,7 +99,11 @@ public class TrainingDataSaveService {
         memberRepository.flush();
     }
 
-    public void saveQuestionAnswer(RequestQuestionAnswer form) {
+    /** 개별 trainingData 평가
+     *
+     * @param form : 숙제에 대한 답변, 점수 담고 있는 form
+     */
+    public void saveQuestionAnswer(RequestAnswer form) {
 
         TrainingData trainingData = trainingDataRepository.findById(form.getNum()).orElseThrow();
 
