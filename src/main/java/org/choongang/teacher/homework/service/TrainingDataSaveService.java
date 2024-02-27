@@ -73,8 +73,10 @@ public class TrainingDataSaveService {
                 trainingDataRepository.save(form);
 
                 // 숙제 배포되었다고 이메일 전송
-                String subject = "숙제 배포";
-                String message = homework.getName() + "  숙제가 배포되었습니다.";
+                String subject = "숙제가 전송되었습니다.";
+                String message = member.getName() + "님(" + member.getUserId() + ")\n"
+                        + homework.getName() + "  숙제가 등록되었습니다.\n" +
+                        "제출 마감 일자는 " + homework.getDeadLine() + "입니다.";
                 emailMessage = new EmailMessage(member.getEmail(), subject, message);
                 emailSendService.sendMail(emailMessage);
             }
