@@ -52,6 +52,7 @@ public class EducationController implements ExceptionProcessor  {
     public String list(Model model , @ModelAttribute JoinStGroupSearch search) {
         commonProcess("list", model);
 
+    //getlist에서 대기중 목록 수집 위해 설정한 변수
         search.setType("wait");
 
         ListData<JoinStudyGroup> data = joinSTGInfoService.getList(search);
@@ -72,7 +73,7 @@ public class EducationController implements ExceptionProcessor  {
     @GetMapping("/join")
     public String join(Model model , @ModelAttribute StGroupSearch search) {
         commonProcess("join", model);
-
+    //getlist에서 신청 가능 목록 목록 수집 위해 설정한 변수
         search.setType("joinstg");
         ListData<StudyGroup> data = sgInfoService.getList(search);
         for(StudyGroup s : data.getItems()){

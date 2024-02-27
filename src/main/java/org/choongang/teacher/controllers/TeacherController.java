@@ -244,9 +244,7 @@ public class TeacherController {
             model.addAttribute("acceptChange" , true);
             return "teacher/group/add";
         }
-
         sgSaveService.save(form);
-
         //저장 후session 비워주기
         session.removeAttribute("game");
 
@@ -261,11 +259,14 @@ public class TeacherController {
      */
     @DeleteMapping
     public String deletes(@RequestParam(name = "chk" ) List<Long> chks ,Model model){
+
+    //가입 학생 있을 경우 삭제 불가
         for(Long n : chks){
             if(sgInfoService.hasMember(n)){
                 return "redirect:/teacher/group";
             }
         }
+    //선택 항목 삭제 처리
         for(Long n : chks){
             sgDeleteService.delete(n);
         }
@@ -280,9 +281,12 @@ public class TeacherController {
      */
     @GetMapping("/group/delete/{num}")
     public String delete(@PathVariable("num") Long num , Model model){
+
+    //가입 학생 있을 경우 삭제 불가
         if(sgInfoService.hasMember(num)){
             return "redirect:/teacher/group";
         }
+    //삭제 처리
         sgDeleteService.delete(num);
         return "redirect:/teacher/group";
     }
@@ -299,7 +303,7 @@ public class TeacherController {
     @GetMapping("/group/accept")
     public String acceptGroup(Model model , @ModelAttribute JoinStGroupSearch search) {
         commonProcess("accept", model);
-        //가입 승인 대기 / 완료 목록
+
         ListData<JoinStudyGroup> data = joinSTGInfoService.getList(search);
         model.addAttribute("list" , data.getItems());
         model.addAttribute("pagination" , data.getPagination());
@@ -318,17 +322,12 @@ public class TeacherController {
      @ModelAttribute JoinStGroupSearch search) {
         commonProcess("accept", model);
 
+     //선택 항목 없을 경우
         if(chks == null || chks.isEmpty()){
             commonProcess("accept", model);
-            //가입 승인 대기 / 완료 목록
-            ListData<JoinStudyGroup> data = joinSTGInfoService.getList(search);
-            model.addAttribute("list" , data.getItems());
-            model.addAttribute("pagination" , data.getPagination());
             model.addAttribute("emsg" , "승인할 스터디그룹을 선택하세요");
             return "teacher/group/accept";
         }
-
-
         //가입 승인 처리
         joinSTGSaveService.accept(chks);
 
