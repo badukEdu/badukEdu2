@@ -31,7 +31,7 @@ public class MemberController implements ExceptionProcessor {
     private final FindIdService findIdService;
     private final FindIdValidator findIdValidator;
     private final MemberUtil memberUtil;
-    private final MemberEditValidator memberEditValidator;
+    private final EditValidator editValidator;
     private final MemberEditService memberEditService;
     private final MemberDeleteService memberDeleteService;
 
@@ -148,7 +148,7 @@ public class MemberController implements ExceptionProcessor {
     @PostMapping("/member_edit")
     public String editMemberInfoPs(@ModelAttribute RequestEdit form, Errors errors, Model model) {
 
-        memberEditValidator.validate(form, errors);
+        editValidator.validate(form, errors);
 
         if (errors.hasErrors()) {
             System.out.println(errors + "member_edit@@@@@@@@@@@@@@@@@@@@@@@");
