@@ -47,9 +47,9 @@ public class TrainingDataSaveService {
             andBuilder.and(trainingData.homework.num.eq(chkHW));
 
             List<TrainingData> trainingDataList= (List<TrainingData>) trainingDataRepository.findAll(andBuilder);
-
+            System.out.println(trainingDataList);
             // 학습자가 가진 trainingData 중 homework 정보 중에서 동일한 homework num이 있는 것은 패스
-            if (trainingDataList.isEmpty()) {
+            if (!trainingDataList.isEmpty()) {
                 continue;
             }
 
