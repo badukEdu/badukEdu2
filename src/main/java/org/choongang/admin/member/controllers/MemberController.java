@@ -57,7 +57,6 @@ public class MemberController implements ExceptionProcessor {
     public String deleteList(@RequestParam(name = "chk") List<Long> chks, Model model) {
         commonProcess("list", model);
         kickService.deleteList(chks);
-        System.out.println(chks +" ////////");
         return "redirect:/admin/member";
     }
 
