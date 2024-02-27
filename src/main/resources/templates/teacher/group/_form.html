@@ -16,8 +16,8 @@
             <th>썸네일</th>
             <th>구독 기간</th>
             <th>개월</th>
-            <th>(게임)학습가능인원</th>
-            <th>(스터디그룹)그룹 배정 인원 ???</th>
+            <th>최대 학습가능인원</th>
+            <th>그룹 개설 가능 인원</th>
             <th>잔여분M/M ???</th>
         </tr>
         </thead>
@@ -34,7 +34,7 @@
             <td th:text="*{gameContent.startDate+ '~' +gameContent.endDate}"></td>
             <td th:text="*{gameContent.subscriptionMonths}"></td>
             <td th:text="*{gameContent.maxSubscriber}"></td>
-            <td >???</td>
+            <td th:text="*{gameContent.stgroupCount2}"></td>
             <td >???</td>
         </tr>
         </tbody>

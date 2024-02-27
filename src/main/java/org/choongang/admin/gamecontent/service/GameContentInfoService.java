@@ -166,13 +166,10 @@ public class GameContentInfoService {
         GameContent gameContent = getById(num);
         Long count = 0L;
         Member member = (Member)session.getAttribute("member");
-        System.out.println(member+"hhhhhhhhhhhhh");
         for(StudyGroup s : list){
-            System.out.println(s.getMember()+"kkkkkkkkk");
             if(member.getUserId().equals(s.getMember().getUserId())){
                 if(s.getGameContent().equals(gameContent)){
                     count = count + s.getMaxSubscriber();
-                    System.out.println(s.getMaxSubscriber()+"hhhhhhhhhhhhh");
                 }
             }
 
