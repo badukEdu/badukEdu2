@@ -3,7 +3,6 @@ package org.choongang.teacher.controllers;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.choongang.admin.gamecontent.controllers.GameContentSearch;
 import org.choongang.admin.gamecontent.service.GameContentInfoService;
 import org.choongang.admin.order.controllers.OrderSearch;
 import org.choongang.admin.order.entities.OrderItem;
@@ -460,21 +459,8 @@ public class TeacherController {
                                        Model model) {
         commonProcess("distribute", model);
 
-        TrainingData form = null;
-        Homework homework = null;
-        Member member = null;
-        // 체크된 숙제를
-        for (Long chkHW : checkedHomeworks) {
-            // 각 체크된 그룹 멤버에게 배포
-            homework = homeworkRepository.findById(chkHW).orElseThrow();
-            for (Long chkMB : checkedMembers) {
-                form = new TrainingData();
-                member = memberRepository.findById(chkMB).orElseThrow();
-                form.setHomework(homework);
-                form.setMember(member);
-                trainingDataSaveService.save(form);
-            }
-        }
+        trainingDataSaveService.save(checkedHomeworks, checkedMembers);
+
 
         return "redirect:/teacher/homework/distribute";
     }
