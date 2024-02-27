@@ -94,11 +94,11 @@ h2 { margin: 0 0 10px 0; font-size: 1.385rem; line-height: 1; }
 /* 제목 공통 E */
 
 /* 테이블 공통 S */
-.table_cols { border-spacing: 0; width: 100%; border-top: 2px solid #222; background: #fff; }
+.table_cols { border-spacing: 0; width: 100%; border-top: 2px solid #222; background: #fff; text-align: center;}
 .table_cols th, .table_cols td { padding: 10px; border-bottom: 1px solid #d5d5d5; }
 .table_cols th { background: #ccc; font-weight: normal; }
 
-.table_rows { border-spacing: 0; width: 100%; background: #fff; }
+.table_rows { border-spacing: 0; width: 100%; background: #fff; text-align: center;}
 .table_rows thead th { background: #596b99; color: #fff; font-weight: normal; padding: 7px 10px; }
 .table_rows thead th + th { border-left: 1px solid #fff; }
 

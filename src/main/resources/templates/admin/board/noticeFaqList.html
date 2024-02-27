@@ -3,6 +3,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/main}">
 <section layout:fragment="content">
+
     <h1>공지사항 및 FAQ 조회</h1>
     <form th:action="@{/admin/board/list/noticeFaq}" method="get" autocomplete="off" th:object="${noticeSearch}">
         <table class="table_cols">
@@ -33,29 +34,23 @@
                 <th>게시글 번호</th>
                 <th>분류</th>
                 <th>제목</th>
-<!--                <th>내용</th>-->
                 <th>작성자</th>
-                <!--        <th>등록일시</th>-->
-                <!--        <th>댓글수</th>-->
-                <th>질의</th>
-                <th>답변</th>
+                <th>등록일시</th>
                 <th>조회수</th>
+                <!-- <th>댓글수</th> -->
             </tr>
             </thead>
 
             <tbody>
             <tr th:each="noticeList : ${noticeList}" th:object="${noticeList}">
                 <td><input type="checkbox" name="selectNotice" th:value="${noticeList}" /></td>
-                <td th:text="*{num}"></td>
-                <td th:text="*{type}"></td>
+                <td><a th:href="@{'/admin/board/detail/' + ${noticeList.num}}"  th:text="*{num}"></a></td>
+                <td><a th:href="@{'/admin/board/detail/' + ${noticeList.num}}"  th:text="*{type}"></a></td>
                 <td><a th:href="@{'/admin/board/detail/' + ${noticeList.num}}" th:text="*{title}"></a></td>
-<!--                <td th:text="*{content}"></td>-->
-                <td th:text="*{member != null ? member.userId : '작성자 정보 없음'}"></td>
-                <!--        <td th:text="*{}"></td> &lt;!&ndash; 등록일시 &ndash;&gt;-->
-                <!--        <td th:text="*{}"></td> &lt;!&ndash; 댓글 수&ndash;&gt;-->
-                <td th:text="*{question}"></td>
-                <td th:text="*{answer}"></td>
-                <td th:text="*{visit}"></td> <!-- 조회수 -->
+                <td><a th:href="@{'/admin/board/detail/' + ${noticeList.num}}"  th:text="*{member != null ? member.userId : '작성자 정보 없음'}"></a></td>
+                <td><a th:href="@{'/admin/board/detail/' + ${noticeList.num}}" th:text="*{createdAtFormatted}"></a></td>
+                <td><a th:href="@{'/admin/board/detail/' + ${noticeList.num}}" th:text="*{visit}"></a></td>
+                <!-- <td th:text="*{}"></td> 댓글 수 -->
             </tr>
             </tbody>
         </table>
@@ -72,23 +67,24 @@
                 <th>분류</th>
                 <th>제목</th>
                 <th>내용</th>
-                <th>조회수</th>
+                <th>예약 게시 일자</th>
             </tr>
             </thead>
 
             <tbody>
-            <tr th:each="waitingPost : ${waitingPostList}">
+            <tr th:each="waitingPost : ${waitingList}">
                 <td><input type="checkbox" name="selectWaitingPost" th:value="${waitingPost}" /></td>
                 <td th:text="*{num}"></td>
                 <td th:text="*{type}"></td>
                 <td><a th:href="@{'/admin/board/detail/' + ${waitingPost.num}}" th:text="*{title}"></a></td>
                 <td th:text="*{content}"></td>
-                <td th:text="*{visit}"></td>
+                <td th:text="*{scheduledDate}"></td>
             </tr>
             </tbody>
         </table>
         <div class="submit_btns">
             <button type="submit" class="btn">선택한 게시물 처리</button>
         </div>
+    </div>
 </section>
 </html>
