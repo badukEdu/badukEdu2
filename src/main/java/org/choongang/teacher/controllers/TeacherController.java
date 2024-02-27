@@ -159,18 +159,11 @@ public class TeacherController {
      * @return
      */
     @GetMapping("/group/add")
-    public String addGroup1(/*Model model , @ModelAttribute RequestStGroup form , @ModelAttribute GameContentSearch search*/
-            @ModelAttribute OrderSearch search,
-            Model model) {
+    public String addGroup1(@ModelAttribute OrderSearch search, Model model) {
         commonProcess("add", model);
 
+        //스터디그룹 등록 1 (게임컨텐츠 선택으로 갈 수 있도록)
         model.addAttribute("mode_" , "add1");
-
-        /*
-        ListData<GameContent> data = gameContentInfoService.getList(search , true);
-        model.addAttribute("items" , data.getItems());
-        model.addAttribute("pagination" , data.getPagination());
-        */
         ListData<OrderItem> data = orderInfoService.getList(search);
         model.addAttribute("items", data.getItems());
         model.addAttribute("pagination", data.getPagination());
