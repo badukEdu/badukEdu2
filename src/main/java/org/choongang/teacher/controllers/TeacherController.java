@@ -182,6 +182,7 @@ public class TeacherController {
         ListData<OrderItem> data = orderInfoService.getList(search);
         model.addAttribute("items", data.getItems());
         model.addAttribute("pagination", data.getPagination());
+        model.addAttribute("acceptChange" , true);
 
         return "teacher/group/add";
     }
@@ -210,7 +211,7 @@ public class TeacherController {
 
         //게임 선택 정상적으로 한 경우
         model.addAttribute("mode_" , "add2");
-
+        model.addAttribute("acceptChange" , true);
         //폼을 두 번 이동 해야 해서 session에 저장
         session.setAttribute("game" , gameContentInfoService.getById(num));
 
@@ -228,6 +229,13 @@ public class TeacherController {
     public String editGroup(@PathVariable("num") Long num, Model model) {
         commonProcess("edit", model);
 
+        boolean acceptChange = true;
+
+        if(!sgInfoService.getJoinMember(num).isEmpty()){
+            acceptChange = false;
+        }
+
+        model.addAttribute("acceptChange" , acceptChange);
         model.addAttribute("mode_" , "edit");
         RequestStGroup stg = sgInfoService.getForm(num);
 
@@ -252,6 +260,7 @@ public class TeacherController {
         if (errors.hasErrors()) {
             errors.getAllErrors().stream().forEach(System.out::println);
             model.addAttribute("mode_" , "add2");
+            model.addAttribute("acceptChange" , true);
             return "teacher/group/add";
         }
 
