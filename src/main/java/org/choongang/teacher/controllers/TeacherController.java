@@ -89,17 +89,9 @@ public class TeacherController {
     @GetMapping("/group")
     public String groupList(Model model , @ModelAttribute StGroupSearch search) {
         commonProcess("list", model);
-
         ListData<StudyGroup> data = sgInfoService.getList(search);
-
-        for(StudyGroup s : data.getItems()){
-            int c = sgInfoService.getJoinMember(s.getNum()).size();
-            s.setCount(c);
-        }
-
         model.addAttribute("list" , data.getItems());
         model.addAttribute("pagination", data.getPagination());
-
         return "teacher/group/list";
     }
 
