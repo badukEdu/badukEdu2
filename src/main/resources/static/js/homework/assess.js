@@ -1,3 +1,34 @@
+//window.addEventListener("DOMContentLoaded", function() {
+//    let form = null;
+//
+//
+//    const submitBtn = document.getElementById("submit");
+//
+//    submitBtn.addEventListener("click", function(e) {
+//        e.preventDefault();
+//
+//        //const assessFrm = document.getElementsbyClassName("assessFrm");
+//        const scores = document.getElementsByName("score");
+//
+//        let allNotSelected = true;
+//
+//        for (const score of scores) {
+//            if (score.value != "-1") {
+//                allNotSelected = false;
+//                break;
+//            }
+//        }
+//
+//        if (allNotSelected) {
+//            alert("아무것도 체크되지 않았습니다.");
+//            return;
+//        }
+//        assessFrm.submit();
+//    });
+//
+//});
+
+
 function updateTrainingData(el) {
     var num = el.getAttribute('value');
 
@@ -21,4 +52,15 @@ function answerPopup(num) {
     const { popup } = commonLib;
 
     popup.open(url, 700, 700);
+}
+
+
+/* 현재 폼의 상태를 가져오는 함수 */
+function getFormState(form) {
+    const formData = new FormData(form);
+    const state = {};
+    for (const [name, value] of formData.entries()) {
+        state[name] = value;
+    }
+    return state;
 }

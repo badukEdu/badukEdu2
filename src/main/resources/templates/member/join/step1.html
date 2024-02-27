@@ -35,6 +35,7 @@
     <label for="agree5" th:text="#{개인정보의_위탁}"></label>
   </div>
 
+  <br>
   <h1 th:text="#{본인인증}"></h1>
 
   <div class="email">
@@ -71,5 +72,24 @@
   <button type="submit" th:text="#{인증_요청_하기}"></button>
 
 </form>
+
+  <script>
+      const { popup } = commonLib;
+      const agree = document.getElementById("agree");
+      agree.onfocus = () => popup.open('/member/agree?targetId=agree', 500, 700);
+
+      const agree2 = document.getElementById("agree2");
+      agree2.onfocus = () => popup.open('/member/agree2?targetId=agree2', 500, 700);
+
+      const agree3 = document.getElementById("agree3");
+      agree3.onfocus = () => popup.open('/member/agree3?targetId=agree3', 500, 700);
+
+      const agree4 = document.getElementById("agree4");
+      agree4.onfocus = () => popup.open('/member/agree4?targetId=agree4', 500, 700);
+
+      const agree5 = document.getElementById("agree5");
+      agree5.onfocus = () => popup.open('/member/agree5?targetId=agree5', 500, 700);
+  </script>
+
 </section>
 </html>
