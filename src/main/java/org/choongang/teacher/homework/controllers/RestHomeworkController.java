@@ -66,7 +66,7 @@ public class RestHomeworkController {
 
         for (Homework homework : homeworks) {
             tableData.append("<tr>");
-            tableData.append("<td><input type='checkbox' name='checkHomework' value='").append(homework.getNum()).append("' data-deadLine='").append(homework.getDeadLine()).append("' data-homeworkLevel='").append(homework.getStudyLevel()).append("'></td>"); // 체크박스
+            tableData.append("<td><input type='checkbox' name='checkHomework' value='").append(homework.getNum()).append("' data-deadLine='").append(homework.getDeadLine()).append("' data-homeworkLevel='").append(homework.getStudyLevel()).append("' onchange='checkLevels();'></td>"); // 체크박스
             tableData.append("<td>").append(homework.getName()).append("</td>"); // 숙제명
             tableData.append("<td>").append(homework.getContent()).append("</td>"); // 내용
             tableData.append("<td>").append(homework.getStudyGroup().getName()).append("</td>"); // 학습그룹

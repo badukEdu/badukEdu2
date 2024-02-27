@@ -1,44 +1,4 @@
 window.addEventListener("DOMContentLoaded", function() {
-/*
-    const checkHomeworks = document.getElementsByName("checkHomework");
-    for (const checkHomework of checkHomeworks) {
-        checkHomework.addEventListener("change", function() {
-            console.log(checkHomework);
-            // 변화한 숙제의 학습레벨을 아래 출력된 멤버들 전부와 비교하여 멤버의 레벨이 높다면 멤버 check disabled 처리
-            const homeworkLevel = checkHomework.getAttribute('data-homeworkLevel');
-            const checkMembers = document.getElementsByName("checkMember");
-            for (const checkMember of checkMembers) {
-                const studyLevel = checkMember.getAttribute("data-studyLevel");
-                if (studyLevel < homeworkLevel) {
-                    checkMember.disabled = true;
-                }
-            }
-        });
-    }
-*/
-    const checkHomeworks = document.getElementsByName("checkHomework");
-    const checkMembers = document.getElementsByName("checkMember");
-
-    checkHomeworks.forEach(function(checkHomework) {
-        checkHomework.addEventListener('change', function () {
-            if (this.checked) {
-                const homeworkLevel = parseInt(this.getAttribute('data-homeworkLevel'));
-                checkMembers.forEach(function(checkMember) {
-                    const studyLevel = parseInt(checkMember.getAttribute('data-studyLevel'));
-                    if (homeworkLevel < studyLevel) {
-                        checkMember.disabled = true;
-                    } else {
-                        checkMember.disabled = false;
-                    }
-                });
-            } else {
-                checkMembers.forEach(function(checkMember) {
-                    checkMembers.disabled = true;
-                });
-            }
-        });
-    });
-
 
     /* Member 전체 선택 기능 S */
     const checkAllMember = document.getElementById("checkAllMember");
@@ -69,6 +29,7 @@ window.addEventListener("DOMContentLoaded", function() {
             const num = chk.value;
             checkedHomeworks.push(num);
         }
+        checkLevels();
     });
     /* Homework 전체 선택 기능 E */
 
@@ -78,7 +39,7 @@ window.addEventListener("DOMContentLoaded", function() {
         e.preventDefault();
         // 숙제 선택 항목 체크
         const checkedHomeworks = document.querySelectorAll("input[name='checkHomework']:checked")
-//        console.log(checkedHomeworks.length);
+
         if (checkedHomeworks.length == 0) {
             alert("학습자에게 전송할 숙제를 선택하세요.");
             return;
@@ -86,7 +47,7 @@ window.addEventListener("DOMContentLoaded", function() {
 
         // 학습자 선택 항목 체크
         const checkedMembers = document.querySelectorAll("input[name='checkMember']:checked")
-        console.log(checkedMembers.length);
+
         if (checkedMembers.length == 0) {
             alert("숙제를 전송할 학생을 선택하세요.");
             return;
@@ -101,8 +62,6 @@ function updateMember() {
     const selectedOption = document.getElementById("options").value;
 
     let selectedIndex = document.getElementById("options").getAttribute("data-index");
-//    console.log("Selected Option Value: " + selectedOption);
-//    console.log("Selected Option Index: " + selectedIndex);
 
     // 선택 옵션이 없으면
     if (selectedOption == "") {
@@ -128,8 +87,6 @@ function updateHomework() {
     const selectedOption = document.getElementById("options").value;
 
     let selectedIndex = document.getElementById("options").getAttribute("data-index");
-//    console.log("Selected Option Value: " + selectedOption);
-//    console.log("Selected Option Index: " + selectedIndex);
 
     // 선택 옵션이 없으면
     if (selectedOption == "") {
@@ -157,9 +114,9 @@ function updateHomework() {
 /* 마감일(deadLine)이 오늘 이전일 때 disabled */
 function checkDeadLine() {
     const checkHomeworks = document.getElementsByName("checkHomework");
-//    console.log(checkHomeworks);
+
     for (const checkHomework of checkHomeworks) {
-//        console.log(checkHomework);
+
         const deadLine = checkHomework.getAttribute('data-deadLine');
 
         if (new Date(deadLine) < new Date()) {
@@ -169,32 +126,7 @@ function checkDeadLine() {
 }
 /* 마감일(deadLine)이 오늘 이전일 때 disabled */
 
-
-function checkLevels() {
-    const checkHomeworks = document.getElementsByName("checkHomework");
-    const checkMembers = document.getElementsByName("checkMember");
-
-    checkHomeworks.forEach(function(checkHomework) {
-        checkHomework.addEventListener('change', function () {
-            if (this.checked) {
-                const homeworkLevel = parseInt(this.getAttribute('data-homeworkLevel'));
-                checkMembers.forEach(function(checkMember) {
-                    const studyLevel = parseInt(checkMember.getAttribute('data-studyLevel'));
-                    if (homeworkLevel <= studyLevel) {
-                        checkMember.disabled = true;
-                    } else {
-                        checkMember.disabled = false;
-                    }
-                });
-            } else {
-                checkMembers.forEach(function(checkMember) {
-                    checkMember.disabled = false;
-                });
-            }
-        });
-    });
-}
-/*
+/* 숙제 체크될 때마다 숙제벨과 멤버들의 학습레벨과 비교하여 학습자 disabled 처리 */
 function checkLevels() {
     const checkHomeworks = document.querySelectorAll('input[name="checkHomework"]:checked');
     const checkMembers = document.getElementsByName("checkMember");
@@ -204,11 +136,11 @@ function checkLevels() {
         checkHomeworks.forEach(function(checkHomework) {
             const homeworkLevel = parseInt(checkHomework.getAttribute('data-homeworkLevel'));
             const studyLevel = parseInt(checkMember.getAttribute('data-studyLevel'));
-            if (homeworkLevel > studyLevel) {
+            if (homeworkLevel <= studyLevel) {
                 shouldBeDisabled = true;
-                return; // 중단하여 다음 체크홈워크를 검사하지 않음
+                return; // 중단하여 다음 체크레벨를 검사하지 않음
             }
         });
         checkMember.disabled = shouldBeDisabled;
     });
-}*/
+}
