@@ -107,7 +107,6 @@ public class TeacherController {
         commonProcess("detail", model);
         model.addAttribute("list" , sgInfoService.getList(search).getItems());
         model.addAttribute("item" , sgInfoService.getForm(num));
-       // model.addAttribute("members" , sgInfoService.getJoinMember(num));
         model.addAttribute("jlist" , joinSTGInfoService.getJoin(num));
         return "teacher/group/detail";
     }
@@ -124,6 +123,7 @@ public class TeacherController {
     public String detail2(@RequestParam(value = "num" ,required = false) Long num, Model model, @ModelAttribute StGroupSearch search){
 
         if(num == null || num == 0){
+    //서브메뉴로 바로 상세보기로 접근 -> 등록된 스터디 그룹이 없을 경우
             if(sgInfoService.getList(search).getItems().isEmpty()){
                 commonProcess("list", model);
                 ListData<StudyGroup> data = sgInfoService.getList(search);
@@ -132,7 +132,7 @@ public class TeacherController {
                 model.addAttribute("emsg" , "학습 그룹을 등록해야 상세보기가 가능합니다.");
                 return "teacher/group/list";
             } else if (!sgInfoService.getList(search).getItems().isEmpty()) {
-
+    //서브메뉴로 바로 상세페이지로 들어온 경우
                 num = sgInfoService.getList(search).getItems().get(0).getNum();
                 commonProcess("detail", model);
                 model.addAttribute("list" , sgInfoService.getList(search).getItems());
@@ -142,7 +142,7 @@ public class TeacherController {
                 return "teacher/group/detail";
             }
         }
-
+    //상세에서 체크박스로 다른 스터디그룹 선택 시
         commonProcess("detail", model);
         model.addAttribute("list" , sgInfoService.getList(search).getItems());
         model.addAttribute("item" , sgInfoService.getForm(num));
