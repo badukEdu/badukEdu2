@@ -281,6 +281,11 @@ public class TeacherController {
     @DeleteMapping
     public String deletes(@RequestParam(name = "chk" ) List<Long> chks ,Model model){
         for(Long n : chks){
+            if(sgInfoService.hasMember(n)){
+                return "redirect:/teacher/group";
+            }
+        }
+        for(Long n : chks){
             sgDeleteService.delete(n);
         }
         return "redirect:/teacher/group";
@@ -294,6 +299,9 @@ public class TeacherController {
      */
     @GetMapping("/group/delete/{num}")
     public String delete(@PathVariable("num") Long num , Model model){
+        if(sgInfoService.hasMember(num)){
+            return "redirect:/teacher/group";
+        }
         sgDeleteService.delete(num);
         return "redirect:/teacher/group";
     }

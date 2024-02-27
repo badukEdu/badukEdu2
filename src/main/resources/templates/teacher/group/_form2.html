@@ -90,7 +90,7 @@
             <td>
                 <div th:if="${mode_ != 'edit'}">
                 <input type="date" name="startDate" th:field="*{startDate}" th:max="${session.game.endDate}"
-                       th:min="*{now}">
+                       th:min="*{now}" th:readonly="${acceptChange ? false: 'readonly'}">
                 </div>
                 <div th:if="${mode_ == 'edit'}">
                     <input type="date" name="startDate" th:field="*{startDate}" th:max="*{gameEndDate}"

@@ -150,6 +150,19 @@ public class SGInfoService {
         return members;
     }
 
+    /**
+     * 해당 스터디그룹에 가입 한 학생이 있는지 체크
+     * @param num
+     * @return
+     */
+    public boolean hasMember(Long num){
+
+        boolean result = false;
+        if(!getJoinMember(num).isEmpty()){
+            result = true;
+        }
+        return result;
+    }
 
     public RequestStGroup getForm(Long num) {
         StudyGroup data = getById(num);
