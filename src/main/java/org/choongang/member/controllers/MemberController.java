@@ -51,12 +51,45 @@ public class MemberController implements ExceptionProcessor {
     }
 
     /**
+     * 회원가입 동의
+     * @return
+     */
+    @GetMapping("/agree")
+    public String agree() {
+
+        return "member/join/agree";
+    }
+
+    @GetMapping("/agree2")
+    public String agree2() {
+
+        return "member/join/agree2";
+    }
+
+    @GetMapping("/agree3")
+    public String agree3() {
+
+        return "member/join/agree3";
+    }
+
+    @GetMapping("/agree4")
+    public String agree4() {
+
+        return "member/join/agree4";
+    }
+
+    @GetMapping("/agree5")
+    public String agree5() {
+
+        return "member/join/agree5";
+    }
+
+    /**
      * 회원가입
      * @param form
      * @param model
      * @return
      */
-
     @GetMapping("/join/step1")
     public String joinStep1(@ModelAttribute RequestJoin form, Model model) {
         commonProcess("join", model);
