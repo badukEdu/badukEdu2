@@ -33,9 +33,6 @@
             <td th:text="*{homework.deadLine}"></td>
             <td>
                 <a th:if="*{@utils.isPast(homework.deadLine)}" th:href="@{/education/homework/submit/{num}(num=*{num})}" class="sbtn">작성/수정</a>
-<!--                <a th:if="${#dates.createNow() < item.homework.deadLine}" th:href="@{/education/homework/submit/{num}(num=*{num})}" class="sbtn">작성/수정</a>-->
-<!--                <a th:unless="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')} < item.homework.deadLine" onclick="return alert('제출 기한이 지났습니다.');" class="sbtn">작성/수정</a>-->
-
                 <a th:href="@{/education/homework/viewAnswer/{num}(num=*{num})}" th:if="*{questionAnswer != null}" class="sbtn">내용 확인</a>
             </td>
         </tr>
