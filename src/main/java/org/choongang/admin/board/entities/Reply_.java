@@ -11,16 +11,16 @@ public class Reply_ extends Base {
 
     @Id
     @GeneratedValue
-    private Long num; // 답변 번호
+    private Long replyNum; // 답변 번호
 
 
     @ManyToOne
-    @JoinColumn(name = "seq", nullable = false)
+    @JoinColumn(name = "userId", nullable = false)
     private Member member; // 답변자 (사용자 엔티티와 관계)
 
 
     @ManyToOne
-    @JoinColumn(name = "noticeSeq", nullable = false) // notice 엔티티의 seq를 사용하여 조인
+    @JoinColumn(name = "num", nullable = false) // notice 엔티티의 num를 사용하여 조인
     private Notice_ notice; // 문의 번호 (공지사항 엔티티와 관계)
 
 

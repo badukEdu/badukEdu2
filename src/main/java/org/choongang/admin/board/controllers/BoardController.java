@@ -52,6 +52,7 @@ public class BoardController implements ExceptionProcessor  {
     @GetMapping("/noticeFaqList")
     public String adminnoticeFaqList(@ModelAttribute NoticeSearch search, Model model) {
 
+        commonProcess("noticeFaqList", model);
 
         ListData<Notice_> noticeList = boardService.getListOrderByOnTop(search);
 
