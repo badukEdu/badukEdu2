@@ -8,6 +8,7 @@ import org.choongang.teacher.homework.entities.Homework;
 import org.choongang.teacher.homework.entities.QHomework;
 import org.choongang.teacher.homework.repositories.HomeworkRepository;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -40,9 +41,9 @@ public class HomeworkInfoService {
 
         BooleanBuilder andBuilder = new BooleanBuilder();
         andBuilder.and(homework.member.num.eq(memberUtil.getMember().getNum()));
-//
-//        List<Homework> items = (List<Homework>) homeworkRepository.findAll(andBuilder, Sort.by(Sort.Order.asc("createdAt")));
-        List<Homework> items = (List<Homework>) homeworkRepository.findAll(andBuilder);
+
+        List<Homework> items = (List<Homework>) homeworkRepository.findAll(andBuilder, Sort.by(Sort.Order.desc("createdAt")));
+//        List<Homework> items = (List<Homework>) homeworkRepository.findAll(andBuilder);
 
         return items;
     }

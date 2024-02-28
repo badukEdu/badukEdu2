@@ -1,11 +1,8 @@
 package org.choongang;
 
-import jakarta.servlet.http.HttpSession;
 import org.choongang.member.Authority;
-import org.choongang.member.MemberUtil;
 import org.choongang.member.entities.Member;
 import org.choongang.member.service.JoinService;
-import org.choongang.member.service.MemberInfo;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -94,7 +91,7 @@ class ProjectApplicationTests {
         member3.setEmailAgree(true);
         member3.setEnable(true);
         member3.setSMSAgree(true);
-        member3.setLevels(100L);
+        member3.setLevels(5L);
         member3.setUserId("student01");
         member3.setEmail("student01@naver.com");
         member3.setPassword(encoder.encode("_aA123456"));
@@ -115,7 +112,7 @@ class ProjectApplicationTests {
         member4.setEmailAgree(true);
         member4.setEnable(true);
         member4.setSMSAgree(true);
-        member4.setLevels(100L);
+        member4.setLevels(5L);
         member4.setUserId("student02");
         member4.setEmail("student02@naver.com");
         member4.setPassword(encoder.encode("_aA123456"));
@@ -136,7 +133,7 @@ class ProjectApplicationTests {
         user01.setEmailAgree(true);
         user01.setEnable(true);
         user01.setSMSAgree(true);
-        user01.setLevels(100L);
+        user01.setLevels(5L);
         user01.setUserId("user01");
         user01.setEmail("user01@naver.com");
         user01.setPassword(encoder.encode("_aA123456"));

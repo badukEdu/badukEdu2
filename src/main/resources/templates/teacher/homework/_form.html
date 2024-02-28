@@ -11,6 +11,7 @@
             <th>그룹명</th>
             <th>숙제레벨</th>
             <th>제출마감</th>
+            <th>생성일자</th>
             <th></th>
         </tr>
         </thead>
@@ -26,6 +27,7 @@
             <td th:text="*{studyGroup.name}"></td>
             <td th:text="*{studyLevel}"></td>
             <td th:text="*{deadLine}"></td>
+            <td th:text="*{createdAtFormatted}"></td>
             <td th:if="${@memberUtil.isTeacher() || @memberUtil.isAdmin()}">
                 <a th:href="@{/teacher/homework/edit/{num}(num=*{num})}" class="sbtn">수정하기</a>
                 <a th:href="@{/teacher/homework/delete/{num}(num=*{num})}" class="sbtn" onclick="return confirm('정말 삭제하시겠습니까?');">삭제하기</a>

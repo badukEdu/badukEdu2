@@ -140,7 +140,7 @@ public class EducationController implements ExceptionProcessor  {
     public String homeworkList(Model model) {
         commonProcess("homeworkList", model);
         ListData<TrainingData> data = eduTrainingDataInfoService.getlist();
-        System.out.println("++++++++++++++"+data.getItems());
+
         model.addAttribute("items", data.getItems());
 
         return "/education/homework/list";
