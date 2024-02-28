@@ -3,12 +3,12 @@ package org.choongang.teacher.controllers;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.choongang.admin.gamecontent.controllers.GameContentSearch;
 import org.choongang.admin.gamecontent.entities.GameContent;
 import org.choongang.admin.gamecontent.service.GameContentInfoService;
 import org.choongang.admin.order.controllers.OrderSearch;
 import org.choongang.admin.order.entities.OrderItem;
 import org.choongang.admin.order.service.OrderInfoService;
+import org.choongang.commons.ExceptionProcessor;
 import org.choongang.commons.ListData;
 import org.choongang.education.group.controllers.JoinStGroupSearch;
 import org.choongang.education.group.entities.JoinStudyGroup;
@@ -47,7 +47,7 @@ import java.util.List;
 @RequestMapping("/teacher")
 @RequiredArgsConstructor
 @SessionAttributes({"requestHomework", "list", "pagination", "items"})
-public class TeacherController {
+public class TeacherController implements ExceptionProcessor {
 
     //group DI SSS //스터디 그룹 의존성
     private final SGSaveService sgSaveService;

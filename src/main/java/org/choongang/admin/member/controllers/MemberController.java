@@ -4,15 +4,14 @@ import lombok.RequiredArgsConstructor;
 import org.choongang.commons.ExceptionProcessor;
 import org.choongang.commons.ListData;
 import org.choongang.member.entities.Member;
+import org.choongang.member.service.KickService;
 import org.choongang.member.service.MemberInfoService;
 import org.choongang.menus.Menu;
 import org.choongang.menus.MenuDetail;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +22,7 @@ import java.util.List;
 public class MemberController implements ExceptionProcessor {
 
     private final MemberInfoService infoService;
+    private final KickService kickService;
 
     @ModelAttribute("menuCode")
     public String getMenuCode() {
@@ -51,6 +51,13 @@ public class MemberController implements ExceptionProcessor {
         model.addAttribute("pagination", data.getPagination()); // 페이징
 
         return "admin/member/list";
+    }
+
+    @DeleteMapping
+    public String deleteList(@RequestParam(name = "chk") List<Long> chks, Model model) {
+        commonProcess("list", model);
+        kickService.deleteList(chks);
+        return "redirect:/admin/member";
     }
 
     private void commonProcess(String mode, Model model) {
