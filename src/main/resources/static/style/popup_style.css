@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap');
 * { box-sizing: border-box; outline: none; font-family: 'Noto Sans KR', sans-serif; }
 html { font-size: 13px; color: #222; }
-body { margin: 0; }
+body { margin: 20px; }
 ul { list-style: none; margin: 0; padding: 0; }
 li { display: block; }
 dl { display: flex; width: 100%; margin: 0; align-items: center; }
@@ -10,3 +10,21 @@ dd { width: calc(100% - 130px); padding: 0; margin: 0; }
 a { color:#222; text-decoration: none; }
 
 .dn { display: none !important; }
+
+
+.mb30 { margin-bottom: 30px; }
+.mb10 { margin-bottom: 10px; }
+/* 테이블 공통 S */
+.table_cols { border-spacing: 0; width: 100%; border-top: 2px solid #222; background: #fff; text-align: center;}
+.table_cols th, .table_cols td { padding: 10px; border-bottom: 1px solid #d5d5d5; }
+.table_cols th { background: #ccc; font-weight: normal; }
+
+.table_rows { border-spacing: 0; width: 100%; background: #fff; text-align: center;}
+.table_rows thead th { background: #596b99; color: #fff; font-weight: normal; padding: 7px 10px; }
+.table_rows thead th + th { border-left: 1px solid #fff; }
+
+.table_rows tbody td { border-bottom: 1px solid #ccc; padding: 7px 10px; }
+
+textarea { border: 1px solid #d5d5d5; min-height: 100px; padding: 10px; resize: none; width: 30rem; }
+
+.submit_btns { text-align: center; margin: 10px 0; }
