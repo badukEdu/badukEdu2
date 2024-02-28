@@ -103,7 +103,7 @@ public class RestHomeworkController {
             tableData.append("<td>").append(trainingData.getSendDate()).append("</td>"); // 학습자 제출일자
 //            tableData.append("<td>").append(trainingData.getScore()).append("</td>"); // 평가
             tableData.append("<td width='100'><label><select name='score'>");
-            if (trainingData.getScore() == null) {
+            if (trainingData.getScore() == null || trainingData.getScore() == -1) {
                 tableData.append("<option value='-1' selected>선택</option>" +
                         "         <option value='0'>미흡</option>" +
                         "         <option value='1'>보통</option>" +
