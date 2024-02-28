@@ -15,7 +15,8 @@
             <th>그룹명</th>
             <th>숙제레벨</th>
             <th>제출마감</th>
-            <th></th>
+            <th colspan="2"></th>
+
         </tr>
         </thead>
         <tbody>
@@ -31,9 +32,12 @@
             <td th:text="*{homework.studyGroup.name}"></td>
             <td th:text="*{homework.studyLevel}"></td>
             <td th:text="*{homework.deadLine}"></td>
-            <td>
+            <td width="180">
                 <a th:if="*{!@utils.isPast(homework.deadLine)}" th:href="@{/education/homework/submit/{num}(num=*{num})}" class="sbtn">작성/수정</a>
-                <a th:href="@{/education/homework/viewAnswer/{num}(num=*{num})}" th:if="*{questionAnswer != null}" class="sbtn">내용 확인</a>
+                <a th:if="*{@utils.isPast(homework.deadLine)}" onclick="alert('작성일이 마감되었습니다.');" class="sbtn">작성/마감</a>
+            </td>
+            <td width="180">
+                <a th:href="@{/education/homework/viewAnswer/{num}(num=*{num})}" th:if="*{questionAnswer != null || @utils.isPast(homework.deadLine)}" class="sbtn">내용 확인</a>
             </td>
         </tr>
         </tbody>
