@@ -86,10 +86,14 @@ public class JoinValidator implements Validator, PasswordValidator {
         String userId = form.getUserId();
         String password = form.getPassword();
         String confirmPassword = form.getConfirmPassword();
+        String birth = form.getBirth();
+        String authority = form.getAuthority();
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "userId", "NotBlank");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "NotBlank");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "confirmPassword", "NotBlank");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "birth", "NotBlank");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "authority", "NotBlank");
 
         if (StringUtils.hasText(userId) && memberRepository.existsByUserId(userId)) {
             errors.rejectValue("userId", "Duplicated");

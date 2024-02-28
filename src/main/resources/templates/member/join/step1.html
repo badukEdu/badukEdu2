@@ -10,13 +10,13 @@
 
   <div class="agree">
     <input type="checkbox" name="agree" value="true" id="agree" th:field="*{agree}">
-    <label for="agree" th:text="#{이용_약관}"></label>
+    <label for="agree"><span style="color: red;">*</span><span th:text="#{이용_약관}"></span></label>
     <div class="error" th:each="err : ${#fields.errors('agree')}" th:text="${err}"></div>
   </div>
 
   <div class="agree2">
     <input type="checkbox" name="agree2" value="true" id="agree2" th:field="*{agree2}">
-    <label for="agree2" th:text="#{개인정보_필수항목에_대한_처리_및_이용}"></label>
+    <label for="agree2"><span style="color: red;">*</span><span th:text="#{개인정보_필수항목에_대한_처리_및_이용}"></span></label>
     <div class="error" th:each="err : ${#fields.errors('agree2')}" th:text="${err}"></div>
   </div>
 
@@ -40,26 +40,31 @@
 
   <div class="email">
   <dl>
-    <dt th:text="#{이름}"></dt>
+    <dt><span style="color: red;">*</span><span th:text="#{이름}"></span></dt>
     <dd>
       <input type="text" name="name" th:field="*{name}" placeholder="이름 입력">
       <div class="error" th:each="err : ${#fields.errors('name')}" th:text="${err}"></div>
     </dd>
   </dl>
 
+    <br>
+
   <dl>
-    <dt th:text="#{이메일}"></dt>
+    <dt><span style="color: red;">*</span><span th:text="#{이메일}"></span></dt>
     <dd>
       <div>
         <input type="text" name="email" th:field="*{email}" th:readonly="${session.EmailAuthVerified != null && session.EmailAuthVerified}" placeholder="이메일 입력">
-        <button th:if="${session.EmailAuthVerified == null || !session.EmailAuthVerified}" type="button" id="email_verify" th:text="#{인증코드전송}"></button>
+        <button th:if="${session.EmailAuthVerified == null || !session.EmailAuthVerified}" type="button" id="email_verify" class="sbtn on" th:text="#{인증코드_전송}"></button>
       </div>
+
+      <br>
+
       <div class="auth_box">
         <th:block th:if="${session.EmailAuthVerified == null || !session.EmailAuthVerified}">
           <input type="text" id="auth_num" th:placeholder="#{인증코드_입력}">
           <span id="auth_count">03:00</span>
-          <button type="button" id="email_confirm" th:text="#{확인}" disabled></button>
-          <button type="button" id="email_re_verify" th:text="#{재전송}" disabled></button>
+          <button type="button" id="email_confirm" class="sbtn" th:text="#{확인}" disabled></button>
+          <button type="button" id="email_re_verify" class="sbtn" th:text="#{재전송}" disabled></button>
         </th:block>
         <th:block th:unless="${session.EmailAuthVerified == null || !session.EmailAuthVerified}">
           <span class='confirmed' th:text="#{확인된_이메일_입니다.}"></span>
@@ -69,7 +74,10 @@
     </dd>
   </dl>
   </div>
-  <button type="submit" th:text="#{인증_요청_하기}"></button>
+
+  <br>
+
+  <button type="submit" class="sbtn on" th:text="#{인증_요청_하기}"></button>
 
 </form>
 
