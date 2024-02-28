@@ -12,6 +12,7 @@ import org.choongang.member.entities.Member;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
+import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -213,4 +214,8 @@ public class Utils {
         return chars.stream().limit(length).collect(Collectors.joining());
     }
 
+
+    public boolean isPast(LocalDate date) {
+        return date.isBefore(LocalDate.now());
+    }
 }

@@ -5,6 +5,8 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.choongang.commons.ExceptionProcessor;
 import org.choongang.commons.ListData;
+import org.choongang.commons.Utils;
+import org.choongang.commons.exceptions.AlertBackException;
 import org.choongang.education.group.controllers.JoinStGroupSearch;
 import org.choongang.education.group.entities.JoinStudyGroup;
 import org.choongang.education.group.services.joinStG.JoinSTGInfoService;
@@ -17,6 +19,7 @@ import org.choongang.teacher.group.entities.StudyGroup;
 import org.choongang.teacher.group.services.stGroup.SGInfoService;
 import org.choongang.teacher.homework.controllers.RequestTrainingData;
 import org.choongang.teacher.homework.entities.TrainingData;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -40,6 +43,8 @@ public class EducationController implements ExceptionProcessor  {
 
     private final EduTrainingDataInfoService eduTrainingDataInfoService;
     private final EduTrainingDataSaveService eduTrainingDataSaveService;
+
+    private final Utils utils;
 
     // 현재 신청중인 목록
     /**
@@ -147,12 +152,17 @@ public class EducationController implements ExceptionProcessor  {
 
         // 내 trainingdata(num으로 등록된)와 homework정보를 가지고 넘어간다
         TrainingData trainingData = eduTrainingDataInfoService.getOne(num);
+
+        if (utils.isPast(trainingData.getHomework().getDeadLine())) {
+            throw new AlertBackException("제출기한이 마감되었습니다.", HttpStatus.UNAUTHORIZED);
+        }
+
         model.addAttribute("trainingData", trainingData);
 
         return "/education/homework/submit";
     }
 
-    @PostMapping("homework/submit")
+    @PostMapping("/homework/submit")
     public String homeworkSubmitPs(@Valid RequestTrainingData form, Errors errors, Model model) {
         if (errors.hasErrors()) {
             return "education/homework/submit";
@@ -162,6 +172,15 @@ public class EducationController implements ExceptionProcessor  {
         eduTrainingDataSaveService.save(form);
 
         return "redirect:/education/homework";
+    }
+
+    @GetMapping("homework/viewAnswer/{num}")
+    public String viewAnswer(@PathVariable("num") Long num,  Model model) {
+
+        TrainingData trainingData = eduTrainingDataInfoService.getOne(num);
+        model.addAttribute("trainingData", trainingData);
+
+        return "education/homework/viewAnswer";
     }
 
 
