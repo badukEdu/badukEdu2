@@ -29,18 +29,30 @@ public class GuideController implements ExceptionProcessor  {
         return "redirect:/guide/intro";
     }
 
-    @GetMapping("/{mode}")
-    public String guide(@PathVariable("mode") String mode, @ModelAttribute GameContentSearch search, Model model) {
-        commonProcess(mode, model);
+    @GetMapping("/intro")
+    public String intro(Model model) {
+        commonProcess("intro", model);
+
+        return "guide/intro";
+    }
+    @GetMapping("/use")
+    public String use(Model model) {
+        commonProcess("use", model);
+
+        return "guide/use";
+    }
+
+    @GetMapping("/product")
+    public String guide(@ModelAttribute GameContentSearch search, Model model) {
+        commonProcess("product", model);
 
         // 상품 소개
-        if (mode.equals("product")) {
-            ListData<GameContent> data = gameContentInfoService.getList(search);
-            model.addAttribute("items", data.getItems());
-            model.addAttribute("pagination", data.getPagination());
-        }
+        ListData<GameContent> data = gameContentInfoService.getList(search);
+        model.addAttribute("items", data.getItems());
+        model.addAttribute("pagination", data.getPagination());
 
-        return "guide/" + mode;
+
+        return "guide/product";
     }
 
     private void commonProcess(String mode, Model model) {
