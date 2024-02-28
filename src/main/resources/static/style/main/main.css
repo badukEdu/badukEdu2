@@ -1,0 +1,134 @@
+:root{
+--border-color:#cdcdcd;
+--color:#fff;
+--sub-color:#343434;
+}
+
+.main-contents{
+width: 1430px; margin: auto;
+overflow: auto;
+background-color: transparent;
+margin-bottom: 10px;
+}
+.content{ float:left;
+box-sizing: border-box;
+
+}
+.content01{ width:846px; height: 626px;
+background-color: orange;
+margin-right: 10px;
+}
+.content02,
+.content03,
+.content04,
+.content05{
+width:calc((1430px - 846px - 20px) / 2);
+height:308px;
+background-color: rgb(125, 211, 245);
+
+}
+
+.content07{
+width:calc(1430px - 360px * 2 - 20px);
+height: 355px;
+background-color: burlywood;
+}
+.content08,
+.content09{
+width:360px;
+height: 360px;
+
+}
+
+.content02{ margin-right: 10px; margin-bottom: 10px;}
+.content03,
+.content01,
+.content04,
+.content07,
+.content08,
+.content05{ margin-bottom: 10px;}
+.content04,
+.content07,
+.content09{
+margin-right: 10px;
+}
+
+
+
+.content{
+padding:30px;
+border-color:var(--border-color);
+background-position: center center;
+background-size: cover;
+}
+
+.content img{
+width: 100%;
+}
+.content>h2{ font-size: 14px; color: red;}
+.content>h2>span{
+border-bottom: 1px solid var(--border-color);
+padding-bottom: 6px;
+font-size: 30px;
+}
+
+
+.content01{
+
+background-size: cover;
+background-position: center center;
+
+}
+
+/*----------자세히 보기----------*/
+
+.content02>h2{
+margin-bottom: 70px;
+}
+.content03>h2{
+margin-bottom: 70px;
+}
+.content04>h2{
+margin-bottom: 70px;
+}
+.content05>h2{
+margin-bottom: 70px;
+}
+
+
+.content02{
+font-size: 20px;
+background-color: rgb(204, 243, 125);
+}
+.content02,
+.content03,
+.content04,
+.content05>p:nth-of-type(2){
+font-size: 16px;
+
+
+
+}
+
+
+.content04{
+
+background-color: rgba(241, 241, 16, 0.959);
+}
+.content05{
+
+background-color: purple;
+
+}
+
+
+.content08{
+
+background-color:burlywood;
+}
+.content09{
+
+background-color:burlywood;
+}
+
+
