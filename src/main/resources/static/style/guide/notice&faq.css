@@ -1,0 +1,78 @@
+.comment_form {
+    padding-left: 40px;
+    border: 3px solid black;
+    border-radius: 10px;
+    background-color: #f2f2f2;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+}
+
+.comment_btn {
+    text-align: center;
+    margin: 30px 0;
+}
+
+.comment_btn .btn {
+    display: inline-block;
+    min-width: 200px;
+    height: 45px;
+    padding: 0 15px;
+    border: 1px solid #222;
+    background: #fff;
+    font-size: 1.4rem;
+    font-weight: 500;
+    color: #222;
+    border-radius: 3px;
+    cursor: pointer;
+    line-height: 43px;
+}
+
+.comment_btn .btn:last-of-type {
+    background: #222;
+    color: #fff;
+}
+
+/* 댓글 리스트 스타일 */
+.comment_list {
+    list-style-type: none;
+    padding: 0;
+}
+
+/* 각 댓글 스타일 */
+.comment {
+
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+}
+
+/* 댓글 작성자 이름 스타일 */
+.comment_author {
+    font-weight: bold;
+    color: #333;
+    font-size: 16px;
+    margin-right: 10px;
+}
+
+/* 댓글 작성자 이름 알림 */
+.comment_author_name {
+    font-weight: bold;
+    color: #333;
+    font-size: 16px;
+    margin-right: 10px;
+}
+
+/* 댓글 내용 스타일 */
+.comment_content {
+    margin-top: 5px;
+    color: #666;
+    font-size: 14px;
+}
+
+/* 삭제 링크 스타일 */
+.delete_link {
+    color: #ff0000;
+    cursor: pointer;
+}
