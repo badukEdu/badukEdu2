@@ -139,9 +139,8 @@ window.addEventListener("DOMContentLoaded", function() {
             }
 
             const formEl = document[formName];
-           formEl._method.value = mode == 'delete' ? 'DELETE' : 'PATCH';
-
-           const modeTitle = mode == 'delete' ? '삭제' : '수정';
+            formEl._method.value = mode == 'delete' ? 'DELETE' : 'PATCH';
+            const modeTitle = mode == 'delete' ? '삭제' : '수정';
 
            const chks = formEl.querySelectorAll("input[name='chk']:checked");
 
