@@ -19,8 +19,6 @@ spring:
           starttls:
             enable: true # StartTLS 활성화 여부 - 기본값 false
 
-  profiles:
-    active: dev
 
   # 파일 업로드 용량 설정
   servlet:
