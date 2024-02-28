@@ -176,7 +176,7 @@ public class EducationController implements ExceptionProcessor  {
 
     @GetMapping("homework/viewAnswer/{num}")
     public String viewAnswer(@PathVariable("num") Long num,  Model model) {
-
+        commonProcess("homeworkView", model);
         TrainingData trainingData = eduTrainingDataInfoService.getOne(num);
         model.addAttribute("trainingData", trainingData);
 
@@ -223,6 +223,12 @@ public class EducationController implements ExceptionProcessor  {
             pageTitle = "신청취소::" + pageTitle;
         } else if (mode.equals("view")) {
             pageTitle = "신청내용::" + pageTitle;
+        } else if (mode.equals("homeworkList")) {
+            pageTitle = "숙제 목록::" + pageTitle;
+        } else if (mode.equals("homeworkSubmit")) {
+            pageTitle = "숙제 작성::" + pageTitle;
+        } else if (mode.equals("homeworkView")) {
+            pageTitle = "숙제 확인::" + pageTitle;
         }
 
         model.addAttribute("pageTitle", pageTitle);
