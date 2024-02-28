@@ -43,7 +43,7 @@
 
         <tbody>
         <tr th:each="noticeList : ${noticeList}" th:object="${noticeList}">
-            <td><input type="checkbox" name="selectNotice" th:value="${noticeList}" /></td>
+            <td><input type="checkbox" name="selectNotice" th:value="${noticeList.num}" /></td>
             <td><a th:href="@{'/guide/detail/' + ${noticeList.num}}" th:text="*{num}"></a></td>
             <td><a th:href="@{'/guide/detail/' + ${noticeList.num}}" th:text="*{type}"></a></td>
             <td><a th:href="@{'/guide/detail/' + ${noticeList.num}}" th:text="*{title}"></a></td>

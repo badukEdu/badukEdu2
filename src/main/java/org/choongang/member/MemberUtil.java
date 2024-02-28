@@ -74,7 +74,10 @@ public class MemberUtil {
         session.removeAttribute("Global_error");
     }
 
+    public boolean isWriter(Member member) {
 
+        return getMember() == member;
+    }
 
 
 }

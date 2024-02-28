@@ -4,6 +4,7 @@ import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
+import lombok.ToString;
 import org.choongang.commons.entities.Base;
 import org.choongang.file.entities.FileInfo;
 import org.choongang.member.entities.Member;
@@ -69,6 +70,7 @@ public class Notice_ extends Base {
     @JoinColumn(name = "userId")
     private Member member; // 작성자 아이디
 
+    @ToString.Exclude
     @OneToMany(mappedBy = "notice", fetch = FetchType.LAZY)
     private List<NoticeComment> noticeComments;
 

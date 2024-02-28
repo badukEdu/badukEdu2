@@ -1,0 +1,119 @@
+*{ box-sizing: border-box;
+color: #000;
+outline: none; /*input*/
+font-family: 'Noto Sans KR'
+
+}
+
+
+.flex_center{
+display: flex;
+justify-content: center;
+}
+
+.flex_between{
+display: flex;
+justify-content: space-between;
+}
+
+.layout_1440{
+width:1440px;
+margin: auto;
+}
+
+
+.edu-container{ padding: 70px 0; background-color:  #fff;}
+.edu-container h3{ font-weight: normal;
+    font-size: 22px;
+
+}
+
+
+
+.edu-content{ height: 450px; }
+
+
+
+h2{ text-align:center;
+font-size: 30px;
+padding-bottom: 50px;
+}
+
+
+
+
+.msg-box{
+    padding-top: 80px;
+    width: 350px;
+   font-size: 16px;
+
+}
+
+
+.msg-box button{
+    margin-top: 20px;
+    border-radius: 50px;
+    width: 280px;
+    height: 50px;
+    border: #fff;
+    font-size: 16px;
+}
+
+
+
+.edu-box{ width: 500px; height: 300px;
+ }
+
+
+
+
+
+/* edu-container design  */
+.edu-content{ align-items: center;}
+
+.msg> h4 {
+    width: 600px;
+}
+
+.msg> h4 em{
+    color: red;
+}
+
+
+.msg-box>h3
+.edu-box>h3{
+    text-align: center;
+    font-size: 20px;
+    margin-bottom: 40px;
+
+}
+
+
+
+.edu-box span{ display: block; text-align: center;}
+.edu-box a{
+    display: block;
+    width: 700px;
+    height: 100%;
+    align-items: center;
+    text-align: center;
+    padding-top:30%;
+    box-sizing: border-box;
+    padding-top: 50px;
+
+}
+.edu-box img{
+    width: 60%;
+}
+.edu-box span{ font-weight: bold;}
+
+
+
+
+
+
+
+
+
+
+

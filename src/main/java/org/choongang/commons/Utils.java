@@ -7,6 +7,8 @@ import org.choongang.basic.controllers.BasicConfig;
 import org.choongang.basic.service.ConfigInfoService;
 import org.choongang.file.entities.FileInfo;
 import org.choongang.file.service.FileInfoService;
+import org.choongang.member.MemberUtil;
+import org.choongang.member.entities.Member;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
