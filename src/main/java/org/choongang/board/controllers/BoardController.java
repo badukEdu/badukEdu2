@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.choongang.admin.board.controllers.RequestBoardPosts;
 import org.choongang.admin.board.entities.NoticeSearch;
 import org.choongang.admin.board.entities.Notice_;
+import org.choongang.admin.board.entities.requestComment;
 import org.choongang.commons.ListData;
 import org.choongang.commons.ExceptionProcessor;
 import org.springframework.stereotype.Controller;
@@ -25,7 +26,6 @@ public class BoardController implements ExceptionProcessor  {
 
     @GetMapping("/list/noticeFaq")
     public String adminnoticeFaqList(@ModelAttribute NoticeSearch search, Model model) {
-
         commonProcess("notice&faq", model);
 
         ListData<Notice_> noticeList = boardService.getListOrderByOnTop(search);
@@ -37,7 +37,7 @@ public class BoardController implements ExceptionProcessor  {
     }
 
     @GetMapping("/detail/{num}")
-    public String detail(@PathVariable("num") Long num, Model model){
+    public String detail(@PathVariable("num") Long num, @ModelAttribute requestComment form, Model model){
 
         // 경로 변수 num이 null이거나 음수인 경우에는 board/list/noticeFaq로 리다이렉션
         if (num <= 0) {
@@ -68,8 +68,8 @@ public class BoardController implements ExceptionProcessor  {
         List<String> addScript = new ArrayList<>();
 
         String pageTitle = "이용안내";
-        if (mode.equals("list/noticeFaq")) {
-            pageTitle = "Notice & FaQ " + (mode == "edit" ? "수정" : "등록") + " ::" + pageTitle;
+        if (mode.equals("notice&faq")) {
+            pageTitle = mode + " ::" + pageTitle;
             addCss.add("guide/" + mode);
             addScript.add("fileManager");
         }

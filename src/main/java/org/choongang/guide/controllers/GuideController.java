@@ -50,8 +50,7 @@ public class GuideController implements ExceptionProcessor  {
         String pageTitle = "이용안내";
         if (mode.equals("intro")) pageTitle = "사이트 소개::" + pageTitle;
         if (mode.equals("use")) pageTitle = "이용 가이드::" + pageTitle;
-        if (mode.equals("product")) { pageTitle = "상품 소개::" + pageTitle;
-        }
+        if (mode.equals("product")) pageTitle = "상품 소개::" + pageTitle;
         if (mode.equals("notice&faq")) pageTitle = "Notice & QnA::" + pageTitle;
         if (mode.equals("qna")) pageTitle = "Q&A::" + pageTitle;
 
