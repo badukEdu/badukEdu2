@@ -25,7 +25,7 @@ public class HomeworkDeleteService {
 
         List<TrainingData> trainingDataList = (List<TrainingData>) trainingDataRepository.findAll(andBuilder);
         if (!trainingDataList.isEmpty()) {
-            throw new AlertBackException("관련된 정보가 있어 삭제할 수 없습니다.", HttpStatus.BAD_REQUEST);
+            throw new AlertBackException("해당 숙제로 배포된 정보가 있어 삭제할 수 없습니다.", HttpStatus.BAD_REQUEST);
         }
 
         homeworkRepository.deleteById(num);

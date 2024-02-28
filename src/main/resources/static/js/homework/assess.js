@@ -51,7 +51,7 @@ function answerPopup(num) {
     const url = "/teacher/homework/answerPopup/" + num; // 컨트롤러로 연결
     const { popup } = commonLib;
 
-    popup.open(url, 700, 700);
+    popup.open(url, 700, 860);
 }
 
 

@@ -7,30 +7,33 @@
 
 <!--[[${trainingData}]]-->
     <form method="post" th:action="@{/teacher/homework/answerPopup}" th:object="${trainingData}">
-        <table>
-            <thead>
-            <input type="hidden" th:field="*{num}">
-                <tr>
-                    <th>숙제명</th>
-                    <td th:text="*{homework.name}"></td>
-                </tr>
-                <tr>
-                    <th>숙제내용</th>
-                    <td th:text="*{homework.content}"></td>
-                </tr>
-                <tr>
-                    <th>학습그룹</th>
-                    <td th:text="*{homework.studyGroup.name}"></td>
-                </tr>
-                <tr>
-                    <th>숙제레벨</th>
-                    <td th:text="*{homework.studyLevel}"></td>
-                </tr>
-                <tr>
-                    <th>제출마감</th>
-                    <td th:text="*{homework.deadLine}"></td>
-                </tr>
+        <h1>숙제 평가 및 질문 답변</h1>
+        <table class="table_cols mb30">
+            <thead class="table_cols mb30">
+                <input type="hidden" th:field="*{num}">
+                    <tr>
+                        <th>숙제명</th>
+                        <td th:text="*{homework.name}"></td>
+                    </tr>
+                    <tr>
+                        <th>숙제내용</th>
+                        <td th:text="*{homework.content}"></td>
+                    </tr>
+                    <tr>
+                        <th>학습그룹</th>
+                        <td th:text="*{homework.studyGroup.name}"></td>
+                    </tr>
+                    <tr>
+                        <th>숙제레벨</th>
+                        <td th:text="*{homework.studyLevel}"></td>
+                    </tr>
+                    <tr>
+                        <th>제출마감</th>
+                        <td th:text="*{homework.deadLine}"></td>
+                    </tr>
             </thead>
+        </table>
+        <table class="table_cols">
             <tbody>
                 <tr>
                     <th>학습자명</th>
@@ -67,7 +70,7 @@
                 </tr>
             </tbody>
         </table>
-        <div>
+        <div class="submit_btns">
             <button type="reset">다시하기</button>
             <button type="submit">저장하기</button>
         </div>

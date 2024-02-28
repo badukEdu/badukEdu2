@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/main}">
+
+<section layout:fragment="content" th:object="${trainingData}">
+    <h1>숙제 답변</h1>
+    <table class="table_cols mb30">
+        <thead class="table_cols mb30">
+        <tr>
+            <th width="180" th:text="#{숙제명}"></th>
+            <td th:text="*{homework.name}"></td>
+        </tr>
+        <tr>
+            <th th:text="#{내용}"></th>
+            <td th:text="*{homework.content}"></td>
+        </tr>
+        <tr>
+            <th th:text="#{숙제레벨}"></th>
+            <td th:text="*{homework.studyLevel}"></td>
+        </tr>
+        <tr>
+            <th th:text="#{제출기한}"></th>
+            <td th:text="*{homework.deadLine}"></td>
+        </tr>
+        </thead>
+    </table>
+    <table class="table_cols mb30">
+        <tbody class="table_cols">
+        <tr>
+            <th width="180" th:text="#{숙제 답}"></th>
+            <td>
+                <textarea type="text" th:field="*{homeworkAnswer}" readonly></textarea>
+            </td>
+            <div class="error" th:each="err : ${#fields.errors('homeworkAnswer')}" th:text="${err}"></div>
+        </tr>
+        <tr>
+            <th th:text="#{질문 사항}"></th>
+            <td>
+                <textarea type="text" th:field="*{question}" readonly></textarea>
+            </td>
+        </tr>
+        <tr>
+            <th>교육자 답변</th>
+            <td><textarea th:text="*{questionAnswer}" readonly></textarea></td>
+        </tr>
+        </tbody>
+    </table>
+    <div class="submit_btns">
+        <a th:href="@{/education/homework}" class="sbtn">뒤로가기</a>
+    </div>
+</section>
+
+</html>

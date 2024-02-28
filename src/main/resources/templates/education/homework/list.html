@@ -31,13 +31,9 @@
             <td th:text="*{homework.studyGroup.name}"></td>
             <td th:text="*{homework.studyLevel}"></td>
             <td th:text="*{homework.deadLine}"></td>
-            <td th:if="${@memberUtil.isTeacher()}">
-                <a th:href="@{/teacher/homework/edit/{num}(num=*{num})}" class="sbtn">수정하기</a>
-                <a th:href="@{/teacher/homework/delete/{num}(num=*{num})}" class="sbtn" onclick="return confirm('정말 삭제하시겠습니까?');">삭제하기</a>
-            </td>
             <td>
-                <a th:href="@{/education/homework/submit/{num}(num=*{num})}" class="sbtn">작성/수정하기</a>
-
+                <a th:if="*{@utils.isPast(homework.deadLine)}" th:href="@{/education/homework/submit/{num}(num=*{num})}" class="sbtn">작성/수정</a>
+                <a th:href="@{/education/homework/viewAnswer/{num}(num=*{num})}" th:if="*{questionAnswer != null}" class="sbtn">내용 확인</a>
             </td>
         </tr>
         </tbody>
