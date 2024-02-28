@@ -11,7 +11,7 @@
 
     <input type="hidden" name="redirectURL" th:if="${param.redirectURL != null}" th:value="${param.redirectURL}">
 
-    <dl>
+  <dl>
     <dt th:text="#{회원명}"></dt>
     <dd th:text="*{name}">
     </dd>
@@ -34,52 +34,65 @@
     <!--      <option value="kakao.com">kakao.com</option>-->
     <!--    </select>-->
 
+    <br>
+
     <h1 th:text="#{정보입력}"></h1>
+    <span style="color: red;">*는 필수입력 값 입니다.</span>
 
     <dl>
-      <dt th:text="#{아이디}"></dt>
+      <dt><span style="color: red;">*</span><span th:text="#{아이디}"></span></dt>
       <dd>
         <input type="text" class="inputId" name="userId" th:field="*{userId}" placeholder="공백없이 영문/숫자 6자">
-        <button type="button" class="id_btn" id="userId_dup_check" th:text="#{중복_확인}"></button>
+        <button type="button" class="sbtn on" id="userId_dup_check" th:text="#{중복_확인}"></button>
         <div class="id_check_ok"></div>
         <div class="error" th:each="err : ${#fields.errors('userId')}" th:text="${err}"></div>
       </dd>
     </dl>
 
+    <br>
+
     <dl>
-      <dt th:text="#{비밀번호}"></dt>
+      <dt><span style="color: red;">*</span><span th:text="#{비밀번호}"></span></dt>
       <dd>
         <input type="password" name="password" th:field="*{password}" placeholder="공백없이 영문(대&소문자) 숫자 및 특수문자 조합 8자 이상">
         <div class="error" th:each="err : ${#fields.errors('password')}" th:text="${err}"></div>
       </dd>
     </dl>
 
+    <br>
+
     <dl>
-      <dt th:text="#{비밀번호_확인}"></dt>
+      <dt><span style="color: red;">*</span><span th:text="#{비밀번호_확인}"></span></dt>
       <dd>
         <input type="password" name="confirmPassword" th:field="*{confirmPassword}" placeholder="비밀번호를 한번 더 입력하세요">
         <div class="error" th:each="err : ${#fields.errors('confirmPassword')}" th:text="${err}"></div>
       </dd>
     </dl>
 
+    <br>
+
     <dl>
-      <dt th:text="#{휴대전화}"></dt>
+      <dt><span style="color: red;">*</span><span th:text="#{휴대전화}"></span></dt>
       <dd>
         <input type="text" name="tel" th:field="*{tel}" placeholder="( - ) 빼고 숫자만 입력">
         <div class="error" th:each="err : ${#fields.errors('tel')}" th:text="${err}"></div>
       </dd>
     </dl>
 
+    <br>
+
     <dl>
-      <dt th:text="#{생년월일}"></dt>
+      <dt><span style="color: red;">*</span><span th:text="#{생년월일}"></span></dt>
       <dd>
         <input type="date" name="birth" th:max="9999-12-31" th:field="*{birth}" onchange="MaxMinDate();">
         <div class="error" th:each="err : ${#fields.errors('birth')}" th:text="${err}"></div>
       </dd>
     </dl>
 
+    <br>
+
     <dl>
-      <dt th:text="#{회원종류}"></dt>
+      <dt><span style="color: red;">*</span><span th:text="#{회원구분}"></span></dt>
         <select name="authority" th:field="*{authority}">
           <option name="authority" id="authority_USER" th:field="*{authority}" th:value="USER">일반회원</option>
           <option name="authority" id="authority_TEACHER" th:field="*{authority}" th:value="TEACHER">교육자</option>
@@ -88,6 +101,8 @@
         </select>
         <div class="error" th:each="err : ${#fields.errors('authority')}" th:text="${err}"></div>
     </dl>
+
+    <br>
 
     <dl>
       <dt th:text="#{성별}"></dt>
@@ -99,6 +114,8 @@
       </dd>
       <div class="error" th:each="err : ${#fields.errors('gender')}" th:text="${err}"></div>
     </dl>
+
+    <br>
 
     <dl>
       <dt th:text="#{수신동의}"></dt>
@@ -118,7 +135,9 @@
       </dd>
     </dl>
 
-    <button type="submit" th:utext="#{회원가입}"></button>
+    <br>
+
+    <button type="submit" class="sbtn on" th:utext="#{회원가입}"></button>
 
   </form>
 </section>

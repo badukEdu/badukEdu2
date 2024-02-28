@@ -14,7 +14,7 @@
         <input type="text" name="name" th:field="*{name}" th:placeholder="#{회원명}">
         <div class="error" th:each="err : ${#fields.errors('name')}" th:text="${err}"></div>
 
-        <button type="submit" th:text="#{아이디_찾기}"></button>
+        <button type="submit" class="sbtn on" th:text="#{아이디_찾기}"></button>
         <div class="error global" th:each="err : ${#fields.globalErrors()}" th:text="${err}"></div>
     </form>
 
