@@ -83,7 +83,8 @@ public class GameContentInfoService {
 
         if (!isAll) { // 구독 신청 가능 상품으로 한정 조회
             andBuilder.and(gameContent.endDate.loe(Expressions.dateTimeTemplate(LocalDate.class, "ADD_MONTHS(SYSDATE, {0})", gameContent.subscriptionMonths.intValue())))
-                    .and(gameContent.startDate.goe(LocalDate.now()));
+                    .and(gameContent.startDate.goe(LocalDate.now()))
+                    .or(gameContent.startDate.gt(LocalDate.now()));;
 
         }
 
