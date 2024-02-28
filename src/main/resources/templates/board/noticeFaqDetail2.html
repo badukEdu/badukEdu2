@@ -4,6 +4,7 @@
       layout:decorate="~{layouts/main}">
 
 <section layout:fragment="content">
+    <link rel="stylesheet" type="text/css" href="/style/guide/notice&faq.css">
     <h2>게시글 상세 조회</h2>
 
     <div th:if="${noticeDetail}">
@@ -33,17 +34,19 @@
     </div>
     <br>
     <h2>댓글</h2>
-    <div>
+    <div class="comment_btn">
         <form th:action="@{/comments/create}" method="post" th:object="${requestComment}" target="ifrmProcess">
             <input type="hidden" th:field="*{num}" th:value="${noticeDetail.num}">
             <input type="text" th:field="*{content}">
-            <button type="submit">작성</button>
+            <button type="submit" class="btn">작성</button>
         </form>
     </div>
-    <div>
-        <ul th:each="comment : ${noticeDetail.noticeComments}" th:object="${comment}">
-            <span th:text="*{member != null ? member.userId : '작성자 정보가 없습니다'}"></span>
-            <span th:text="*{content}"></span>
+    <h2>댓글창</h2>
+    <div class="comment_form">
+        <ul class="comment_list" th:each="comment : ${noticeDetail.noticeComments}" th:object="${comment}">
+            <span class="comment_author_name">ID :</span>
+            <span class="comment_author" th:text="*{member != null ? member.userId : '작성자 정보가 없습니다'}"></span>
+            <span class="comment_content" th:text="*{content}"></span>
             <span th:if="${@memberUtil.isWriter(comment.member)}">
                 <a th:href="@{/comments/delete/{num}(num=*{commentNum})}" target="ifrmProcess">삭제</a>
             </span>
