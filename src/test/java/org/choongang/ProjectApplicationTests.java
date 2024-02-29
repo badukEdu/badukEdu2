@@ -35,7 +35,7 @@ class ProjectApplicationTests {
         admin.setEmail("admin@test.org");
         admin.setPassword(encoder.encode("_aA123456"));
         admin.setAuthority(Authority.ADMIN);
-        admin.setBirth("1999-01-01");
+        admin.setBirth("2023-12-29");
         admin.setGender("M");
         admin.setTel("01001010101");
 
