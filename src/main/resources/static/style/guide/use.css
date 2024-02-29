@@ -1,0 +1,151 @@
+
+
+.use_page *{
+    margin:0;
+    padding:0;
+       /* font-family: "Nanum Barun Gothic", "나눔바른고딕", "맑은 고딕", "Malgun Gothic", "Apple SD Gothic Neo", sans-serif; */
+       font-family: 'Nanum Gothic', sans-serif;
+
+}
+.use_page a{
+    text-decoration: none;
+    color:inherit;
+
+}
+.use_page li{
+    list-style-type: none;
+}
+.use_page {
+    font-size:16px; color:#333;
+
+
+}
+
+
+.use_page .layout{
+    padding-top: 60px;
+    margin: 50px;
+    display: grid;
+    gap: 150px;
+
+}
+
+.use_page .main {
+
+
+    width: 100%;
+    text-align: center;
+    padding: 30px;
+
+
+}
+
+
+.use_page .layout_width {
+    width: 1200px;
+    margin: 0 auto;
+}
+
+.use_page section{
+    display: grid;
+    justify-content: center;
+    padding: 50px;
+    width: 1200px;
+    height: 500px;
+    margin: auto;
+
+
+}
+
+.use_page .top{
+    margin-top: 60px;
+}
+
+
+.use_page h1, .use_page h2, .use_page h3{
+    text-align: center;
+    margin: auto;
+
+
+}
+
+.use_page h1{
+    margin-top: 50px;
+    color: #fff;
+    font-size: 56px;
+    font-weight: bolder;
+    background-color: orange;
+    border: none;
+    padding: 15px;
+
+}
+
+
+.use_page h2{
+     margin: auto;
+    color: rgb(23, 23, 218);
+    font-size: 26px;
+
+}
+
+
+.use_page h3{
+    margin: 20px;
+
+}
+
+
+.use_page h4{
+
+    text-align: center;
+}
+
+
+
+.use_page img{
+
+    width: 1000px;
+    display: block;
+    margin: 100px auto;
+
+}
+
+.use_page .answer img{
+
+    height: 800px;
+}
+
+
+.use_page .green{
+    background-color: rgb(204, 243, 125);
+    border: none;
+    padding: 15px;
+
+
+}
+
+
+.use_page .yellow{
+    background-color: rgba(241, 241, 16, 0.959);
+    width: 1000px;
+    margin-bottom: 100px;
+    border: none;
+    padding: 15px;
+
+
+}
+
+
+.use_page .skyblue{
+    background-color: rgb(125, 211, 245);
+    width: 1000px;
+    margin-bottom: 100px;
+    border: none;
+        padding: 15px;
+
+
+}
+
+.bottom{
+padding: 60px;
+}
