@@ -6,7 +6,8 @@
     <script src="/js/admin/board/form.js"></script>
     <link rel="stylesheet" type="text/css" href="/style/admin/board/form.css">
     <h2>공지 등록</h2>
-    <form th:action="@{/admin/board/noticeFaqAdd}" method="post" th:object="${RequestBoardPosts}" autocomplete="off">
+    <form th:action="@{/admin/board/noticeFaqAdd}" method="post" th:object="${requestBoardPosts}" autocomplete="off">
+        <div class="error" th:each="err : ${#fields.globalErrors()}" th:text="${err}"></div>
         <div class="tableContainer">
             <table class="table_rows">
                 <tr>
@@ -16,6 +17,7 @@
                             <option value="notice">공지사항</option>
                             <option value="faq">FAQ</option>
                         </select>
+                        <div class="error" th:each="err : ${#fields.errors('type')}" th:text="${err}"></div>
                     </td>
                 </tr>
 
@@ -26,6 +28,7 @@
                         <label for="onTop">
                             <input type="checkbox" id="onTop" th:field="*{onTop}" name="onTop">
                             중요글로 상단 노출
+                            <div class="error" th:each="err : ${#fields.errors('onTop')}" th:text="${err}"></div>
                         </label>
                     </td>
                 </tr>
@@ -35,6 +38,7 @@
                     <th>제목</th>
                     <td>
                         <input type="text" id="title" th:field="*{title}" name="title" placeholder="제목을 입력하세요">
+                        <div class="error" th:each="err : ${#fields.errors('title')}" th:text="${err}"></div>
                     </td>
                 </tr>
 
@@ -47,6 +51,8 @@
                         <input type="radio" id="expectedPostingDate" th:field="*{postingType}" name="postingType" value="expectedPostingDate">
                         <label for="expectedPostingDate">게시 예정일</label>
                         <input type="date" id="calendar" name="scheduledDate" class="calendar">
+
+                        <div class="error" th:each="err : ${#fields.errors('postingType')}" th:text="${err}"></div>
                     </td>
                 </tr>
 
@@ -55,6 +61,7 @@
                     <th>질의</th>
                     <td>
                         <textarea id="question" th:field="*{question}" name="question" rows="3" cols="30"></textarea>
+                        <div class="error" th:each="err : ${#fields.errors('question')}" th:text="${err}"></div>
                     </td>
                 </tr>
 
@@ -63,6 +70,7 @@
                     <th>답변</th>
                     <td>
                         <textarea id="answer" th:field="*{answer}" name="answer" rows="10" cols="30"></textarea>
+                        <div class="error" th:each="err : ${#fields.errors('answer')}" th:text="${err}"></div>
                     </td>
                 </tr>
 
@@ -71,6 +79,7 @@
                     <th>내용</th>
                     <td>
                         <textarea id="content" th:field="*{content}" name="content" rows="20" cols="30"></textarea>
+                        <div class="error" th:each="err : ${#fields.errors('content')}" th:text="${err}"></div>
                     </td>
                 </tr>
 

@@ -6,6 +6,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.choongang.admin.board.controllers.RequestBoardPosts;
 import org.choongang.admin.board.entities.Notice_;
+import org.choongang.admin.board.entities.Reply_;
+import org.choongang.admin.board.repositories.ReplyRepository;
 import org.choongang.board.controllers.RequestQnaAdd;
 import org.choongang.board.entities.QQna;
 import org.choongang.board.entities.Qna;
@@ -14,9 +16,12 @@ import org.choongang.board.repositories.QnaRepository;
 import org.choongang.commons.ListData;
 import org.choongang.commons.Pagination;
 import org.choongang.commons.Utils;
+import org.choongang.email.service.EmailMessage;
+import org.choongang.email.service.EmailSendService;
 import org.choongang.file.entities.FileInfo;
 import org.choongang.file.service.FileInfoService;
 import org.choongang.member.MemberUtil;
+import org.choongang.member.entities.Member;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -38,6 +43,7 @@ public class QnaService {
     private final FileInfoService fileInfoService;
     private final QnaRepository qnaRepository;
     private final MemberUtil memberUtil;
+    private final EmailSendService emailSendService;
 
 
     /* QnA 등록, 수정 서비스 S */
@@ -120,6 +126,24 @@ public class QnaService {
 
     /* 등록된 QnA 조회(등록 순) E */
 
+        public void replySave(Qna form) {
+
+            Qna qna = qnaRepository.findById(form.getNum()).orElseThrow();
+            qna.setAnswer(form.getAnswer());
+
+            qnaRepository.save(qna);
+
+            Member member = qna.getMember();
+
+//            String subject = "숙제가 전송되었습니다.";
+//            String message = member.getName() + "님(" + member.getUserId() + ")\n"
+//                    + homework.getName() + "  숙제가 등록되었습니다.\n" +
+//                    "제출 마감 일자는 " + homework.getDeadLine() + "입니다.";
+//            emailMessage = new EmailMessage(member.getEmail(), subject, message);
+//            emailSendService.sendMail(emailMessage);
+
+        }
+
 
     /* 게시글 번호로 상세 페이지 조회 S */
 
@@ -137,6 +161,8 @@ public class QnaService {
     }
 
     /* QnA 게시글 삭제 E */
+
+
 
     public Qna getById(Long num) {
 
@@ -160,4 +186,11 @@ public class QnaService {
         if(items != null && !items.isEmpty()) data.setThumbnail(items.get(0));
 
     }
+
+    public boolean isAnswered(Qna answerData) {
+
+        return answerData.getAnswer() != null && !answerData.getAnswer().isEmpty();
+    }
+
+
 }
