@@ -43,26 +43,9 @@
             </thead>
             <tbody  id="homework_trainingData">
                 <tr>
-                    <th colspan="6">예시용 뷰입니다. 숙제를 더블클릭하세요.</th>
+                    <th colspan="6"><h1>숙제를 더블클릭하세요.</h1></th>
                 </tr>
-                <tr th:each="trainingData: ${trainingDataList}" th:object="${trainingData}">
-                    <input type="hidden" th:value="*{num}" name="chk">
-                    <td th:text="*{member.name}"></td>
-                    <td th:text="*{createdAt}"></td>
-                    <td th:text="*{homeworkAnswer}"></td>
-                    <td th:text="*{question}"></td>
-                    <td th:text="*{sendDate}"></td>
-                    <td width="100">
-                        <label for="score" th:field="*{score}">
-                            <select id="score" name="score">
-                                <option value="-1" selected>선택</option>
-                                <option value="0">미흡</option>
-                                <option value="1">보통</option>
-                                <option value="2">우수</option>
-                            </select>
-                        </label>
-                    </td>
-                </tr>
+
             </tbody>
         </table>
         <div class="submit_btns">

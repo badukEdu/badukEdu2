@@ -504,8 +504,8 @@ public class TeacherController implements ExceptionProcessor {
 
         model.addAttribute("items", items);
 
-        List<TrainingData> trainingDataList = trainingDataRepository.findAll();
-        model.addAttribute("trainingDataList", trainingDataList);
+//        List<TrainingData> trainingDataList = trainingDataRepository.findAll();
+//        model.addAttribute("trainingDataList", trainingDataList);
 
         return "teacher/homework/assess";
     }
