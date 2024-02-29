@@ -77,6 +77,8 @@ public class GuideController implements ExceptionProcessor  {
     @GetMapping("/detail/{num}")
     public String detail(@PathVariable("num") Long num, @ModelAttribute requestComment form, Model model){
 
+        commonProcess("detail", model);
+
         // 경로 변수 num이 null이거나 음수인 경우에는 board/list/noticeFaq로 리다이렉션
         if (num <= 0) {
             return "redirect:/guide/list/noticeFaq";
@@ -115,6 +117,7 @@ public class GuideController implements ExceptionProcessor  {
         if (mode.equals("product")) pageTitle = "상품 소개::" + pageTitle;
         if (mode.equals("notice&faq")) pageTitle = "Notice & QnA::" + pageTitle;
         if (mode.equals("qna")) pageTitle = "Q&A::" + pageTitle;
+        if (mode.equals("detail")) pageTitle = "공지 상세::" + pageTitle;
 
         model.addAttribute("addCss", addCss);
         model.addAttribute("addScript", addScript);
