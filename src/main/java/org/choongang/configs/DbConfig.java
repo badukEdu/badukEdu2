@@ -15,6 +15,6 @@ public class DbConfig {
   @Bean
   public JPAQueryFactory jpaQueryFactory() {
 
-    return null;
+    return new JPAQueryFactory(em);
   }
 }

@@ -88,10 +88,11 @@ public class MemberController implements ExceptionProcessor {
         search.setSDate(sDate);
 
         Map<String, Long> data = statisticService.getData(search);
+
         try {
             String jsonData = objectMapper.writeValueAsString(data);
             model.addAttribute("json", jsonData);
-            System.out.println(jsonData);
+
         } catch (JsonProcessingException e) {
 
         }
@@ -107,7 +108,7 @@ public class MemberController implements ExceptionProcessor {
 
         if (mode.equals("list")) {
             pageTitle = "회원 관리::" + pageTitle;
-        } else if (mode.equals("staticstic")) {
+        } else if (mode.equals("statistic")) {
             addScript.add("common/chart");
             addScript.add("admin/member/stat");
 
