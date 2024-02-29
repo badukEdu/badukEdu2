@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/main}">
+
+<section layout:fragment="content">
+  <h1>회원 통계</h1>
+  <form name="frmSearch" method="get" th:action="@{/admin/member/stat}" autocomplete="off" th:object="${requestSearch}">
+    <table class="table_cols">
+      <tr>
+        <th>검색유형</th>
+        <td>
+          <input type="radio" name="type" value="DAY" id="type_DAY" th:field="*{type}">
+        </td>
+      </tr>
+    </table>
+
+  </form>
+
+
+</section>
+</html>

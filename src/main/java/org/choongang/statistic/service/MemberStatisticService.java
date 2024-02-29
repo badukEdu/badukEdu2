@@ -9,6 +9,7 @@ import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.choongang.admin.order.entities.QOrderInfo;
 import org.choongang.member.entities.QMember;
+import org.choongang.statistic.controllers.RequestSearch;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -25,6 +26,10 @@ import java.util.stream.Collectors;
 public class MemberStatisticService {
 
   private final JPAQueryFactory jpaQueryFactory;
+
+  public Map<String, Long> getData(RequestSearch search) {
+    return getData(search.getSDate(), search.getEDate(), search.getType());
+  }
 
   public Map<String, Long> getData(LocalDate sDate, String type) {
     return getData(sDate, null, type);

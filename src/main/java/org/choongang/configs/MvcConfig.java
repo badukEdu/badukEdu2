@@ -1,5 +1,7 @@
 package org.choongang.configs;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.MessageSource;
@@ -42,5 +44,13 @@ public class MvcConfig implements WebMvcConfigurer {
     public HiddenHttpMethodFilter httpMethodFilter() {
 
         return new HiddenHttpMethodFilter();
+    }
+
+    @Bean
+    public ObjectMapper objectMapper() {
+        ObjectMapper om = new ObjectMapper();
+        om.registerModule(new JavaTimeModule());
+
+        return om;
     }
 }

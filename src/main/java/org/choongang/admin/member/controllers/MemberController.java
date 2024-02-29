@@ -1,5 +1,8 @@
 package org.choongang.admin.member.controllers;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.choongang.commons.ExceptionProcessor;
 import org.choongang.commons.ListData;
@@ -8,13 +11,19 @@ import org.choongang.member.service.KickService;
 import org.choongang.member.service.MemberInfoService;
 import org.choongang.menus.Menu;
 import org.choongang.menus.MenuDetail;
+import org.choongang.statistic.controllers.RequestSearch;
+import org.choongang.statistic.service.MemberStatisticService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 @Controller("adminMemberController")
 @RequestMapping("/admin/member")
@@ -23,6 +32,9 @@ public class MemberController implements ExceptionProcessor {
 
     private final MemberInfoService memberInfoService;
     private final KickService kickService;
+    private final MemberStatisticService statisticService;
+    private final ObjectMapper objectMapper;
+
 
     @ModelAttribute("menuCode")
     public String getMenuCode() {
@@ -69,11 +81,24 @@ public class MemberController implements ExceptionProcessor {
 
 
     @GetMapping("/stat")
-    public String staticsic(Model model) {
-        commonProcess("staticstic", model);
+    public String statistic(@Valid @ModelAttribute RequestSearch search, Errors erros, Model model) {
+        commonProcess("statistic", model);
+
+        LocalDate sDate = Objects.requireNonNullElse(search.getSDate(), LocalDate.now().minusWeeks(1));
+        search.setSDate(sDate);
+
+        Map<String, Long> data = statisticService.getData(search);
+        try {
+            String jsonData = objectMapper.writeValueAsString(data);
+            model.addAttribute("json", jsonData);
+            System.out.println(jsonData);
+        } catch (JsonProcessingException e) {
+
+        }
 
         return "admin/member/stat";
     }
+
 
     private void commonProcess(String mode, Model model) {
         mode = StringUtils.hasText(mode) ? mode : "list";
@@ -82,6 +107,10 @@ public class MemberController implements ExceptionProcessor {
 
         if (mode.equals("list")) {
             pageTitle = "회원 관리::" + pageTitle;
+        } else if (mode.equals("staticstic")) {
+            addScript.add("common/chart");
+            addScript.add("admin/member/stat");
+
         }
 
 
