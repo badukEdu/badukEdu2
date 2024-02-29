@@ -21,7 +21,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MemberController implements ExceptionProcessor {
 
-    private final MemberInfoService infoService;
+    private final MemberInfoService memberInfoService;
     private final KickService kickService;
 
     @ModelAttribute("menuCode")
@@ -45,7 +45,7 @@ public class MemberController implements ExceptionProcessor {
     public String list(@ModelAttribute  MemberSearch search, Model model) {
         commonProcess("list", model);
 
-        ListData<Member> data = infoService.getList(search);
+        ListData<Member> data = memberInfoService.getList(search);
 
         model.addAttribute("items", data.getItems()); // 목록
         model.addAttribute("pagination", data.getPagination()); // 페이징
@@ -58,6 +58,21 @@ public class MemberController implements ExceptionProcessor {
         commonProcess("list", model);
         kickService.deleteList(chks);
         return "redirect:/admin/member";
+    }
+
+//    @PostMapping("/lock")
+//    public String lockMembers(@RequestParam("memberIds") String[] memberIds, Model model) {
+//        commonProcess("list", model);
+//        memberInfoService.lockMembers(memberIds);
+//        return "redirect:/admin/member";
+//    }
+
+
+    @GetMapping("/stat")
+    public String staticsic(Model model) {
+        commonProcess("staticstic", model);
+
+        return "admin/member/stat";
     }
 
     private void commonProcess(String mode, Model model) {
