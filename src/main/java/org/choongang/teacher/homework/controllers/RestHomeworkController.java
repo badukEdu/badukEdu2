@@ -9,6 +9,7 @@ import org.choongang.teacher.homework.service.HomeworkInfoService;
 import org.choongang.teacher.homework.service.TrainingDataInfoService;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @RestController
@@ -97,10 +98,10 @@ public class RestHomeworkController {
             tableData.append("<input type='hidden' name='chk' value='").append(trainingData.getNum()).append("'>");
             tableData.append("<tr>");
             tableData.append("<td>").append(trainingData.getMember().getName()).append("</td>"); // 학습자명
-            tableData.append("<td>").append(trainingData.getCreatedAt()).append("</td>"); // 숙제 배포일자
+            tableData.append("<td>").append(trainingData.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))).append("</td>"); // 숙제 배포일자
             tableData.append("<td>").append(trainingData.getHomeworkAnswer()).append("</td>"); // 학습자 작성 정답
             tableData.append("<td class='assess' onclick='answerPopup(").append(trainingData.getNum()).append(")'>").append(trainingData.getQuestion()).append("</td>"); // 질문사항
-            tableData.append("<td>").append(trainingData.getSendDate()).append("</td>"); // 학습자 제출일자
+            tableData.append("<td>").append(trainingData.getSendDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))).append("</td>"); // 학습자 제출일자
 //            tableData.append("<td>").append(trainingData.getScore()).append("</td>"); // 평가
             tableData.append("<td width='100'><label><select name='score'>");
             if (trainingData.getScore() == null || trainingData.getScore() == -1) {
