@@ -2,6 +2,7 @@ package org.choongang.admin.board.controllers;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Lob;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -24,6 +25,7 @@ public class RequestBoardPosts {
 
     private String title;
 
+    @NotBlank
     private String postingType; // 게시 타입
 
     private LocalDate scheduledDate; // 예약 게시 일자
