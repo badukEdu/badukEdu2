@@ -16,7 +16,7 @@
             <tr th:if="${items == null || items.isEmpty()}">
                 <td colspan="6">숙제 정보가 없습니다.</td>
             </tr>
-            <tr th:unless="${items == null || items.isEmpty()}" th:each="item : ${items}" th:object="${item}" th:id="*{'homework_' + num}" th:value="*{num}" ondblclick="updateTrainingData(this);">
+            <tr th:unless="${items == null || items.isEmpty()}" th:each="item : ${items}" th:object="${item}" th:id="*{'homework_' + num}" th:value="*{num}" ondblclick="updateTrainingData(this);" class="selected">
                 <td th:text="*{name}"></td>
                 <td th:text="*{content}"></td>
                 <td th:text="*{studyGroup.name}"></td>

@@ -99,7 +99,7 @@ public class RestHomeworkController {
             tableData.append("<td>").append(trainingData.getMember().getName()).append("</td>"); // 학습자명
             tableData.append("<td>").append(trainingData.getCreatedAt()).append("</td>"); // 숙제 배포일자
             tableData.append("<td>").append(trainingData.getHomeworkAnswer()).append("</td>"); // 학습자 작성 정답
-            tableData.append("<td onclick='answerPopup(").append(trainingData.getNum()).append(")'>").append(trainingData.getQuestion()).append("</td>"); // 질문사항
+            tableData.append("<td class='assess' onclick='answerPopup(").append(trainingData.getNum()).append(")'>").append(trainingData.getQuestion()).append("</td>"); // 질문사항
             tableData.append("<td>").append(trainingData.getSendDate()).append("</td>"); // 학습자 제출일자
 //            tableData.append("<td>").append(trainingData.getScore()).append("</td>"); // 평가
             tableData.append("<td width='100'><label><select name='score'>");
