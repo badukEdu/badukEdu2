@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/main}">
+
+<section layout:fragment="content">
+    <h1>매출 통계</h1>
+    <form name="frmSearch" method="get" th:action="@{/admin/order/stat}" autocomplete="off" th:object="${requestSearch}">
+        <table class="table_cols">
+            <tr>
+                <th width="180">검색유형</th>
+                <td width="250">
+                    <input type="radio" name="type" value="DAY" id="type_DAY" th:field="*{type}">
+                    <label for="type_DAY">일별 통계</label>
+
+                    <input type="radio" name="type" value="MONTH" id="type_MONTH" th:field="*{type}">
+                    <label for="type_MONTH">월별 통계</label>
+                </td>
+                <th width="180">기간검색</th>
+                <td>
+                    <div class="input_grp">
+                        <input type="date" name="sDate" th:field="*{sDate}"> ~
+                        <input type="date" name="eDate" th:field="*{eDate}">
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <div class="search_btn">
+            <button type="submit" class="btn">검색하기</button>
+        </div>
+    </form>
+    <input type="hidden" name="json" id="json" th:value="${json}">
+
+    <canvas id="chart"></canvas>
+</section>
+</html>

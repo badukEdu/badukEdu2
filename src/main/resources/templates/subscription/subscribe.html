@@ -36,7 +36,7 @@
                     </th>
                     <th width="300">게임콘텐츠명</th>
                     <th width="120">콘텐츠이미지</th>
-                    <th width="250">가격 / 구독가능기간</th>
+                    <th width="280">가격 / (원가) 구독가능기간</th>
                     <th>상품소개</th>
                 </tr>
             </thead>
@@ -49,7 +49,11 @@
                     <td align="center">
                         <th:block th:if="*{thumbnail != null}" th:utext="*{@utils.printThumb(thumbnail.seq, 100, 100, 'image')}"></th:block>
                     </td>
-                    <td th:text="*{originalPrice + '원 / ' + startDate + '~' + endDate + '(' + subscriptionMonths + '개월)'}"></td>
+                    <td>
+                        <span th:if="*{salePrice != null}" th:text="*{salePrice + '원 / '}"></span>
+                        <del th:if="*{originalPrice != null}" th:text="*{originalPrice + '원'}"></del>
+                        <span th:text="*{'/' + startDate + '~' + endDate + '(' + subscriptionMonths + '개월)'}"></span>
+                    </td>
                     <td th:text="*{packageContents}"></td>
                 </tr>
             </tbody>

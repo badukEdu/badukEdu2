@@ -34,4 +34,7 @@ public class OrderItem extends Base {
     private long salePrice; // 게임 판매가
     private LocalDate startDate; // 구독 시작일
     private LocalDate endDate; // 구독 종료일
+    private String orderName; // 구매자명
+    private long totalPayment; // 주문합계
+
 }
