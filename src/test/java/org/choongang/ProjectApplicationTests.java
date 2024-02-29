@@ -27,7 +27,7 @@ class ProjectApplicationTests {
         admin.setEmailAgree(true);
         admin.setEnable(true);
         admin.setSMSAgree(true);
-        admin.setLevels(100L);
+        admin.setLevels(5L);
         admin.setUserId("admin");
         admin.setEmail("admin@test.org");
         admin.setPassword(encoder.encode("_aA123456"));
@@ -49,7 +49,7 @@ class ProjectApplicationTests {
         member1.setEmailAgree(true);
         member1.setEnable(true);
         member1.setSMSAgree(true);
-        member1.setLevels(100L);
+        member1.setLevels(5L);
         member1.setUserId("teacher01");
         member1.setEmail("teacher01@naver.com");
         member1.setPassword(encoder.encode("_aA123456"));
@@ -70,7 +70,7 @@ class ProjectApplicationTests {
         member2.setEmailAgree(true);
         member2.setEnable(true);
         member2.setSMSAgree(true);
-        member2.setLevels(100L);
+        member2.setLevels(5L);
         member2.setUserId("teacher02");
         member2.setEmail("teacher02@naver.com");
         member2.setPassword(encoder.encode("_aA123456"));
