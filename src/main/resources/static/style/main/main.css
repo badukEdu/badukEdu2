@@ -1,6 +1,5 @@
 :root{
 --border-color:#cdcdcd;
---color:#fff;
 --sub-color:#343434;
 }
 
@@ -65,7 +64,7 @@ background-size: cover;
 .content img{
 width: 100%;
 }
-.content>h2{ font-size: 14px; color: red;}
+.content>h2{ font-size: 28px; color: orange; text-align: center; margin-top: 50px; line-height: 35px; }
 .content>h2>span{
 border-bottom: 1px solid var(--border-color);
 padding-bottom: 6px;
@@ -103,7 +102,7 @@ background-color: rgb(204, 243, 125);
 .content02,
 .content03,
 .content04,
-.content05>p:nth-of-type(2){
+.content05{
 font-size: 16px;
 
 
@@ -124,11 +123,34 @@ background-color: purple;
 
 .content08{
 
-background-color:burlywood;
+background-color: antiquewhite;
 }
 .content09{
 
-background-color:burlywood;
+background-color: antiquewhite;
 }
+
+
+footer {
+width: 1400px;
+margin: auto;
+border-top: 2px solid black;
+border-left: 2px solid black;
+border-right: 2px solid black;
+
+}
+
+ footer h1, footer h2, footer h3{
+              text-align: center;
+                line-height: 30px;
+                margin-top: 100px;
+            }
+
+            footer address{
+            margin-top: 80px;
+            margin-bottom: 80px;
+            text-align: center;
+
+            }
 
 

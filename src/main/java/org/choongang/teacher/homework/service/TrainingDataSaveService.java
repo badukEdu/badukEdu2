@@ -15,7 +15,9 @@ import org.choongang.teacher.homework.repositories.TrainingDataRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -74,11 +76,13 @@ public class TrainingDataSaveService {
 
                 // 숙제 배포되었다고 이메일 전송
                 String subject = "숙제가 전송되었습니다.";
-                String message = member.getName() + "님(" + member.getUserId() + ")\n"
-                        + homework.getName() + "  숙제가 등록되었습니다.\n" +
-                        "제출 마감 일자는 " + homework.getDeadLine() + "입니다.";
+                String message = member.getName() + "님(" + member.getUserId() + ")<br>"
+                        + homework.getName() + "  숙제가 등록되었습니다.<br>" +
+                        "제출 마감 일자는 " + homework.getDeadLine() + "입니다.<br>";
                 emailMessage = new EmailMessage(member.getEmail(), subject, message);
-                emailSendService.sendMail(emailMessage);
+                Map<String, Object> tplData = new HashMap<>();
+//                tplData.put("otherMessage", "messageContent");
+                emailSendService.sendMail(emailMessage, "homework_distribute", tplData);
             }
         }
 
