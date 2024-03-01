@@ -42,7 +42,7 @@
                     <th:block th:if="*{gameContent != null && gameContent.thumbnail != null}" th:utext="*{@utils.printThumb(gameContent.thumbnail.seq, 100, 100, 'image')}"></th:block>
                 </td>
                 <td>
-                    <th:block th:text="*{TotalPayment >= 1000 ? #numbers.formatInteger(TotalPayment, 3, 'COMMA') : TotalPayment}"></th:block>원 /
+                    <th:block th:text="*{salePrice >= 1000 ? #numbers.formatInteger(salePrice, 3, 'COMMA') : salePrice}"></th:block>원 /
                     <th:block th:text="*{startDate + '~' + endDate + '(' + subscriptionMonths + '개월)'}"></th:block>
                 </td>
                 <td th:text="*{startDate}">구매일자</td>

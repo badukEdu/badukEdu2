@@ -7,13 +7,11 @@ import java.time.LocalDate;
 
 @Data
 public class RequestSearch {
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    private LocalDate sDate;
 
-  @DateTimeFormat(pattern = "yyyy-MM-dd")
-  private LocalDate sDate;
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    private LocalDate eDate;
 
-  @DateTimeFormat(pattern = "yyyy-MM-dd")
-  private LocalDate eDate;
-
-  private String type = "DAY";
-
+    private String type = "DAY";
 }

@@ -23,9 +23,6 @@ public class RequestQnaAdd {
     private String content;
 
     @Column
-    private String answer;
-
-    @Column
     private String fileName; // 파일명 (파일명)
 
     @Column

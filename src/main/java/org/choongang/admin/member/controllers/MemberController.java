@@ -30,11 +30,10 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class MemberController implements ExceptionProcessor {
 
-    private final MemberInfoService memberInfoService;
+    private final MemberInfoService infoService;
     private final KickService kickService;
     private final MemberStatisticService statisticService;
     private final ObjectMapper objectMapper;
-
 
     @ModelAttribute("menuCode")
     public String getMenuCode() {
@@ -57,7 +56,7 @@ public class MemberController implements ExceptionProcessor {
     public String list(@ModelAttribute  MemberSearch search, Model model) {
         commonProcess("list", model);
 
-        ListData<Member> data = memberInfoService.getList(search);
+        ListData<Member> data = infoService.getList(search);
 
         model.addAttribute("items", data.getItems()); // 목록
         model.addAttribute("pagination", data.getPagination()); // 페이징
@@ -72,14 +71,6 @@ public class MemberController implements ExceptionProcessor {
         return "redirect:/admin/member";
     }
 
-//    @PostMapping("/lock")
-//    public String lockMembers(@RequestParam("memberIds") String[] memberIds, Model model) {
-//        commonProcess("list", model);
-//        memberInfoService.lockMembers(memberIds);
-//        return "redirect:/admin/member";
-//    }
-
-
     @GetMapping("/stat")
     public String statistic(@Valid @ModelAttribute RequestSearch search, Errors erros, Model model) {
         commonProcess("statistic", model);
@@ -88,18 +79,14 @@ public class MemberController implements ExceptionProcessor {
         search.setSDate(sDate);
 
         Map<String, Long> data = statisticService.getData(search);
-
         try {
             String jsonData = objectMapper.writeValueAsString(data);
             model.addAttribute("json", jsonData);
-
-        } catch (JsonProcessingException e) {
-
-        }
+            System.out.println(jsonData);
+        } catch (JsonProcessingException e) {}
 
         return "admin/member/stat";
     }
-
 
     private void commonProcess(String mode, Model model) {
         mode = StringUtils.hasText(mode) ? mode : "list";

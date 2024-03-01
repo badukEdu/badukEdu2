@@ -504,8 +504,8 @@ public class TeacherController implements ExceptionProcessor {
 
         model.addAttribute("items", items);
 
-//        List<TrainingData> trainingDataList = trainingDataRepository.findAll();
-//        model.addAttribute("trainingDataList", trainingDataList);
+        List<TrainingData> trainingDataList = trainingDataRepository.findAll();
+        model.addAttribute("trainingDataList", trainingDataList);
 
         return "teacher/homework/assess";
     }
@@ -578,7 +578,6 @@ public class TeacherController implements ExceptionProcessor {
         } else if (mode.equals("assess")) {
             pageTitle = "숙제 학습 진도 조회::" + pageTitle;
             addScript.add("homework/" + mode);
-            addCss.add("teacher/homework/" + mode);
         } else if (mode.equals("accept")) {
             pageTitle = "회원 그룹 가입 승인::" + pageTitle;
         }else if (mode.equals("detail")) {

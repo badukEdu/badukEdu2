@@ -21,7 +21,7 @@
     </tr>
     <tr>
         <th>답변 알림 신청 여부</th>
-        <td th:text="${qnaDetail.answerAlert}"></td>
+        <td th:text="*{qnaDetail.answerAlert}"></td>
     </tr>
     <tr>
         <th>제목</th>
@@ -31,31 +31,22 @@
         <th>내용</th>
         <td th:text="${qnaDetail.content}"></td>
     </tr>
-    <tr th:if="${@memberUtil.isWriter(qnaDetail.member) || @memberUtil.isAdmin()}">
-        <th>답변</th>
-        <form th:if="${@memberUtil.isAdmin()}" th:action="@{/guide/reply}" method="post" onsubmit="return confirm('저장하시겠습니까?');">
-            <input type="hidden" th:field="${qnaDetail.num}">
-            <td>
-                <textarea name="answer" th:field="${qnaDetail.answer}"></textarea>
-                <button type="submit" th:if="${@memberUtil.isAdmin()}">저장</button>
-            </td>
-        </form>
-        <td th:if="${@memberUtil.isWriter(qnaDetail.member) && !@memberUtil.isAdmin()}">
-            <textarea th:text="${qnaDetail.answer}" readonly></textarea>
-        </td>
+    <tr>
+        <th></th>
+        <td></td>
     </tr>
 </table>
 </div>
 
 <div>
     <tr>
-        <form th:if="${qnaDetail != null and @memberUtil.isWriter(qnaDetail.member)}" th:action="@{/guide/qnaEdit/{num}(num=${qnaDetail.num})}" method="get">
+        <form th:action="@{/guide/qnaEdit/{num}(num=${qnaDetail.num})}" method="get">
         <input type="submit" value="수정하기">
     </form>
-    <a  th:if="${qnaDetail != null and (qnaDetail.member != null and (@memberUtil.isWriter(qnaDetail.member) or @memberUtil.isAdmin()))}"  th:href="@{/guide/qnaDelete/{num}(num=*{num})}" onclick="return confirm('정말 삭제하시겠습니까?');">
+    <a th:href="@{/guide/qnaDelete/{num}(num=*{num})}" onclick="return confirm('정말 삭제하시겠습니까?');">
         <input type="submit" value="삭제하기">
     </a>
     </tr>
 </div>
-</section>
+</section>>
 </html>

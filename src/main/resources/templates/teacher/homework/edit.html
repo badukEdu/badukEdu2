@@ -4,7 +4,7 @@
       layout:decorate="~{layouts/main}">
 
 <section layout:fragment="content">
-    <h1>숙제 수정</h1>
+    <h2>숙제 수정</h2>
     <form method="post" th:action="@{/teacher/homework/save}" autocomplete="off" th:object="${requestHomework}">
         <input type="hidden" th:field="*{num}">
         <input type="hidden" th:field="*{mode}" value="edit">

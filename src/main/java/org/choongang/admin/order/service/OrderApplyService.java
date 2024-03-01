@@ -81,9 +81,6 @@ public class OrderApplyService {
             orderItem.setSalePrice(item.getSalePrice());
             orderItem.setStartDate(startDate);
             orderItem.setEndDate(endDate);
-            orderItem.setTotalPayment(orderItem.getTotalPayment() + item.getSalePrice());
-            orderItem.setOrderName(orderInfo.getOrderName());
-
 
             orderItems.add(orderItem);
         }

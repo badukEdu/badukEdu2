@@ -11,7 +11,6 @@ import org.choongang.admin.board.entities.NoticeSearch;
 import org.choongang.admin.board.entities.Notice_;
 import org.choongang.admin.board.entities.QNotice_;
 import org.choongang.admin.board.repositories.BoardRepository;
-import org.choongang.admin.board.repositories.NoticeCommentRepository;
 import org.choongang.admin.education.entities.EduData;
 import org.choongang.commons.ListData;
 import org.choongang.commons.Pagination;
@@ -25,7 +24,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.util.Comparator;
@@ -40,7 +38,6 @@ public class BoardService {
 
     private final HttpServletRequest request;
     private final FileInfoService fileInfoService;
-    private final NoticeCommentRepository noticeCommentRepository;
     private final BoardRepository boardRepository;
     private final MemberUtil memberUtil;
 
@@ -183,10 +180,7 @@ public class BoardService {
 
     /* 게시글 삭제 S */
 
-    @Transactional
     public void deleteById(Long num) {
-
-        noticeCommentRepository.deleteById(num);
 
         boardRepository.deleteById(num);
     }

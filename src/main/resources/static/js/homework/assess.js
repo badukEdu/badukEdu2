@@ -1,28 +1,32 @@
-window.addEventListener("DOMContentLoaded", function() {
+//window.addEventListener("DOMContentLoaded", function() {
 //    let form = null;
 //
 //
-    const submitBtn = document.getElementById("submit");
+//    const submitBtn = document.getElementById("submit");
 //
-    assessFrm.addEventListener("submit", function(e) {
-        const scores = document.getElementsByName("score");
-        let allNotSelected = true;
-
-        for (const score of scores) {
-            if (score.value != "-1") {
-                allNotSelected = false;
-                break;
-            }
-        }
-
-        if (allNotSelected) {
-            alert("아무것도 체크되지 않았습니다.");
-            e.preventDefault();
-        }
-
-    });
-
-});
+//    submitBtn.addEventListener("click", function(e) {
+//        e.preventDefault();
+//
+//        //const assessFrm = document.getElementsbyClassName("assessFrm");
+//        const scores = document.getElementsByName("score");
+//
+//        let allNotSelected = true;
+//
+//        for (const score of scores) {
+//            if (score.value != "-1") {
+//                allNotSelected = false;
+//                break;
+//            }
+//        }
+//
+//        if (allNotSelected) {
+//            alert("아무것도 체크되지 않았습니다.");
+//            return;
+//        }
+//        assessFrm.submit();
+//    });
+//
+//});
 
 
 function updateTrainingData(el) {

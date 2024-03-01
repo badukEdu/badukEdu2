@@ -48,7 +48,7 @@ public class Notice_ extends Base {
     @Column
     private String fileAddress; // 파일경로 (파일 경로)
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String postingType; // 게시 타입(즉시, 예정)
 
     @Column

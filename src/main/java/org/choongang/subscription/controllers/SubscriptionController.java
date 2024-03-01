@@ -12,13 +12,10 @@ import org.choongang.admin.order.controllers.OrderSearch;
 import org.choongang.admin.order.entities.OrderItem;
 import org.choongang.admin.order.service.OrderApplyService;
 import org.choongang.admin.order.service.OrderInfoService;
-import org.choongang.commons.ExceptionProcessor;
 import org.choongang.commons.ListData;
-import org.choongang.commons.exceptions.AlertBackException;
 import org.choongang.member.MemberUtil;
 import org.choongang.member.entities.Member;
 import org.choongang.teacher.group.services.stGroup.SGInfoService;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -34,7 +31,7 @@ import java.util.Map;
 @RequestMapping("/subscription")
 @RequiredArgsConstructor
 @SessionAttributes({"items", "totalPayment"})
-public class SubscriptionController implements ExceptionProcessor {
+public class SubscriptionController {
 
     private final EduDataInfoService eduDataInfoService;
     private final GameContentInfoService gameContentInfoService;
@@ -78,12 +75,8 @@ public class SubscriptionController implements ExceptionProcessor {
     /* 게임컨텐츠 결제 */
     @PostMapping("/apply")
     public String apply(@ModelAttribute RequestOrder form, Model model,
-                        @RequestParam(name = "chk", required = false) List<Long> nums) {
+                        @RequestParam(name = "chk") List<Long> nums) {
         commonProcess("apply", model);
-
-        if(nums == null || nums.isEmpty()) {
-            throw new AlertBackException("게임 컨텐츠를 선택하세요.", HttpStatus.BAD_REQUEST);
-        }
 
         if (memberUtil.isLogin()) {
             Member member = memberUtil.getMember();
