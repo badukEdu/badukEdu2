@@ -30,8 +30,8 @@ spring:
   datasource:
     driverClassName: oracle.jdbc.driver.OracleDriver
     url: jdbc:oracle:thin:@localhost:1521:orcl
-    username: BADUK
-    password: _aA123456
+    username: cbmja
+    password: cbm007512
 
   # JPA 설정
   jpa:

@@ -82,22 +82,45 @@
 </form>
 
   <script>
+
+    //해당 소스는 체크박스 안을 클릭했을때 실행되지 않음
+
+      // const { popup } = commonLib;
+      // const agree = document.getElementById("agree");
+      // agree.onfocus = () => popup.open('/member/agree?targetId=agree', 800, 900);
+      //
+      // const agree2 = document.getElementById("agree2");
+      // agree2.onfocus = () => popup.open('/member/agree2?targetId=agree2', 800, 900);
+      //
+      // const agree3 = document.getElementById("agree3");
+      // agree3.onfocus = () => popup.open('/member/agree3?targetId=agree3',  800, 900);
+      //
+      // const agree4 = document.getElementById("agree4");
+      // agree4.onfocus = () => popup.open('/member/agree4?targetId=agree4',  800, 900);
+      //
+      // const agree5 = document.getElementById("agree5");
+      // agree5.onfocus = () => popup.open('/member/agree5?targetId=agree5',  800, 900);
+
+    //아래와 같이 변경하고자 함
+
       const { popup } = commonLib;
       const agree = document.getElementById("agree");
-      agree.onfocus = () => popup.open('/member/agree?targetId=agree', 500, 700);
+      agree.addEventListener("click", () => popup.open('/member/agree?targetId=agree', 800, 900));
 
       const agree2 = document.getElementById("agree2");
-      agree2.onfocus = () => popup.open('/member/agree2?targetId=agree2', 500, 700);
+      agree2.addEventListener("click", () => popup.open('/member/agree2?targetId=agree2', 800, 900));
 
       const agree3 = document.getElementById("agree3");
-      agree3.onfocus = () => popup.open('/member/agree3?targetId=agree3', 500, 700);
+      agree3.addEventListener("click", () => popup.open('/member/agree3?targetId=agree3', 800, 900));
 
       const agree4 = document.getElementById("agree4");
-      agree4.onfocus = () => popup.open('/member/agree4?targetId=agree4', 500, 700);
+      agree4.addEventListener("click", () => popup.open('/member/agree4?targetId=agree4', 800, 900));
 
       const agree5 = document.getElementById("agree5");
-      agree5.onfocus = () => popup.open('/member/agree5?targetId=agree5', 500, 700);
+      agree5.addEventListener("click", () => popup.open('/member/agree5?targetId=agree5', 800, 900));
+
   </script>
+
 
 </section>
 </html>

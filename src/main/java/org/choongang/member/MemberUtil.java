@@ -75,8 +75,9 @@ public class MemberUtil {
     }
 
     public boolean isWriter(Member member) {
+        if (isAdmin()) return true;
 
-        return getMember() == member;
+        return isLogin() && member != null && getMember().getUserId().equals(member.getUserId());
     }
 
 
