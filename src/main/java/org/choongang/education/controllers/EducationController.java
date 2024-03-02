@@ -143,7 +143,7 @@ public class EducationController implements ExceptionProcessor  {
 
         model.addAttribute("items", data.getItems());
 
-        return "/education/homework/list";
+        return "education/homework/list";
     }
 
     @GetMapping("/homework/submit/{num}")
@@ -159,7 +159,7 @@ public class EducationController implements ExceptionProcessor  {
 
         model.addAttribute("trainingData", trainingData);
 
-        return "/education/homework/submit";
+        return "education/homework/submit";
     }
 
     @PostMapping("/homework/submit")
