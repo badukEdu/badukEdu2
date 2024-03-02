@@ -1,3 +1,14 @@
+window.addEventListener("DOMContentLoaded", function() {
+    const originalPrice = document.getElementById("originalPrice");
+    const discountRate = document.getElementById("discountRate");
+    const salePrice = document.getElementById("salePrice");
+    originalPrice.addEventListener("blur", function() {
+        salePrice.value = originalPrice.value * (100 - discountRate.value) / 100;
+    });
+    discountRate.addEventListener("blur", function() {
+            salePrice.value = Math.round((originalPrice.value * (100 - discountRate.value) / 100) / 10) * 10 ;
+    });
+});
 function callbackFileUpload(files) {
     if (files == null || files.length == 0) return;
 
