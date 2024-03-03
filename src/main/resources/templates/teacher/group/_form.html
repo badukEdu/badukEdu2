@@ -18,7 +18,7 @@
             <th>개월</th>
             <th>최대 학습가능인원</th>
             <th>그룹 개설 가능 인원</th>
-            <th>잔여분M/M ???</th>
+            <th>개설 현황</th>
         </tr>
         </thead>
         <tbody>
@@ -35,7 +35,7 @@
             <td th:text="*{gameContent.subscriptionMonths}"></td>
             <td th:text="*{gameContent.maxSubscriber}"></td>
             <td th:text="*{gameContent.stgroupCount2}"></td>
-            <td >???</td>
+            <td th:text="*{gameContent.maxSubscriber - gameContent.stgroupCount2}"></td>
         </tr>
         </tbody>
     </table>
