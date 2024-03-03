@@ -31,6 +31,7 @@ import org.springframework.util.StringUtils;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 import static org.springframework.data.domain.Sort.Order.desc;
 
@@ -189,5 +190,16 @@ public class MemberInfoService implements UserDetailsService {
         return member;
 
     }
+
+//    public void lockMembers(String[] userIds) {
+//        for (String userId : userIds) {
+//            Optional<Member> memberOptional = memberRepository.findByUserId(userId);
+//            if (memberOptional.isPresent()) {
+//                Member member = memberOptional.get();
+//                member.setLock(true);
+//                memberRepository.save(member);
+//            }
+//        }
+//    }
 
 }

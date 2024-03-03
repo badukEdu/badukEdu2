@@ -3,7 +3,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/main}">
 <section layout:fragment="content">
-<h2>숙제 평가 페이지</h2>
+<h1>숙제 평가 페이지</h1>
     <table class="table_rows mb30">
         <thead class="table_cols">
             <tr>
@@ -16,7 +16,7 @@
             <tr th:if="${items == null || items.isEmpty()}">
                 <td colspan="6">숙제 정보가 없습니다.</td>
             </tr>
-            <tr th:unless="${items == null || items.isEmpty()}" th:each="item : ${items}" th:object="${item}" th:id="*{'homework_' + num}" th:value="*{num}" ondblclick="updateTrainingData(this);">
+            <tr th:unless="${items == null || items.isEmpty()}" th:each="item : ${items}" th:object="${item}" th:id="*{'homework_' + num}" th:value="*{num}" ondblclick="updateTrainingData(this);" class="selected">
                 <td th:text="*{name}"></td>
                 <td th:text="*{content}"></td>
                 <td th:text="*{studyGroup.name}"></td>
@@ -43,26 +43,9 @@
             </thead>
             <tbody  id="homework_trainingData">
                 <tr>
-                    <th colspan="6">예시용 뷰입니다. 숙제를 더블클릭하세요.</th>
+                    <th colspan="6"><h1>숙제를 더블클릭하세요.</h1></th>
                 </tr>
-                <tr th:each="trainingData: ${trainingDataList}" th:object="${trainingData}">
-                    <input type="hidden" th:value="*{num}" name="chk">
-                    <td th:text="*{member.name}"></td>
-                    <td th:text="*{createdAt}"></td>
-                    <td th:text="*{homeworkAnswer}"></td>
-                    <td th:text="*{question}"></td>
-                    <td th:text="*{sendDate}"></td>
-                    <td width="100">
-                        <label for="score" th:field="*{score}">
-                            <select id="score" name="score">
-                                <option value="-1" selected>선택</option>
-                                <option value="0">미흡</option>
-                                <option value="1">보통</option>
-                                <option value="2">우수</option>
-                            </select>
-                        </label>
-                    </td>
-                </tr>
+
             </tbody>
         </table>
         <div class="submit_btns">

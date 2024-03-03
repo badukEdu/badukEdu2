@@ -6,8 +6,76 @@
 <section layout:fragment="content">
     <h1>매출 현황</h1>
     <h2>매출 검색</h2>
+    <form name="frmSearch" method="get" th:action="@{/admin/order}" autocomplete="off" th:object="${orderSearch}">
+
+        <table class="table_cols mb30">
+            <tr>
+                <th>키워드</th>
+                <td>
+                    <div class="input_grp">
+                        <select name="sopt" th:field="*{sopt}">
+                            <option value="ALL">통합검색</option>
+                        </select>
+                        <input type="text" name="skey" th:field="*{skey}">
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+        <div class="search_btn">
+
+            <button type="submit" class="btn">검색하기</button>
+
+        </div>
+    </form>
+
+
 
     <h2>매출 목록</h2>
+    <form name="frmList" method="post" th:action="@{/admin/order}">
+        <table class="table_rows">
+            <thead>
+            <tr>
+                <th width="40">
+                    <input type="checkbox" class="checkall" data-target-name="chk" id="checkall">
+                    <label for="checkall"></label>
+                </th>
+                <th>회원번호</th>
+                <th>회원명</th>
+                <th>구독개월수</th>
+                <th>게임명</th>
+                <th>구독 시작일</th>
+                <th>구독 종료일</th>
+                <th>주문합계</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr th:if="${items == null || items.isEmpty()}">
+                <td colspan="11">회원 정보가 없습니다.</td>
+            </tr>
+            <tr th:unless="${items == null && items.isEmpty()}" th:each="item : ${items}" th:object="${item}">
+                <td align="center">
+                    <!--                    <input type="hidden" th:name="${'num_' + status.index}" th:value="*{num}">-->
+                    <input type="checkbox" name="chk" th:value="*{num}">
+                    <!--                    <label th:for="${'chk_' + status.index}"></label>-->
+                </td>
+                <td th:text="*{num}"></td>
+                <td th:text="*{orderName}"></td>
+                <td th:text="*{subscriptionMonths}"></td>
+                <td th:text="*{gameTitle}"></td>
+                <td th:text="*{startDate}"></td>
+                <td th:text="*{endDate}"></td>
+                <td th:text="*{totalPayment}"></td>
+
+            </tr>
+            </tbody>
+        </table>
+
+        </div>
+    </form>
+
+
     <th:block th:replace="~{common/_pagination::pagination}"></th:block>
 </section>
 </html>

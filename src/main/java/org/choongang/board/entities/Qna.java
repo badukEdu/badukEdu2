@@ -34,6 +34,9 @@ public class Qna extends Base {
     @Column
     private String fileAddress; // 파일경로 (파일 경로)
 
+    @Column
+    private String answer;
+
     @Transient
     private FileInfo thumbnail; // 썸네일 (파일명)
 

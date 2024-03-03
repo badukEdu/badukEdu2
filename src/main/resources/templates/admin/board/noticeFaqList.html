@@ -42,8 +42,8 @@
             </thead>
 
             <tbody>
-            <tr th:each="noticeList : ${noticeList}" th:object="${noticeList}">
-                <td><input type="checkbox" name="selectNotice" th:value="${noticeList}" /></td>
+            <tr th:each="noticeList : ${immediatelyList}" th:object="${noticeList}">
+                <td><input type="checkbox" name="selectNotice" th:value="${noticeList.num}" /></td>
                 <td><a th:href="@{'/admin/board/detail/' + ${noticeList.num}}"  th:text="*{num}"></a></td>
                 <td><a th:href="@{'/admin/board/detail/' + ${noticeList.num}}"  th:text="*{type}"></a></td>
                 <td><a th:href="@{'/admin/board/detail/' + ${noticeList.num}}" th:text="*{title}"></a></td>
@@ -70,10 +70,9 @@
                 <th>예약 게시 일자</th>
             </tr>
             </thead>
-
             <tbody>
-            <tr th:each="waitingPost : ${waitingList}">
-                <td><input type="checkbox" name="selectWaitingPost" th:value="${waitingPost}" /></td>
+            <tr th:each="waitingPost : ${waitingList}" th:object="${waitingPost}">
+                <td><input type="checkbox" name="selectWaitingPost" th:value="${waitingPost.num}" /></td>
                 <td th:text="*{num}"></td>
                 <td th:text="*{type}"></td>
                 <td><a th:href="@{'/admin/board/detail/' + ${waitingPost.num}}" th:text="*{title}"></a></td>

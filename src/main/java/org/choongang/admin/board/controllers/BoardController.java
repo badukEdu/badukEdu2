@@ -1,14 +1,17 @@
 package org.choongang.admin.board.controllers;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.choongang.admin.board.entities.NoticeSearch;
 import org.choongang.admin.board.entities.Notice_;
 import org.choongang.admin.board.service.BoardService;
+import org.choongang.admin.gamecontent.controllers.RequestGameContentData;
 import org.choongang.commons.ListData;
 import org.choongang.commons.ExceptionProcessor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -26,16 +29,20 @@ public class BoardController implements ExceptionProcessor  {
     /* 공지사항 및 FAQ 게시글 등록 및 수정 S */
 
     @GetMapping("noticeFaqAdd")
-    public String board_posts(Model model) {
+    public String board_posts(@ModelAttribute RequestBoardPosts form, Model model) {
 
         commonProcess("posts", model);
-        model.addAttribute("RequestBoardPosts", new RequestBoardPosts());
+
 
         return "admin/board/noticeFaqAdd";
     }
 
     @PostMapping("noticeFaqAdd")
-    public String board_postsPs(RequestBoardPosts form, Model model) {
+    public String board_postsPs(@Valid RequestBoardPosts form, Errors errors, Model model) {
+
+        if (errors.hasErrors()) {
+            return "admin/board/noticeFaqAdd";
+        }
 
         boardService.save(form);
 
@@ -52,7 +59,7 @@ public class BoardController implements ExceptionProcessor  {
     @GetMapping("/noticeFaqList")
     public String adminnoticeFaqList(@ModelAttribute NoticeSearch search, Model model) {
 
-        commonProcess("noticeFaqList", model);
+        commonProcess("list", model);
 
         ListData<Notice_> noticeList = boardService.getListOrderByOnTop(search);
 
@@ -65,6 +72,7 @@ public class BoardController implements ExceptionProcessor  {
                 .filter(notice -> notice.getPostingType().equals("expectedPostingDate"))
                 .collect(Collectors.toList());
 
+        model.addAttribute("immediatelyList", immediatelyList);
         model.addAttribute("waitingList", waitingList);
         model.addAttribute("noticeList", noticeList.getItems());
         model.addAttribute("pagination", noticeList.getPagination());
@@ -84,6 +92,8 @@ public class BoardController implements ExceptionProcessor  {
 
     @GetMapping("/detail/{num}")
     public String detail(@PathVariable("num") Long num, Model model){
+
+        commonProcess("detail", model);
 
         // 경로 변수 num이 null이거나 음수인 경우에는 admin/board/noticeFaqList로 리다이렉션
         if (num <= 0) {
@@ -115,6 +125,8 @@ public class BoardController implements ExceptionProcessor  {
 
     @GetMapping("/edit/{num}")
     public String editForm(@PathVariable("num") Long num, Model model) {
+
+        commonProcess("edit", model);
 
         // 게시글 번호를 사용하여 해당 게시글 정보를 가져온다.
         Optional<Notice_> noticeDetail = boardService.findByNum(num);
@@ -171,12 +183,18 @@ public class BoardController implements ExceptionProcessor  {
         List<String> addCss = new ArrayList<>();
         List<String> addScript = new ArrayList<>();
 
+        addCss.add("admin/" + mode);
+
         if (mode.equals("posts")) {
             pageTitle = "공지사항 " + (mode == "edit" ? "수정" : "등록") + " ::" + pageTitle;
             addScript.add("admin/Board/form");
             addScript.add("fileManager");
         }
 
+        if (mode.equals("list")) pageTitle = "공지 목록::" + pageTitle;
+        if (mode.equals("detail")) pageTitle = "공지 상세::" + pageTitle;
+        if (mode.equals("edit")) pageTitle = "공지 수정::" + pageTitle;
+        
         model.addAttribute("pageTitle", pageTitle);
         model.addAttribute("subMenuCode", "board_" + mode);
         model.addAttribute("addCss", addCss);

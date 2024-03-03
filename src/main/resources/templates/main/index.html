@@ -4,7 +4,7 @@
       layout:decorate="~{layouts/main}">
 <section layout:fragment="content">
 
-    <body>
+
     <div class="main-contents">
         <div class="content content01">
             <img th:src="@{/images/guide/main.jpg}">
@@ -12,38 +12,35 @@
         </div>
         <div class="content content02" id="">
             <h2><span>구독서비스</span></h2>
+
+
             <p>
-
-            </p>
-
-            <p>자세히 보기
+                <a th:href="@{/subscription}">바로가기</a>
                 <i class="xi-arrow-right"></i>
             </p>
         </div>
         <div class="content content03">
             <h2><span>학습서비스</span> </h2>
-            <p>
 
-            </p>
-            <p>자세히 보기
+            <p>
+                <a th:href="@{/education/join}">바로가기</a>
+
                 <i class="xi-arrow-right"></i>
             </p>
         </div>
         <div class="content content04">
             <h2><span>교육자마당</span> </h2>
-            <p>
 
-            </p>
-            <p>자세히 보기
+            <p>
+                <a th:href="@{/teacher/group}">바로가기</a>
                 <i class="xi-arrow-right"></i>
             </p>
         </div>
         <div class="content content05">
             <h2><span>운영마당</span></h2>
-            <p>
 
-            </p>
-            <p>자세히 보기
+            <p>
+                <a th:href="@{/admin/gamecontent}">바로가기</a>
                 <i class="xi-arrow-right"></i>
             </p>
         </div>
@@ -52,14 +49,31 @@
             <h2><span>최신게시글 </span> </h2>
         </div>
         <div class="content content08">
-
+            <h2>신나게 즐기다 보면 <br> 실력도<br> 자신감도 UP!  </h2>
         </div>
         <div class="content content09">
-
+            <h2>바둑실력이 강해질수록 <br> 아이의 집중력과<br> 사고력도 쑥쑥!</h2>
         </div>
 
     </div>
-    </body>
+
+
+    <footer>
+        <h2>팀원 소개</h2>
+        <h3>고원일 : 회원가입, 매출조회 <br> 박범수 : 학습서비스 <br> 박호범 : 게시판 <br> 이기흥 : 구독서비스 <br> 장하영 : 디자인 <br> 전표찬 : 교육자마당 <br> </h3>
+
+
+        <address>
+            이용약관 / 개인정보 방침으로 구성
+            <br>
+            © Copyright 2024 바둑교육. All rights reserved.
+        </address>
+
+        <footer>
+
+
 </section>
+
+
 
 </html>

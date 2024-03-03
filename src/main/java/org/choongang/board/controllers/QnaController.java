@@ -1,6 +1,9 @@
 package org.choongang.board.controllers;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.choongang.admin.board.entities.Reply_;
+import org.choongang.admin.board.service.ReplyService;
 import org.choongang.board.entities.Qna;
 import org.choongang.board.entities.QnaSearch;
 import org.choongang.board.service.QnaService;
@@ -9,6 +12,7 @@ import org.choongang.commons.ListData;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -25,7 +29,7 @@ public class QnaController implements ExceptionProcessor  {
     /* QnA 게시글 목록 조회 S */
     @GetMapping("/qnaList")
     public String list(@ModelAttribute QnaSearch search, Model model) {
-        commonProcess("list", model);
+        commonProcess("qna", model);
 
         ListData<Qna> qnaList = qnaService.getList(search);
 
@@ -36,8 +40,13 @@ public class QnaController implements ExceptionProcessor  {
     }
 
     @PostMapping("/qnaList")
-    public String qnaList(Model model) {
+    public String qnaList(@ModelAttribute QnaSearch qnaSearch, Model model) {
         commonProcess("list", model);
+
+        ListData<Qna> qnaList = qnaService.getList(qnaSearch);
+
+        model.addAttribute("qnaList", qnaList.getItems());
+        model.addAttribute("pagination", qnaList.getPagination());
 
         return "board/qnaList";
     }
@@ -80,6 +89,7 @@ public class QnaController implements ExceptionProcessor  {
 
         // 게시글이 존재하는 경우에는 모델에 추가하고 /board/qnaDetail 페이지를 반환
         if (qnaDetail.isPresent()) {
+
             model.addAttribute("qnaDetail", qnaDetail.get());
             model.addAttribute("requestQnaAdd", new RequestQnaAdd());
             return "board/qnaDetail";
@@ -148,7 +158,20 @@ public class QnaController implements ExceptionProcessor  {
         return "redirect:/guide/qnaList";
     }
 
-    /* QnA 게시글 삭제 E */
+    @GetMapping("/reply")
+    public String toReply() {
+
+        return "board/qnaList";
+    }
+
+    @PostMapping("/reply")
+    public String saveReply(@Valid Qna qna, Errors errors) {
+        Long num = qna.getNum();
+        qnaService.replySave(qna);
+
+        return "redirect:/guide/qnaDetail/" + num;
+    }
+
 
     private void commonProcess(String mode, Model model) {
         mode = StringUtils.hasText(mode) ? mode : "add";
@@ -157,7 +180,11 @@ public class QnaController implements ExceptionProcessor  {
 
         addCss.add("guide/" + mode);
         String pageTitle = "이용안내";
-        if (mode.equals("list")) pageTitle = "QnA::" + pageTitle;
+        if (mode.equals("qna")) pageTitle = "QnA::" + pageTitle;
+        if (mode.equals("add")) pageTitle = "QnA 등록::" + pageTitle;
+        if (mode.equals("detail")) pageTitle = "QnA 상세::" + pageTitle;
+        if (mode.equals("edit")) pageTitle = "QnA 수정::" + pageTitle;
+
         else if (mode.equals("add") || mode.equals("edit")) {
             addScript.add("fileManager");
         }
