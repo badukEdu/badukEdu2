@@ -33,7 +33,7 @@
         </tr>
         <th>학습레벨</th>
         <td>
-            <input type="number" id="studyLevel" name="studyLevel" th:field="*{studyLevel}" min="1" max="100">
+            <input type="number" id="studyLevel" name="studyLevel" th:field="*{studyLevel}" min="2" max="100">
             <div class="error" th:each="err : ${#fields.errors('studyLevel')}" th:text="${err}"></div>
         </td>
         </tr>
