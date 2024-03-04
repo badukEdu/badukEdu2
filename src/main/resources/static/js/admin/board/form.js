@@ -176,7 +176,7 @@ document.addEventListener('DOMContentLoaded', function() {
             calendar.style.display = "inline-block";
             // 내일부터 선택 가능하도록 min 속성 설정
             calendar.setAttribute("min", tomorrowFormatted);
-//            calendar.value = tomorrowFormatted; // 내일로 달력 설정
+
         } else {
             calendar.style.display = "none";
             // min 속성 제거
@@ -220,28 +220,28 @@ document.addEventListener('DOMContentLoaded', function() {
 /* 게시 예정일 선택 시 달력 표출 E */
 
 /* 일괄 삭제 버튼 S */
-document.getElementById('noticeDeleteBtn').addEventListener('click', function() {
-    const nums = Array.from(document.querySelectorAll('input[name="selectNotice"]:checked'), input => input.value);
-
-    const dataString = JSON.stringify(nums));
-    fetch("/api/admin/board/notice", {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: nums
-  ).then(response => {
-      // 응답을 확인하고 적절한 처리를 수행합니다.
-      if (!response.ok) {
-        throw new Error('네트워크 오류 발생');
-      }
-      // 삭제 성공 시 사용자에게 알림 등을 표시할 수 있습니다.
-      console.log('게시물이 성공적으로 삭제되었습니다.');
-    })
-    .catch(error => {
-      // 오류가 발생했을 때 처리합니다.
-      console.error('게시물 삭제 중 오류가 발생했습니다:', error);
-    });
-});
+//document.getElementById('noticeDeleteBtn').addEventListener('click', function() {
+//    const nums = Array.from(document.querySelectorAll('input[name="selectNotice"]:checked'), input => input.value);
+//
+//    const dataString = JSON.stringify(nums));
+//    fetch("/api/admin/board/notice", {
+//      method: 'DELETE',
+//      headers: {
+//        'Content-Type': 'application/json',
+//      },
+//      body: nums
+//  ).then(response => {
+//      // 응답을 확인하고 적절한 처리를 수행합니다.
+//      if (!response.ok) {
+//        throw new Error('네트워크 오류 발생');
+//      }
+//      // 삭제 성공 시 사용자에게 알림 등을 표시할 수 있습니다.
+//      console.log('게시물이 성공적으로 삭제되었습니다.');
+//    })
+//    .catch(error => {
+//      // 오류가 발생했을 때 처리합니다.
+//      console.error('게시물 삭제 중 오류가 발생했습니다:', error);
+//    });
+//});
 
 /* 일괄 삭제 버튼 E */
