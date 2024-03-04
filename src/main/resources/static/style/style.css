@@ -67,7 +67,7 @@ ac { text-align: center !important; }
 header { display: flex; justify-content: space-between; height: 80px; align-items: center; background: #fff; }
 header > section:first-of-type { width: 208px; text-align: center; }
 header > section:last-of-type { flex-grow: 1; padding-right: 20px; text-align: right; }
-header .btn_area a { display: inline-block; width: 90px; height: 28px; color: #596b99; border-radius: 5px; line-height: 26px; text-align: center; font-weight: 500; }
+header .btn_area a { display: inline-block; width: 90px; height: 28px; border: 1px solid #596b99; color: #596b99; border-radius: 5px; line-height: 26px; text-align: center; font-weight: 500; }
 header .btn_area a:last-of-type { background: orange; color: #fff; }
 header .btn_area p { line-height: 26px; text-align: center; display: inline-block; width: 120px; height: 28px; font-weight: 500; }
 
@@ -78,8 +78,9 @@ header nav a.on { background: orange; color: #fff; font-weight: 500; }
 /* 헤더 영역 E */
 
 /* 내용 영역  S */
-main { background: rgb(243, 243, 243); min-height: 1000px; display: flex; min-width: 1200px; }
-main > aside { width: 208px;   background-color:  rgb(221, 217, 217);  } /*sidebar color*/
+main {            background-color: rgb(245, 242, 242);
+min-height: 1000px; display: flex; min-width: 1200px; }
+main > aside { width: 208px;   background-color:  rgb(221, 217, 217);      } /*sidebar color*/
 main > section { flex-grow: 1; padding: 50px; }
 
 main > aside > a { display: block; height: 71px; color: black; font-size: 1.385rem; text-align: center; line-height: 70px; position: relative; }
@@ -122,14 +123,14 @@ select { border: 1px solid #d5d5d5; height: 35px; }
 
 /* 버튼 공통 S */
 .submit_btns { text-align: center; margin: 30px 0; }
-.submit_btns .btn { display: inline-block; min-width: 200px; height: 45px; padding: 0 15px;  background: #fff; font-size: 1.4rem; font-weight: 500; color: #fff; border-radius: 3px; cursor: pointer; line-height: 43px; border: none; }
-.submit_btns .btn:last-of-type { background: orange; color: #fff border: none; }
+.submit_btns .btn { display: inline-block; min-width: 200px; height: 45px; padding: 0 15px; border: 1px solid #222; background: #fff; font-size: 1.4rem; font-weight: 500; color: #222; border-radius: 3px; cursor: pointer; line-height: 43px; }
+.submit_btns .btn:last-of-type { background: orange; color: #fff; }
 
 .search_btn { text-align: center; margin: 20px 0 30px; }
 .search_btn .btn { display: inline-block; min-width: 200px; text-align: center; font-size:1.4rem; font-weight: 500; height: 45px; line-height: 45px; background: orange; color: #fff; cursor: pointer; border-radius: 3px; border: 0; }
 
-.sbtn {  color: #222; background: #fff; display: inline-block; padding: 7px 20px; border-radius: 3px; cursor: pointer; line-height: 1; }
-.sbtn:hover, .sbtn.on { background: orange; color: #fff; border-color: orange; }
+.sbtn {  color: #222; background: #fff; display: inline-block; padding: 7px 20px; border-radius: 3px; cursor: pointer; line-height: 1; border : 1px solid black;}
+.sbtn:hover, .sbtn.on { background: orange; color: #fff; border-color: #596b99; }
 .sbtn i { color: #222; font-size: 1.1rem; vertical-align: middle; line-height: 1; }
 .sbtn:hover i, .sbtn.on i { color: #fff; }
 
@@ -147,7 +148,7 @@ select { border: 1px solid #d5d5d5; height: 35px; }
 
 /* 페이징 공통 S */
 .pagination { text-align: center; margin: 30px 0; }
-.pagination .page {  color: #596b99; display: inline-block; padding: 5px 10px; border-radius: 3px; background: #fff; }
+.pagination .page { border: 1px solid #596b99; color: #596b99; display: inline-block; padding: 5px 10px; border-radius: 3px; background: #fff; }
 .pagination .page.on { background: orange; color: #fff; }
 .pagination .page + .page { margin-left: 3px; }
 /* 페이징 공통 E */
