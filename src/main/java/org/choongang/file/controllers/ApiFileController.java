@@ -20,7 +20,7 @@ public class ApiFileController implements ExceptionRestProcessor {
     private final FileDeleteService deleteService;
 
     @PostMapping
-    public JSONData<List<FileInfo>> upload(@RequestParam("file") MultipartFile[] files,
+    public JSONData<List<FileInfo>> upload(@RequestParam(name="file") MultipartFile[] files,
                                            @RequestParam(name="gid", required = false) String gid,
                                            @RequestParam(name="location", required = false) String location,
                                            @RequestParam(name="imageOnly", required=false) boolean imageOnly,

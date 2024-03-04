@@ -3,6 +3,7 @@ package org.choongang.admin.board.entities;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import lombok.Builder;
 import lombok.Data;
 import lombok.ToString;
 import org.choongang.commons.entities.Base;
@@ -35,18 +36,12 @@ public class Notice_ extends Base {
 
     @Column
     private String title; // 제목
-    
+
     @Lob // 가변 길이의 문자열을 저장, 길이 제한 X
     private String content; // 내용
 
     @Column
     private Long visit; //조회수
-
-    @Column
-    private String fileName; // 파일명 (파일명)
-
-    @Column
-    private String fileAddress; // 파일경로 (파일 경로)
 
     @Column(nullable = false)
     private String postingType; // 게시 타입(즉시, 예정)
@@ -60,11 +55,10 @@ public class Notice_ extends Base {
     @Column
     private String answer; // 답변(FaQ일 경우에만 사용)
 
-    @Transient
-    private FileInfo thumbnail; // 썸네일 (파일명)
-
-
 ////////////////////////////
+
+    @OneToMany(mappedBy = "notice", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private List<BoardFileInfo> file;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "userId")

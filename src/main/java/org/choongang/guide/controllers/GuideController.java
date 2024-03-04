@@ -66,7 +66,7 @@ public class GuideController implements ExceptionProcessor  {
     public String adminnoticeFaqList(@ModelAttribute NoticeSearch search, Model model) {
         commonProcess("notice&faq", model);
 
-        ListData<Notice_> noticeList = boardService.getListOrderByOnTop(search);
+        ListData<Notice_> noticeList = boardService.getListOrderByOnTop(search, "immediately");
         model.addAttribute("noticeList", noticeList.getItems());
         model.addAttribute("pagination", noticeList.getPagination());
 
