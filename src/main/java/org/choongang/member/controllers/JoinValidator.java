@@ -76,7 +76,7 @@ public class JoinValidator implements Validator, PasswordValidator {
             errors.rejectValue("agree2", "required", "개인정보 처리 및 이용에 동의해주세요.");
         }
         if (form.getEmail() == null || form.getEmail().isEmpty()) {
-            errors.rejectValue("email", "required", "이메일을 입력하세요.");
+            errors.rejectValue("email", "required", "이메일이 공백입니다.");
         }
 
 

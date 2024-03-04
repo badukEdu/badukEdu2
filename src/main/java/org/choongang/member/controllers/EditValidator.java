@@ -31,10 +31,10 @@ public class EditValidator implements Validator, PasswordValidator {
     String password = form.getPassword();
     String confirmPassword = form.getConfirmPassword();
 
-    ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "field.required", "Password is required.");
-    ValidationUtils.rejectIfEmptyOrWhitespace(errors, "confirmPassword", "field.required", "Confirm password is required.");
-    ValidationUtils.rejectIfEmptyOrWhitespace(errors, "tel", "field.required", "Telephone is required.");
-    ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "field.required", "Email is required.");
+    ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "field.required", "비밀번호가 공백입니다.");
+    ValidationUtils.rejectIfEmptyOrWhitespace(errors, "confirmPassword", "field.required", "비밀번호 확인이 공백입니다.");
+    ValidationUtils.rejectIfEmptyOrWhitespace(errors, "tel", "field.required", "전화번호가 공백입니다.");
+    ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "field.required", "이메일이 공백입니다.");
 
     if (StringUtils.hasText(password)) {
 
