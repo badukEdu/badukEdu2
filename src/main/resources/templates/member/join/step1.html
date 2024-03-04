@@ -66,6 +66,7 @@
           <button type="button" id="email_confirm" class="sbtn" th:text="#{확인}" disabled></button>
           <button type="button" id="email_re_verify" class="sbtn" th:text="#{재전송}" disabled></button>
         </th:block>
+
         <th:block th:unless="${session.EmailAuthVerified == null || !session.EmailAuthVerified}">
           <span class='confirmed' th:text="#{확인된_이메일_입니다.}"></span>
         </th:block>
