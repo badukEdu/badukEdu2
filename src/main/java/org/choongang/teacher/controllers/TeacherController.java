@@ -190,9 +190,6 @@ public class TeacherController implements ExceptionProcessor {
     @PostMapping("/group/add2")
     public String addGroup2(Model model , @ModelAttribute RequestStGroup form
             , @RequestParam(name = "num" , required = false) Long num,@ModelAttribute OrderSearch search) {
-        commonProcess("add", model);
-        GameContent gameContent = gameContentInfoService.getById(num);
-        gameContent.setStgroupCount2(gameContent.getMaxSubscriber() - gameContentInfoService.stgroupCount(gameContent.getNum()));
 
         //스터디그룹 등록 1. 게임 컨텐츠 설정에서 게임 선택하지 않을경우
         if(num == null){
@@ -200,6 +197,10 @@ public class TeacherController implements ExceptionProcessor {
             model.addAttribute("emsg" , "게임 컨텐츠를 선택하세요");
             return "teacher/group/add";
         }
+        commonProcess("add", model);
+        GameContent gameContent = gameContentInfoService.getById(num);
+        gameContent.setStgroupCount2(gameContent.getMaxSubscriber() - gameContentInfoService.stgroupCount(gameContent.getNum()));
+
         //게임 선택 정상적으로 한 경우
         model.addAttribute("mode_" , "add2");
         model.addAttribute("acceptChange" , true);

@@ -2,6 +2,7 @@ package org.choongang.admin.board.controllers;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.choongang.admin.board.entities.NoticeSearch;
 import org.choongang.admin.board.entities.Notice_;
 import org.choongang.admin.board.service.BoardService;
@@ -14,6 +15,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -22,6 +24,7 @@ import java.util.stream.Collectors;
 @Controller("adminBoardController")
 @RequestMapping("/admin/board")
 @RequiredArgsConstructor
+@Slf4j
 public class BoardController implements ExceptionProcessor  {
 
     private final BoardService boardService;
@@ -38,7 +41,7 @@ public class BoardController implements ExceptionProcessor  {
     }
 
     @PostMapping("noticeFaqAdd")
-    public String board_postsPs(@Valid RequestBoardPosts form, Errors errors, Model model) {
+    public String board_postsPs(@Valid RequestBoardPosts form, Errors errors, Model model) throws IOException {
 
         if (errors.hasErrors()) {
             return "admin/board/noticeFaqAdd";
@@ -61,16 +64,19 @@ public class BoardController implements ExceptionProcessor  {
 
         commonProcess("list", model);
 
-        ListData<Notice_> noticeList = boardService.getListOrderByOnTop(search);
+        ListData<Notice_> noticeList = boardService.getListOrderByOnTop(search, "ALL");
 
         List<Notice_> immediatelyList = noticeList.getItems().stream()
                 .filter(notice -> notice.getPostingType().equals("immediately"))
                 .collect(Collectors.toList());
 
+        log.error("start DEBUG");
         // 게시 대기 리스트 가져오기
         List<Notice_> waitingList = noticeList.getItems().stream()
                 .filter(notice -> notice.getPostingType().equals("expectedPostingDate"))
                 .collect(Collectors.toList());
+        log.error("notice: {}", waitingList.size());
+
 
         model.addAttribute("immediatelyList", immediatelyList);
         model.addAttribute("waitingList", waitingList);
@@ -142,7 +148,7 @@ public class BoardController implements ExceptionProcessor  {
     }
 
     @PostMapping("/edit")
-    public String editBoard(RequestBoardPosts form, Model model) {
+    public String editBoard(RequestBoardPosts form, Model model) throws IOException {
         // 기존 게시물 정보 가져오기
         Optional<Notice_> existingNotice = boardService.findByNum(form.getNum());
 
