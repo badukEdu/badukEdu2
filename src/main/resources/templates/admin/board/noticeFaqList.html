@@ -6,7 +6,7 @@
 <section layout:fragment="content">
 
     <h1>공지사항 및 FAQ 조회</h1>
-    <form th:action="@{/admin/board/list/noticeFaq}" method="get" autocomplete="off" th:object="${noticeSearch}">
+    <form th:action="@{/admin/board/noticeFaqList}" method="get" autocomplete="off" th:object="${noticeSearch}">
         <table class="table_cols">
             <thead>
             <tr>

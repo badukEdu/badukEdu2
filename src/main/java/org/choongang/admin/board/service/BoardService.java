@@ -78,6 +78,7 @@ public class BoardService {
         notice.setQuestion(form.getQuestion());
         notice.setAnswer(form.getAnswer());
         notice.setContent(form.getContent());
+        notice.setScheduledDate(form.getScheduledDate());
         notice.setMember(memberUtil.getMember());
         notice.setScheduledDate(form.getScheduledDate());
 
@@ -86,37 +87,6 @@ public class BoardService {
 
         boardRepository.saveAndFlush(notice);
 
-        log.error("form.getUploadFile(): {}", form.getUploadFile());
-        log.error("form.getUploadFile() size: {}", form.getUploadFile().size());
-        if (form.getUploadFile() != null && !form.getUploadFile().isEmpty()) {
-            List<BoardFileInfo> boardFileInfoList = new ArrayList<>();
-            String path = fileProperties.getPath();
-            for (MultipartFile fileInfo : form.getUploadFile()) {
-                String fileName = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"))
-                        + "_" + fileInfo.getOriginalFilename();
-
-                // 강사님 file upload 적용
-
-                File fileDir = new File(path);
-                if (!fileDir.exists()) {
-                    fileDir.mkdirs();
-                }
-
-                fileInfo.transferTo(new File(path + fileName));
-                // boardFileService
-
-                log.error("file info {}", fileInfo.getResource().getFilename());
-                // BoardFileInfo DB Save
-                boardFileRepository.save(BoardFileInfo.builder()
-                        .notice(notice)
-                        .fileName(fileName)
-                        .originFileName(fileInfo.getOriginalFilename())
-                        .filePath(path + fileName)
-                        .build());
-
-            }
-            notice.setFile(boardFileInfoList);
-        }
     }
 
     private void increaseVisitCount(Notice_ notice) {
@@ -268,19 +238,19 @@ public class BoardService {
 
     /* 선택한 게시글 삭제 API S */
 
-    public int deleteNotices(String[] nums) {
-        try {
-            for (String num : nums) {
-                Notice_ notice = boardRepository.findById(Long.valueOf(num)).orElseThrow();
-                boardRepository.delete(notice);
-            }
-
-        } catch (Exception e) {
-            return 0;
-        }
-
-        return 1;
-    }
+//    public int deleteNotices(String[] nums) {
+//        try {
+//            for (String num : nums) {
+//                Notice_ notice = boardRepository.findById(Long.valueOf(num)).orElseThrow();
+//                boardRepository.delete(notice);
+//            }
+//
+//        } catch (Exception e) {
+//            return 0;
+//        }
+//
+//        return 1;
+//    }
 
     /* 선택한 게시글 삭제 API E */
 }

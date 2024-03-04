@@ -136,6 +136,7 @@ public class BoardController implements ExceptionProcessor  {
 
         // 게시글 번호를 사용하여 해당 게시글 정보를 가져온다.
         Optional<Notice_> noticeDetail = boardService.findByNum(num);
+        System.out.println("//////===" + noticeDetail.get().getPostingType());
 
         // 게시글이 존재하는 경우에는 모델에 추가하고 admin/board/noticeEdit 페이지를 반환
         if (noticeDetail.isPresent()) {
@@ -148,7 +149,7 @@ public class BoardController implements ExceptionProcessor  {
     }
 
     @PostMapping("/edit")
-    public String editBoard(RequestBoardPosts form, Model model) throws IOException {
+    public String editBoard(RequestBoardPosts form, Model model) throws IOException{
         // 기존 게시물 정보 가져오기
         Optional<Notice_> existingNotice = boardService.findByNum(form.getNum());
 
