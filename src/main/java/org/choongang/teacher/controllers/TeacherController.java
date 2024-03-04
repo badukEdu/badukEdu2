@@ -417,6 +417,7 @@ public class TeacherController implements ExceptionProcessor {
     public String saveHomework(@Valid RequestHomework form, Errors errors, Model model, SessionStatus status) {
 
         if (errors.hasErrors()) {
+            commonProcess("homework_add", model);
             return "teacher/homework/" + form.getMode();
         }
         homeworkSaveService.save(form);

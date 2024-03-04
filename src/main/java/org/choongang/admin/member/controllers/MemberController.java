@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.choongang.admin.member.service.MemberAuthorityService;
 import org.choongang.commons.ExceptionProcessor;
 import org.choongang.commons.ListData;
 import org.choongang.member.entities.Member;
@@ -34,6 +35,7 @@ public class MemberController implements ExceptionProcessor {
     private final KickService kickService;
     private final MemberStatisticService statisticService;
     private final ObjectMapper objectMapper;
+    private final MemberAuthorityService memberAuthorityService;
 
 
     @ModelAttribute("menuCode")
@@ -69,6 +71,13 @@ public class MemberController implements ExceptionProcessor {
     public String deleteList(@RequestParam(name = "chk") List<Long> chks, Model model) {
         commonProcess("list", model);
         kickService.deleteList(chks);
+        return "redirect:/admin/member";
+    }
+
+    @PatchMapping
+    public String editList(@RequestParam(name = "chk") List<Long> chks, Model model) {
+        commonProcess("list", model);
+        memberAuthorityService.saveList(chks);
         return "redirect:/admin/member";
     }
 
