@@ -2,8 +2,10 @@
 <html xmlns:th="http://www.thymeleaf.org"
     xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <header th:fragment="common">
-        <section class="logo_area">
-            <a th:href="@{/}">로고</a>
+        <section class="logo_area" th:width="208px">
+          <a th:href="@{/}">
+            <img src="/images/guide/바둑로고.png" style="width: 200px; height: 90px;">
+          </a>
         </section>
 
         <nav th:replace="~{outlines/_menu::menu}"></nav>
