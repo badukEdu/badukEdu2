@@ -23,19 +23,22 @@
         </thead>
         <tbody>
         <tr th:each="game : ${items}" th:object="${game}">
-            <td>
-                <input type="radio" name="num" th:value="*{gameContent.num}">
-            </td>
-            <th th:text="*{gameContent.gameTitle}"></th>
-            <td>
-                <th:block th:if="*{gameContent != null && gameContent.thumbnail != null}" th:utext="*{@utils.printThumb(gameContent.thumbnail.seq, 100, 100, 'image')}"></th:block>
+            <div th:if="*{gameContent.stgroupCount2 >0}">
+                <td>
+                    <input type="radio" name="num" th:value="*{gameContent.num}">
+                </td>
+                <th th:text="*{gameContent.gameTitle}"></th>
+                <td>
+                    <th:block th:if="*{gameContent != null && gameContent.thumbnail != null}" th:utext="*{@utils.printThumb(gameContent.thumbnail.seq, 100, 100, 'image')}"></th:block>
 
-            </td>
-            <td th:text="*{gameContent.startDate+ '~' +gameContent.endDate}"></td>
-            <td th:text="*{gameContent.subscriptionMonths}"></td>
-            <td th:text="*{gameContent.maxSubscriber}"></td>
-            <td th:text="*{gameContent.stgroupCount2}"></td>
-            <td th:text="*{gameContent.maxSubscriber - gameContent.stgroupCount2}"></td>
+                </td>
+                <td th:text="*{gameContent.startDate+ '~' +gameContent.endDate}"></td>
+                <td th:text="*{gameContent.subscriptionMonths}"></td>
+                <td th:text="*{gameContent.maxSubscriber}"></td>
+                <td th:text="*{gameContent.stgroupCount2}"></td>
+                <td th:text="*{gameContent.maxSubscriber - gameContent.stgroupCount2}"></td>
+            </div>
+
         </tr>
         </tbody>
     </table>
