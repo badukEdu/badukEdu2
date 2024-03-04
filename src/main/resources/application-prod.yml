@@ -40,7 +40,7 @@ spring:
         default_batch_fetch_size: 1000
         open-in-view: true
     hibernate:
-      ddlAuto: create
+      ddlAuto: update
 
   # 타임리프 설정
   thymeleaf:

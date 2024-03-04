@@ -15,8 +15,8 @@ public class BoardRestController {
 
     private final BoardService boardService;
 
-    @DeleteMapping("notice")
-    public int noticesDelete(@RequestBody String[] nums) {
-        return boardService.deleteNotices(nums);
-    }
+//    @DeleteMapping("notice")
+//    public int noticesDelete(@RequestBody String[] nums) {
+//        return boardService.deleteNotices(nums);
+//    }
 }
