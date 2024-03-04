@@ -57,6 +57,7 @@ public class Menu {
                 new MenuDetail("board_posts", "공지 등록", "/admin/board/noticeFaqAdd"),
                 new MenuDetail("board_list", "공지 목록", "/admin/board/noticeFaqList"),
                 new MenuDetail("order_list", "매출 조회", "/admin/order"),
+                new MenuDetail("order_stat", "매출 통계", "/admin/order/stat"),
                 new MenuDetail("member_list", "회원 관리", "/admin/member"),
                 new MenuDetail("member_stat", "회원 통계", "/admin/member/stat")));
     }

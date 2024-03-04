@@ -17,6 +17,8 @@
       </dd>
     </dl>
 
+    <br>
+
     <dl>
       <dt th:text="#{비밀번호_확인}"></dt>
       <dd>
@@ -24,6 +26,8 @@
         <div class="error" th:each="err : ${#fields.errors('confirmPassword')}" th:text="${err}"></div>
       </dd>
     </dl>
+
+    <br>
 
     <dl>
       <dt th:text="#{휴대전화}"></dt>
@@ -33,20 +37,25 @@
       </dd>
     </dl>
 
+    <br>
+
     <div class="email">
       <dl>
         <dt th:text="#{이메일}"></dt>
         <dd>
           <div>
             <input type="text" name="email" th:field="*{email}" th:readonly="${session.EmailAuthVerified != null && session.EmailAuthVerified}" placeholder="이메일 입력">
-            <button th:if="${session.EmailAuthVerified == null || !session.EmailAuthVerified}" type="button" id="email_verify" th:text="#{인증코드전송}"></button>
+            <button th:if="${session.EmailAuthVerified == null || !session.EmailAuthVerified}" class="sbtn on" type="button" id="email_verify" th:text="#{인증코드전송}"></button>
           </div>
+
+          <br>
+
           <div class="auth_box">
             <th:block th:if="${session.EmailAuthVerified == null || !session.EmailAuthVerified}">
               <input type="text" id="auth_num" th:placeholder="#{인증코드_입력}">
               <span id="auth_count">03:00</span>
-              <button type="button" id="email_confirm" th:text="#{확인}" disabled></button>
-              <button type="button" id="email_re_verify" th:text="#{재전송}" disabled></button>
+              <button type="button" id="email_confirm" class="sbtn"th:text="#{확인}" disabled></button>
+              <button type="button" id="email_re_verify" class="sbtn" th:text="#{재전송}" disabled></button>
             </th:block>
             <th:block th:unless="${session.EmailAuthVerified == null || !session.EmailAuthVerified}">
               <span class='confirmed' th:text="#{확인된_이메일_입니다.}"></span>
@@ -56,11 +65,13 @@
         </dd>
       </dl>
     </div>
-    <button type="submit" th:text="#{정보_수정_하기}"></button>
 
-    <div>
-    <button type="button" id="deleteBtn">회원탈퇴</button>
-    </div>
+    <br>
+
+    <button type="submit" class="sbtn on" th:text="#{정보_수정_하기}"></button>
+
+    <button type="button" class="sbtn on" id="deleteBtn">회원탈퇴</button>
+
   </form>
 </section>
 </html>
