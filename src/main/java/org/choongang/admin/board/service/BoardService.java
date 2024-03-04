@@ -2,20 +2,21 @@ package org.choongang.admin.board.service;
 
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.dsl.BooleanExpression;
-import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import org.apache.coyote.Request;
+import lombok.extern.slf4j.Slf4j;
 import org.choongang.admin.board.controllers.RequestBoardPosts;
+import org.choongang.admin.board.entities.BoardFileInfo;
 import org.choongang.admin.board.entities.NoticeSearch;
 import org.choongang.admin.board.entities.Notice_;
 import org.choongang.admin.board.entities.QNotice_;
+import org.choongang.admin.board.repositories.BoardFileRepository;
 import org.choongang.admin.board.repositories.BoardRepository;
 import org.choongang.admin.board.repositories.NoticeCommentRepository;
-import org.choongang.admin.education.entities.EduData;
 import org.choongang.commons.ListData;
 import org.choongang.commons.Pagination;
 import org.choongang.commons.Utils;
+import org.choongang.configs.FileProperties;
 import org.choongang.file.entities.FileInfo;
 import org.choongang.file.service.FileInfoService;
 import org.choongang.member.MemberUtil;
@@ -27,26 +28,34 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Comparator;
+import java.io.File;
+import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static org.springframework.data.domain.Sort.Order.desc;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class BoardService {
 
     private final HttpServletRequest request;
     private final FileInfoService fileInfoService;
     private final NoticeCommentRepository noticeCommentRepository;
     private final BoardRepository boardRepository;
+    private final BoardFileRepository boardFileRepository;
     private final MemberUtil memberUtil;
+    private final FileProperties fileProperties;
 
     /* 게시글(Notice, FaQ) 등록(등록 즉시 게시) 및 수정 서비스 S */
 
-    public void save(RequestBoardPosts form) {
+    public void save(RequestBoardPosts form) throws IOException {
 
         Long num = form.getNum();
         String mode = form.getMode();
@@ -76,6 +85,38 @@ public class BoardService {
         increaseVisitCount(notice);
 
         boardRepository.saveAndFlush(notice);
+
+        log.error("form.getUploadFile(): {}", form.getUploadFile());
+        log.error("form.getUploadFile() size: {}", form.getUploadFile().size());
+        if (form.getUploadFile() != null && !form.getUploadFile().isEmpty()) {
+            List<BoardFileInfo> boardFileInfoList = new ArrayList<>();
+            String path = fileProperties.getPath();
+            for (MultipartFile fileInfo : form.getUploadFile()) {
+                String fileName = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"))
+                        + "_" + fileInfo.getOriginalFilename();
+
+                // 강사님 file upload 적용
+
+                File fileDir = new File(path);
+                if (!fileDir.exists()) {
+                    fileDir.mkdirs();
+                }
+
+                fileInfo.transferTo(new File(path + fileName));
+                // boardFileService
+
+                log.error("file info {}", fileInfo.getResource().getFilename());
+                // BoardFileInfo DB Save
+                boardFileRepository.save(BoardFileInfo.builder()
+                        .notice(notice)
+                        .fileName(fileName)
+                        .originFileName(fileInfo.getOriginalFilename())
+                        .filePath(path + fileName)
+                        .build());
+
+            }
+            notice.setFile(boardFileInfoList);
+        }
     }
 
     private void increaseVisitCount(Notice_ notice) {
@@ -114,7 +155,7 @@ public class BoardService {
 
     /* 노출 여부를 기준으로 게시물 조회 S */
 
-    public ListData<Notice_> getListOrderByOnTop(NoticeSearch search) {
+    public ListData<Notice_> getListOrderByOnTop(NoticeSearch search, String postingTypeFlag) {
 
         int page = Utils.onlyPositiveNumber(search.getPage(), 1);
         int limit = Utils.onlyPositiveNumber(search.getLimit(), 20);
@@ -127,6 +168,9 @@ public class BoardService {
         /* 검색 조건 처리 S */
 
         BooleanBuilder andBuilder = new BooleanBuilder();
+        if (!"ALL".equals(postingTypeFlag)) {
+            andBuilder.and(notice.postingType.eq(postingTypeFlag));
+        }
 
         if (StringUtils.hasText(skey)) {
             skey = skey.trim();
@@ -212,8 +256,31 @@ public class BoardService {
 
     private void addInfo(Notice_ data) {
         List<FileInfo> items = fileInfoService.getListDone(data.getGid());
-        if(items != null && !items.isEmpty()) data.setThumbnail(items.get(0));
+        //if(items != null && !items.isEmpty()) data.setThumbnail(items.get(0));
 
     }
 
+
+    public List<Notice_> getTop5Notice() {
+
+        return boardRepository.findTop5ByScheduledDateIsNullAndTypeOrderByCreatedAtDesc("notice");
+    }
+
+    /* 선택한 게시글 삭제 API S */
+
+    public int deleteNotices(String[] nums) {
+        try {
+            for (String num : nums) {
+                Notice_ notice = boardRepository.findById(Long.valueOf(num)).orElseThrow();
+                boardRepository.delete(notice);
+            }
+
+        } catch (Exception e) {
+            return 0;
+        }
+
+        return 1;
+    }
+
+    /* 선택한 게시글 삭제 API E */
 }

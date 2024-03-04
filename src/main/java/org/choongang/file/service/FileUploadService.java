@@ -79,7 +79,7 @@ public class FileUploadService {
 
             /* 파일 업로드 처리 S */
             long seq = fileInfo.getSeq();
-            File dir = new File(uploadPath + (seq % 10));
+            File dir = new File(uploadPath + (seq % 10L));
             if (!dir.exists()) { // 디렉토리가 없으면 -> 생성
                 dir.mkdir();
             }

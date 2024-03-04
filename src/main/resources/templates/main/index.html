@@ -47,6 +47,15 @@
 
         <div class="content content07">
             <h2><span>최신게시글 </span> </h2>
+            <br>
+            <div class="top5nNoticeList" th:each="notice : ${noticeList}">
+                <!-- 게시물 제목 출력 -->
+                <span>공지 제목 :</span>
+                <span>
+                    <!-- 게시물 제목에 링크 추가 -->
+                    <a th:href="@{'/guide/detail/' + ${notice.num}}" th:text="${notice.title}"></a>
+                </span>
+            </div>
         </div>
         <div class="content content08">
             <h2>신나게 즐기다 보면 <br> 실력도<br> 자신감도 UP!  </h2>
@@ -69,8 +78,7 @@
             © Copyright 2024 바둑교육. All rights reserved.
         </address>
 
-        <footer>
-
+        </footer>
 
 </section>
 

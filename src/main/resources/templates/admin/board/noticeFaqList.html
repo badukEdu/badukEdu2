@@ -2,6 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/main}">
+<script src="/js/admin/board/form.js"></script>
 <section layout:fragment="content">
 
     <h1>공지사항 및 FAQ 조회</h1>
@@ -15,7 +16,7 @@
                         <option value="ALL" th:field="*{sopt}">통합검색</option>
                         <option value="type" th:field="*{sopt}">분류</option>
                         <option value="title" th:field="*{sopt}">제목</option>
-                        <option value="content" th:field="*{sopt}">내용</option>
+<!--                        <option value="content" th:field="*{sopt}">내용</option>-->
                     </select>
                     <input type="text" name="skey" th:field="*{skey}">
                 </td>
@@ -54,6 +55,9 @@
             </tr>
             </tbody>
         </table>
+    <div class="submit_btns">
+        <button class="deleteBtn btn" id="noticeDeleteBtn">선택한 게시물 삭제</button>
+    </div>
     <br></br>
 
 
@@ -82,8 +86,11 @@
             </tbody>
         </table>
         <div class="submit_btns">
-            <button type="submit" class="btn">선택한 게시물 처리</button>
+            <button class="btn">선택한 게시물 즉시 등록</button>
         </div>
-    </div>
+        <div class="submit_btns">
+            <button class="deleteBtn btn" onclick="deleteWaitingNotice()">선택한 게시물 삭제</button>
+        </div>
 </section>
+
 </html>
