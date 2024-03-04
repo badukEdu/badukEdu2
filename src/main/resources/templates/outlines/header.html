@@ -3,7 +3,7 @@
     xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <header th:fragment="common">
         <section class="logo_area">
-            <a th:href="@{/}">로고</a>
+            <a th:href="@{/}"><img th:src="@{/images/guide/logo.png}"></a>
         </section>
 
         <nav th:replace="~{outlines/_menu::menu}"></nav>
