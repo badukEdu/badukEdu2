@@ -6,7 +6,7 @@
     <script src="/js/admin/board/form.js"></script>
     <link rel="stylesheet" type="text/css" href="/style/admin/board/form.css">
     <h2>공지 등록</h2>
-    <form th:action="@{/admin/board/noticeFaqAdd}" method="post" th:object="${requestBoardPosts}" autocomplete="off">
+    <form th:action="@{/admin/board/noticeFaqAdd}" method="post" th:object="${requestBoardPosts}" enctype="multipart/form-data" autocomplete="off">
         <div class="error" th:each="err : ${#fields.globalErrors()}" th:text="${err}"></div>
         <div class="tableContainer">
             <table class="table_rows">
@@ -46,7 +46,7 @@
                 <tr class="noticeRow">
                     <th>게시일자</th>
                     <td>
-                        <input type="radio" id="immediately" th:field="*{postingType}" name="postingType" value="immediately">
+                        <input type="radio" id="immediately" th:field="*{postingType}" name="postingType" value="immediately" checked>
                         <label for="immediately">등록 즉시 게시</label>
                         <input type="radio" id="expectedPostingDate" th:field="*{postingType}" name="postingType" value="expectedPostingDate">
                         <label for="expectedPostingDate">게시 예정일</label>
@@ -84,22 +84,20 @@
                 </tr>
 
 
-
-
-<!--                <tr>-->
-<!--                    <th>첨부파일(파일 1개당 최대 첨부용량 5MB)</th>-->
-<!--                </tr>-->
-<!--                <tr>-->
-<!--                    <td colspan="2">-->
-<!--                        <div id="dropArea" class="dropArea">-->
-<!--                            <p>마우스로 파일을 끌어 놓으세요.</p>-->
-<!--                            <input type="file" id="uploadFile" accept=".doc,.docx, .jpg, .png, .pdf" multiple>-->
-<!--                        </div>-->
-<!--                        <div id="fileInfo">선택된 파일 없음</div>-->
-<!--                        <button id="clearButton">비우기</button>-->
-<!--                    </td>-->
-<!--                </tr>-->
-<!--                <tr>-->
+                <tr>
+                    <th>첨부파일(파일 1개당 최대 첨부용량 5MB)</th>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <div id="dropArea" class="dropArea">
+                            <p>마우스로 파일을 끌어 놓으세요.</p>
+                            <input type="file" name="uploadFile" id="uploadFile" accept=".doc,.docx, .jpg, .png, .pdf" multiple>
+                        </div>
+                        <div id="fileInfo">선택된 파일 없음</div>
+                        <button id="clearButton">비우기</button>
+                    </td>
+                </tr>
+                <tr>
                     <td>
                         <input type="submit" id="addNoticeFaq" value="등록하기">
                     </td>

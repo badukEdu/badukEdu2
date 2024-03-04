@@ -1,13 +1,11 @@
 package org.choongang.admin.board.controllers;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Lob;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
-import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -35,6 +33,8 @@ public class RequestBoardPosts {
     private String answer;
 
     private String content;
+
+    private List<MultipartFile> uploadFile;
 
    // @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
    // private LocalDateTime expectedPostingDate = LocalDateTime.now().plusDays(1);
