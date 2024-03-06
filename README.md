@@ -5,15 +5,15 @@
 <details>
   <summary>프로젝트 소개</summary>
   
-  ## 개요
-  - 바둑에 대해 단계별로 학습 할 수 있는 사이트를 만들기 위해
+  ### 🔎개요
+  - 바둑에 대해 단계별로 학습 할 수 있는 사이트를 만들기 위함
 
-  개발 목적
+  ### 🔎개발 목적
   - 바둑을 모르는 사람도 최도한의 도움과 재미를 통해 바둑을 배우게 하는 것
   - 국내뿐 아니라 해외에서도 온라인을 통해 체계적인 바둑 교육이 가능케 하기 위함
   - 단기적으로 학원 학생을 대상으로 기원이 서비스하는 각종 교육 프로그램의 사용을 확산시키고, 바둑에 관심이 있는 일반인들이 많이 찾게 하기 위함
 
-  개발 업무
+  ### 🔎개발 업무
   - 학원의 교육자가 **게임콘텐츠 구매**를 해서 본인이 수업 할 **학습 그룹을 개설**하고 학생들은 교육자가 개설한 **그룹을 선택하여 가입 신청**을 한다
     교육자는 자신이 만든 그룹에 가입 신청한 학생이 있으면 **가입 승인**을 하여 학습 그룹을 완성
     
@@ -40,8 +40,16 @@
 <details>
   <summary>ERD&개발환경</summary>
 
-![화면 캡처 2024-03-05 095740](https://github.com/badukEdu/badukEdu2/assets/148045978/f7dcc4a8-1218-4bfa-8c69-2ea3097d4f83)
+![erd](https://github.com/badukEdu/badukEdu2/assets/148045978/c54bf55f-f03c-4149-9129-8d9ff94e0b13)
 
+## :wrench:DB : ![dbeaver](https://img.shields.io/badge/dbeaver-F80000?style=for-the-badge&logo=dbeaver&logoColor=white)   , ![Oracle](https://img.shields.io/badge/Oracle-F80000?style=for-the-badge&logo=oracle&logoColor=white)   
+## :wrench:백엔드 : ![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=openjdk&logoColor=white), ![Spring](https://img.shields.io/badge/spring-%236DB33F.svg?style=for-the-badge&logo=spring&logoColor=white),<img src="https://img.shields.io/badge/springboot-6DB33F?style=for-the-badge&logo=springboot&logoColor=white">, <img src="https://img.shields.io/badge/Spring Security-6DB33F?style=for-the-badge&logo=Spring Security&logoColor=white">, ![json](https://img.shields.io/badge/json-%23ED8B00.svg?style=for-the-badge&logo=json&logoColor=white)
+## :wrench:프론트엔드 : ![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white), ![CSS3](https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white), ![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E), ![Bootstrap](https://img.shields.io/badge/bootstrap-%238511FA.svg?style=for-the-badge&logo=bootstrap&logoColor=white), <img src="https://img.shields.io/badge/Thymeleaf-005F0F?style=for-the-badge&logo=Thymeleaf&logoColor=white">
+## :wrench:웹서버 : ![Apache Tomcat](https://img.shields.io/badge/apache%20tomcat-%23F8DC75.svg?style=for-the-badge&logo=apache-tomcat&logoColor=black)
+## :wrench:협업 : ![Git](https://img.shields.io/badge/git-%23F05033.svg?style=for-the-badge&logo=git&logoColor=white),![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white), ![sourcetree](https://img.shields.io/badge/sourcetree-%23121011.svg?style=for-the-badge&logo=sourcetree&logoColor=bule)
+## :wrench:Tool : ![IntelliJ IDEA](https://img.shields.io/badge/IntelliJIDEA-000000.svg?style=for-the-badge&logo=intellij-idea&logoColor=white), ![Gradle](https://img.shields.io/badge/Gradle-02303A.svg?style=for-the-badge&logo=Gradle&logoColor=white)
+## :wrench:CI/CD : ![Jenkins](https://img.shields.io/badge/jenkins-%232C5263.svg?style=for-the-badge&logo=jenkins&logoColor=white), ![AWS](https://img.shields.io/badge/AWS-%23FF9900.svg?style=for-the-badge&logo=amazon-aws&logoColor=white), ![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
+## :wrench:기타 : ![ChatGPT](https://img.shields.io/badge/chatGPT-74aa9c?style=for-the-badge&logo=openai&logoColor=white) ![Google Chrome](https://img.shields.io/badge/Google%20Chrome-4285F4?style=for-the-badge&logo=GoogleChrome&logoColor=white)
 
 
 </details>
